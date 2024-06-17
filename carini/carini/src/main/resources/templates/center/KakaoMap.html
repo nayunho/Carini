@@ -1,23 +1,12 @@
-<!DOCTYPE HTML>
-<!--
-    Helios by HTML5 UP
-    html5up.net | @ajlkn
-    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title> 상세보기 - Helios by HTML5 UP</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="/css/getBoard.css" />
-
-	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-
-
+    <meta charset="utf-8">
+    <title>지도 생성하기</title>
+    <link rel="stylesheet" href="/css/KakaoMap.css">
 </head>
 <body>
-    <h2>위치 표시하기</h2>
+    <!-- 1. 지도 생성하기 -->
 
     <!-- 지도를 표시할 div 입니다 -->
     <div id="map" style="width:100%;height:550px;"></div>
@@ -25,81 +14,66 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6176b21dbade8671d06887982700f4b5"></script>
 
     <script th:inline="javascript">
-        // 이지스퍼블리싱 좌표 ( 예시 )
-        const lat = 33.450701;
-        const lng = 126.570667;
+        // 현재 위치를 가져와서 지도를 생성하는 함수
+        function initializeMap(lat, lng) {
+            // 지도를 표시할 div 
+            var mapContainer = document.getElementById('map'), 
+            mapOption = { 
+                // 지도의 중심좌표
+                center: new kakao.maps.LatLng(lat, lng), 
+                // 지도의 확대 레벨
+                level: 3 
+            };
 
-        // 지도를 표시할 div 
-        var mapContainer = document.getElementById('map'), 
-        mapOption = { 
-            // 지도의 중심좌표
-            center: new kakao.maps.LatLng(lat, lng), 
-            // 지도의 확대 레벨
-            level: 3 
-        };
+            // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
+            var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-        // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
-        var map = new kakao.maps.Map(mapContainer, mapOption); 
+            // 마커가 표시될 위치입니다 
+            var markerPosition  = new kakao.maps.LatLng(lat, lng); 
 
-        // 마커 생성
-        var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
-        marker.setMap(map);
-
-        // 마커 클릭 이벤트
-        var iwContent = '<div style="padding:15px; background-color:black; color:white;">카카오 입니다요</div>';
-        var iwRemoveable = true;
-        var infowindow = new kakao.maps.InfoWindow({
-            content: iwContent,
-            removable: iwRemoveable
-        });
-
-        kakao.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);  
-        });
-
-        // 마커 클러스터러 생성
-        var clusterer = new kakao.maps.MarkerClusterer({
-            map: map,
-            averageCenter: true,
-            minLevel: 10
-        });
-
-        // 서버에서 전달받은 positions 데이터를 Thymeleaf를 통해 JavaScript 변수로 변환
-        /* <![CDATA[ */
-        var positions = /*[[${positions}]]*/ [];
-        /* ]]> */
-
-        var markers = [];
-        for (let i = 0; i < positions.length; i++) {
+            // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
-                position: new kakao.maps.LatLng(positions[i].lat, positions[i].lng)
+                position: markerPosition
             });
-            markers.push(marker);
 
+            // 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);
+
+            // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+            // marker.setMap(null);  
+
+            // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+            var iwContent = '<div style="padding:15px; background-color:black; color:white;">현재 위치</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                iwRemoveable = true; // removeable 속성을 true로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+            // 인포윈도우를 생성합니다
             var infowindow = new kakao.maps.InfoWindow({
-                content: positions[i].title
+                content : iwContent,
+                removable : iwRemoveable
             });
 
-            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                // 마커 위에 인포윈도우를 표시합니다
+                infowindow.open(map, marker);  
+            });
         }
 
-        function makeOverListener(map, marker, infowindow) {
-            return function() {
-                infowindow.open(map, marker);
-            };
-        }
+        // 현재 위치를 가져옵니다
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            initializeMap(lat, lng);
+        }, function(error) {
+            console.error('Error occurred. Error code: ' + error.code);
+            // 기본 좌표로 지도 초기화 (예: 제주도)
+            initializeMap(33.450701, 126.570667);
+        } , {
+            enableHighAccuracy: true, //  GPS의 정확도를 높이려고 시도 ( 사용자의 디바이스와 브라우저에 따라 달라질 수 있음. )
+            timeout: 5000, // 위치를 가져오는 최대 시간을 설정
+            maximumAge: 0 // 위치 정보를 캐시할 시간을 설정
+        });
 
-        function makeOutListener(infowindow) {
-            return function() {
-                infowindow.close();
-            };
-        }
-
-        clusterer.addMarkers(markers);
     </script>
 </body>
 </html>
