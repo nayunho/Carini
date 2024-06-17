@@ -98,7 +98,7 @@ public class MypageController {
 		if(user == null) {
 			return "redirect:/";
 		}
-		Member findmember = memberService.findMember(user);
+		Member findmember = memberService.findMember(user.getMemberId());
 			findmember.setMemberPw("*****");
 			findmember.setMemberPhoneNum("***-****-****");
 			findmember.setMemberEmail("****@****.***");
@@ -143,7 +143,7 @@ public class MypageController {
 
 	@GetMapping("/myinfo_edit")
 	public String myinfo_edit(@ModelAttribute("member") Member members, HttpSession session) {
-		Member findmember = memberService.findMember(members);
+		Member findmember = memberService.findMember(members.getMemberId());
 
 		session.setAttribute("user", findmember);
 		Member user = (Member) session.getAttribute("user");
@@ -387,7 +387,7 @@ public class MypageController {
 		Locale locale = localeResolver.resolveLocale(request);
 		bookMarkService.findBookmarkByCarDelete(Integer.parseInt(carId), members.getMemberId());
 		model.addAttribute("msg", messageSource.getMessage("bookmark.delete", null, locale));
-		model.addAttribute("url", "/mypage/bookmark");
+		model.addAttribute("url", request.getHeader("Referer"));
 		return "alert";
 	}
 
