@@ -10,6 +10,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="/css/boardList.css" />
+	
+	
 	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
 
@@ -83,7 +85,7 @@
 									<div class="col-8"><a th:href="@{/notice/getNotice(noticeId=${notice.noticeId})}" class="side-hover" th:text="${notice.noticeTitle}"></a></div>
 								</div>
 								<div class="lookharder">
-								<a th:href="@{/notice/getNoticeList}" class="button"th:text="#{detail}"></a>
+								<a th:href="@{/notice/getNoticeLi}" class="button"th:text="#{detail}"></a>
 								</div>
 								<div style="width: 10%; height: 80%;"></div>
 							</section>
