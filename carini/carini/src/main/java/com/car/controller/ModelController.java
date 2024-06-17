@@ -113,6 +113,7 @@ public class ModelController {
 	    		isBookmarked = bookMarkService.isBookmarkedByMember(user.getMemberId(), car1.getCarId());
 	    	}
 	        car1.setBookmarked(isBookmarked);
+
 	    }
 
 	    int totalRowCount  = (int)pagedResult.getNumberOfElements();

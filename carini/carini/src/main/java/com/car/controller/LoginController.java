@@ -62,6 +62,11 @@ public class LoginController {
 		return "member/signup.html";
 	}
 	
+	@GetMapping("/test")
+    public String getTestPage(Model model) {
+        return "base/test.html";
+    }
+	
 
     /*
      * 회원가입 
