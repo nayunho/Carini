@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.RequestAttributes;
 
@@ -61,6 +62,11 @@ public class LoginController {
 	public String joinView(@ModelAttribute("SignupFormValidation") SignupFormValidation member) {
 		return "member/signup.html";
 	}
+	
+	@GetMapping("/test")
+    public String getTestPage(Model model) {
+        return "base/test.html";
+    }
 	
 
     /*
@@ -130,8 +136,11 @@ public class LoginController {
 	 * 로그인 view
 	 * */
 	@GetMapping("/member_login")
-	public String loginView(@ModelAttribute("LoginFormValidation") LoginFormValidation member) {
-		
+	public String loginView(@ModelAttribute("LoginFormValidation") LoginFormValidation memberm,
+			@RequestParam(value="redirectURL",defaultValue = "/home") String redirectURL,
+			Model model) {
+		System.out.println(redirectURL);
+		model.addAttribute("redirectURL", redirectURL);
 		return "member/login.html";
 	}
 	
@@ -140,13 +149,7 @@ public class LoginController {
 //		System.out.println(member.getMemberId());
 //		System.out.println(member.getMemberNickname());
 //		System.out.println("-=============");
-		// HttpSession session = request.getSession();
-		Member user = (Member) session.getAttribute("user");
-		System.out.println("home----------" + user);
-		
-		if(user == null) {
-			return "redirect:/";
-		}	
+		// HttpSession session = request.getSession();	
 		return "homepage/home.html";
 	}
 	
@@ -154,7 +157,9 @@ public class LoginController {
 	 * 로그인
 	 * */
 	@PostMapping("/member_login_check")
-	public String login_result(@Validated @ModelAttribute("LoginFormValidation") LoginFormValidation membercheck,BindingResult bindingResult ,Model model,HttpServletRequest request, HttpSession session) {
+	public String login_result(@Validated @ModelAttribute("LoginFormValidation") LoginFormValidation membercheck,BindingResult bindingResult ,
+			@RequestParam(value="redirectURL",defaultValue = "/home") String redirectURL,
+			Model model,HttpServletRequest request, HttpSession session) {
 
 		String memberId = membercheck.getMemberId();
 		String memberPw = membercheck.getMemberPw();
@@ -177,7 +182,8 @@ public class LoginController {
 	    	 findmember.setMemberEmail("****@****.***");
 	    	 // 로그인 성공 시 세션에 멤버정보 저장하고 홈페이지로 이동
 	    	 session.setAttribute("user", findmember);
-	    	 return "redirect:/home";
+	    	 System.out.println(redirectURL);
+	    	 return "redirect:"+redirectURL;
 	     }else{
 	    	 bindingResult.rejectValue("memberPw",null, "비밀번호가 일치하지 않습니다.");
 	    	 return "member/login";
