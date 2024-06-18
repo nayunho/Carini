@@ -112,8 +112,6 @@ public class LoginController {
 				bindingResult.rejectValue("memberPhoneNum", null, "존재하는 전화번호입니다"); 
 				return "member/signup";
 			}
-			
-			
 			Member Member = new Member();
 			Member.setMemberEmail(member.getMemberEmail());
 			Member.setMemberId(member.getMemberId());
@@ -141,6 +139,7 @@ public class LoginController {
 			Model model) {
 		System.out.println(redirectURL);
 		model.addAttribute("redirectURL", redirectURL);
+
 		return "member/login.html";
 	}
 	
@@ -182,6 +181,7 @@ public class LoginController {
 	    	 findmember.setMemberEmail("****@****.***");
 	    	 // 로그인 성공 시 세션에 멤버정보 저장하고 홈페이지로 이동
 	    	 session.setAttribute("user", findmember);
+
 	    	 System.out.println(redirectURL);
 	    	 return "redirect:"+redirectURL;
 	     }else{

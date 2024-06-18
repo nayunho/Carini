@@ -146,6 +146,7 @@ public class MypageController {
 
 	@GetMapping("/myinfo_edit")
 	public String myinfo_edit(@ModelAttribute("member") Member members, HttpSession session) {
+
 		
 		Member findmember = memberService.findMember(members.getMemberId());
 		session.setAttribute("user", findmember);

@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 public class BoardWriteFormValidation {
-
+  
 	@NotBlank(message = "제목은 필수 조건입니다.")
 	private String boardTitle;
 	

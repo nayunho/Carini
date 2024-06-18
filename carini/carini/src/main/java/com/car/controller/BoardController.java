@@ -56,6 +56,7 @@ import com.car.service.BoardService;
 import com.car.service.MemberService;
 import com.car.service.NoticeService;
 import com.car.validation.BoardUpdateFormValidation;
+
 import com.car.validation.BoardWriteFormValidation;
 
 import jakarta.servlet.ServletOutputStream;
@@ -188,13 +189,13 @@ public class BoardController {
      * */
    @PostMapping("/board/insertBoard")
    public String insertBoard(Board board,@Validated @ModelAttribute("BoardWriteFormValidation") BoardWriteFormValidation boardValidation, BindingResult bindingResult,Model model) 
+
          throws IOException {
 	  LocalDate currentDate = LocalDate.now();
 	  model.addAttribute("date",currentDate);
       if(bindingResult.hasErrors()) {
 			return "board/insertBoard";
       }
-      
       // 파일업로드
       MultipartFile uploadFile = board.getUploadFile();
       if(!uploadFile.isEmpty()) {
@@ -202,6 +203,8 @@ public class BoardController {
          uploadFile.transferTo(new File(uploadFolder + fileName));
          board.setBoardFilename(fileName);
       }
+      
+      
 
       boardService.insertBoard(board);
       model.addAttribute("msg", "게시글이 작성되었습니다!");
