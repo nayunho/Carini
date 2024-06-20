@@ -153,6 +153,7 @@ public class LoginController {
 			Model model) {
 		System.out.println(redirectURL);
 		model.addAttribute("redirectURL", redirectURL);
+
 		return "member/login.html";
 	}
 	
