@@ -198,7 +198,6 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public void updatepw(String memberId, String newmemberPw) {
 		memberRepository.updateMemberPw(newmemberPw,memberId);
-		
 	}
 	
 //	@Override
@@ -210,18 +209,3 @@ public class MemberServiceImpl implements MemberService {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
