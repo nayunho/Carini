@@ -196,10 +196,6 @@ public class BoardController {
       if(bindingResult.hasErrors()) {
 			return "board/insertBoard";
       }
-<<<<<<< HEAD
-
-=======
->>>>>>> feffedae397d504a0efd2ef5e875dd1fd6247fde
       // 파일업로드
       MultipartFile uploadFile = board.getUploadFile();
       if(!uploadFile.isEmpty()) {
