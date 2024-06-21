@@ -3,10 +3,12 @@ package com.car.controller;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 
 import com.car.dto.Board;
 import com.car.dto.Bookmark;
@@ -57,6 +60,9 @@ public class ModelController {
 	@Autowired
 	private BookMarkRepository bookMarkRepository;
 
+	@Autowired
+	private LocaleResolver localeResolver;
+	
 	public PagingInfo pagingInfo = new PagingInfo();
 	
 	@ModelAttribute("member")
@@ -138,12 +144,12 @@ public class ModelController {
 	    model.addAttribute("pagingInfo", pagingInfo);
 	    model.addAttribute("pagedResult", pagedResult);
 	    model.addAttribute("pageable", pageable);
-      model.addAttribute("cp", curPage);
-      model.addAttribute("sp", startPage);
-      model.addAttribute("ep", endPage);
-      model.addAttribute("ps", pageSize);
-      model.addAttribute("rp", rowSizePerPage);
-      model.addAttribute("tp", totalPageCount);
+        model.addAttribute("cp", curPage);
+        model.addAttribute("sp", startPage);
+        model.addAttribute("ep", endPage);
+        model.addAttribute("ps", pageSize);
+        model.addAttribute("rp", rowSizePerPage);
+        model.addAttribute("tp", totalPageCount);
 	    model.addAttribute("carList", pagedResult.getContent());
 	    model.addAttribute("user", user);
 
@@ -151,26 +157,38 @@ public class ModelController {
 	}
 	
     @GetMapping("/getModel")
-    @ResponseBody
-    public Car getCar(@RequestParam("carId") int carId) {
+    public String getCar(@RequestParam("carId") int carId, Model model) {
     	
-    	Car car1 = modelService.getCarbyId(carId);
-    	System.out.println("~~~~~~~~~~~~~");
-    	System.out.println("car1=======>" + car1);
+    	Car car = modelService.getCarbyId(carId);
     	
-        return car1;
+    	String[] carName = car.getCarName().strip().split(" ");
+    	String carBrand = carName[0];
+    	System.out.println(carBrand);
+    	
+    	model.addAttribute("car", car);
+    	model.addAttribute("carBrand", carBrand);
+    	
+        return "model/getModel.html";
     }
     
+    
+	/*
+	 * 차 비교
+	 * */   
+    @GetMapping("/getCompareModel")
+    @ResponseBody
+    public Car getCompareModel(@RequestParam("carId") int carId) {
+    	
+    	Car car1 = modelService.getCarbyId(carId);
+    	
+    	return car1;
+    }
 	
     @GetMapping("/compare")
     @ResponseBody
     public Map<String, Car> compareCars(@RequestParam("carId1") int carId1, @RequestParam("carId2") int carId2) {
         Car car1 = modelService.getCarbyId(carId1);
         Car car2 = modelService.getCarbyId(carId2);
-        
-        System.out.println("=====================");
-        System.out.println("car1=======>" + car1);
-        System.out.println("car2=======>" + car2);
         
         Map<String, Car> comparisonData = new HashMap<>();
         comparisonData.put("car1", car1);
@@ -179,6 +197,23 @@ public class ModelController {
         return comparisonData;
     }
     
+    /*
+     * 자동차 상세페이지 즐겨찾기 추가
+     * */
+    @PostMapping("/bookmark/{carId}")
+    public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
+    	
+    	Locale locale = localeResolver.resolveLocale(request);
+
+		Member user = (Member) session.getAttribute("user");
+
+		bookmark.setCarId(Integer.parseInt(carId));
+		bookmark.setMemberId(user.getMemberId());
+		
+		bookMarkService.insertMember(bookmark,user);
+	
+		return "redirect:/model/getModel?carId=" + carId;
+    }
 	
 
 }

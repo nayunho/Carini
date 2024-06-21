@@ -343,10 +343,11 @@ public class MypageController {
 	 * =================================== 즐겨찾기
 	 */
 	@GetMapping("/bookmark")
-	public String myPagebookmarkList(@ModelAttribute("member") Member members, Model model,
-			HttpServletRequest request) {
+	public String myPagebookmarkList(Model model, HttpServletRequest request, HttpSession session) {
 		Locale locale = localeResolver.resolveLocale(request);
-		List<Bookmark> bookmarkCarID = bookMarkService.findAllBookmarkCar(members.getMemberId());
+		
+		Member user = (Member) session.getAttribute("user");
+		List<Bookmark> bookmarkCarID = bookMarkService.findAllBookmarkCar(user.getMemberId());
 
 		System.out.println(bookmarkCarID);
 		List<Car> bookmarkCarList = bookMarkService.findAllCar(bookmarkCarID);
@@ -354,33 +355,54 @@ public class MypageController {
 		model.addAttribute("BookmarkCarList", bookmarkCarList);
 		return "mypage/bookmark.html";
 	}
-
+	
 	/*
 	 * 즐겨찾기 추가
 	 */
 	@PostMapping("/bookmark/{carId}")
-	public String myPagebookmarkAdd(@PathVariable("carId") String carId, @ModelAttribute("member") Member members,
-			Model model, Bookmark bookmark, HttpServletRequest request) {
+	public String myPagebookmarkAdd(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
+
 		
 		Locale locale = localeResolver.resolveLocale(request);
+
+		Member user = (Member) session.getAttribute("user");
+
 		bookmark.setCarId(Integer.parseInt(carId));
-		bookmark.setMemberId(members.getMemberId());
-		Bookmark save_bookmark = bookMarkService.insertMember(bookmark);
+		bookmark.setMemberId(user.getMemberId());
+		
+		bookMarkService.insertMember(bookmark,user);
 		
 		model.addAttribute("msg", messageSource.getMessage("bookmark.add", null, locale));
 		model.addAttribute("url", request.getHeader("Referer"));
 	    return "alert";
 	}
+	
+	@GetMapping("/bookmark/{carId}")
+	public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
 
+		
+		Locale locale = localeResolver.resolveLocale(request);
+
+		Member user = (Member) session.getAttribute("user");
+
+		bookmark.setCarId(Integer.parseInt(carId));
+		bookmark.setMemberId(user.getMemberId());
+		
+		bookMarkService.insertMember(bookmark,user);
+		
+
+	    return "redirect:/model/getModelList";
+	}
 	/*
 	 * bookmark 삭제
 	 */
 	@PostMapping("/bookmark/delete/{carId}")
-	public String myPagebookmarkdelete(@PathVariable("carId") String carId, @ModelAttribute("member") Member members,
-			Model model, HttpServletRequest request) {
+	public String myPagebookmarkdelete(@PathVariable("carId") String carId,	Model model, HttpServletRequest request, HttpSession session) {
 
 		Locale locale = localeResolver.resolveLocale(request);
-		bookMarkService.findBookmarkByCarDelete(Integer.parseInt(carId), members.getMemberId());
+		Member user = (Member) session.getAttribute("user");
+		
+		bookMarkService.findBookmarkByCarDelete(Integer.parseInt(carId), user.getMemberId());
 		model.addAttribute("msg", messageSource.getMessage("bookmark.delete", null, locale));
 		model.addAttribute("url", request.getHeader("Referer"));
 		return "alert";
