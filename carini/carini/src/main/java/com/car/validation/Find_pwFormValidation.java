@@ -1,7 +1,10 @@
 package com.car.validation;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotBlank;
 
+=======
+>>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 

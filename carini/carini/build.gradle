@@ -40,6 +40,7 @@ dependencies {
    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    implementation 'org.springframework.boot:spring-boot-starter-validation'
    implementation 'net.nurigo:sdk:4.3.0'
    implementation 'org.apache.commons:commons-lang3:3.0'
@@ -52,6 +53,10 @@ dependencies {
    implementation 'net.nurigo:sdk:4.3.0'
    implementation 'org.apache.commons:commons-lang3:3.0'
 >>>>>>> 299d9c9c324f08bfa80a2b11c9cec341a91a4a4d
+=======
+   implementation 'net.nurigo:sdk:4.3.0'
+   implementation 'org.apache.commons:commons-lang3:3.0'
+>>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 }
 
 tasks.named('test') {

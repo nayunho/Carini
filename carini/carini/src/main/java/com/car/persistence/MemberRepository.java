@@ -23,7 +23,6 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	List<Member> findByMemberPhoneNum(String memberPhoneNum);
 	
 	Optional<Member> findByMemberNameAndMemberPhoneNum(String memberName,String memberPhoneNum);
-	
 	Optional<Member> findByMemberIdAndMemberPhoneNum(String memberId,String memberPhoneNum);
 
 	
@@ -44,6 +43,13 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	void updateMemberPw(@Param("newmemberPw") String newmemberPw,@Param("memberId") String memberId);
 	
 	
+<<<<<<< HEAD
+=======
+	
+	
+	
+	
+>>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 
 
 	
