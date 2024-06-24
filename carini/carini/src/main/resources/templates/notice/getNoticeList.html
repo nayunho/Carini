@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/getNoticeList.css" />
     <script src="assets/script/getNoticelist_script.js" defer></script>
     <link rel="stylesheet" href="/css/base.css" />
+	<link rel="stylesheet" href="/css/boardList.css" />
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
     </noscript>
@@ -26,6 +27,7 @@
         <!-- Header -->
         <div th:replace="~{base/base :: header}"></div>
 
+
         <!-- Main -->
         <div class="wrapper style1">
             <div class="container">
@@ -38,6 +40,7 @@
                             <span th:text="${pagedResult.getTotalElements()}"></span>
                             <span th:text="#{board.total}"></span>
                         </span>
+
 
                         <div class="Board">
                             <select class="form-select" id="searchType" name="searchType">
@@ -88,7 +91,6 @@
                                     th:href="@{/notice/getNoticeList(curPage=${sp-ps}, rowSizePerPage=${rp}, searchType=${st}, searchWord=${sw})}"
                                     th:text="#{page.prev}"></a></li>
                         </th:block>
-
                         <th:block th:each="page : ${#numbers.sequence(pagingInfo.getStartPage(), pagingInfo.getEndPage())}">
                             <li class="page-item" th:classappend="${(page-1)==pagingInfo.getCurPage() ? 'active' : ''}">
                                 <a class="page-link"
@@ -110,6 +112,7 @@
         <!-- Footer -->
         <div th:replace="~{base/base :: footer}"></div>
     </div>
+	
     <!-- Scripts -->
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery.dropotron.min.js"></script>
@@ -119,6 +122,7 @@
     <script src="/js/breakpoints.min.js"></script>
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
+
 </body>
 
 </html>

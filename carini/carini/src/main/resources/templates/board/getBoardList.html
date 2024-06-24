@@ -11,10 +11,16 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="/css/boardList.css" />
+
 	<link rel="stylesheet" href="/css/base.css" />
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
+
+	
+	
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
 </head>
 
 <body class="left-sidebar is-preload">
@@ -59,7 +65,11 @@
 											th:text="|${state.index + 1}. ${notice.noticeTitle}|"></a></div>
 								</div>
 								<div class="lookharder">
+
 									<a th:href="@{/notice/getNoticeList}" class="button" th:text="#{detail}"></a>
+
+
+
 								</div>
 								<div style="width: 10%; height: 80%;"></div>
 							</section>
