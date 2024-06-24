@@ -370,11 +370,11 @@ public class MypageController {
 		bookmark.setCarId(Integer.parseInt(carId));
 		bookmark.setMemberId(user.getMemberId());
 		
-<<<<<<< HEAD
-		bookMarkService.insertMember(bookmark,user);
-=======
-		Bookmark save_bookmark = bookMarkService.insertMember(bookmark);
->>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
+//<<<<<<< HEAD
+//		bookMarkService.insertMember(bookmark,user);
+//=======
+//		Bookmark save_bookmark = bookMarkService.insertMember(bookmark);
+//>>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 		
 		model.addAttribute("msg", messageSource.getMessage("bookmark.add", null, locale));
 		model.addAttribute("url", request.getHeader("Referer"));
