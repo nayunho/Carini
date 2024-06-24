@@ -81,9 +81,9 @@ public class BoardController {
    
    
    @Autowired
-    private MessageSource messageSource;
-    @Autowired
-    private LocaleResolver localeResolver;
+   private MessageSource messageSource;
+   @Autowired
+   private LocaleResolver localeResolver;
    
    public PagingInfo pagingInfo = new PagingInfo();
    
@@ -199,6 +199,7 @@ public class BoardController {
 			return "board/insertBoard";
       }
 
+      // 파일업로드
       MultipartFile uploadFile = board.getUploadFile();
       if(!uploadFile.isEmpty()) {
          String fileName = uploadFile.getOriginalFilename();

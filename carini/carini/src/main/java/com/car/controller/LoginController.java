@@ -139,7 +139,7 @@ public class LoginController {
 			Member.setMemberNickname(member.getMemberNickname());
 			Member.setMemberPhoneNum(member.getMemberPhoneNum());
 			Member.setMemberSocial("회원");
-			Member.setMemberRole("사용자");
+			Member.setMemberRole("ROLE_USER");
 				
 			Member save_member=memberService.insertMember(Member);
 				
@@ -156,7 +156,6 @@ public class LoginController {
 	public String loginView(@ModelAttribute("LoginFormValidation") LoginFormValidation memberm,
 			@RequestParam(value="redirectURL",defaultValue = "/home") String redirectURL,
 			Model model) {
-
 		model.addAttribute("redirectURL", redirectURL);
 
 		return "member/login.html";
