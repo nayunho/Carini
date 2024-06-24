@@ -344,7 +344,7 @@
                         <br>
                         <div class="change">
                             <a id="edit_save_td" th:if="${session.user.memberSocial == '회원'}" style="align-items: center; -webkit-text-stroke: 0.9px black;">
-                                <button type="button" onclick="verifyPassword()" th:text="#{info.btn.edit}"></button>
+                                <button type="button" onclick="change_info()" th:text="#{info.btn.edit}"></button>
                             </a>
                             <a id="edit_save_td" th:unless="${session.user.memberSocial == '회원'}" th:href="@{/mypage/myinfo_social_edit}" style="align-items: center; -webkit-text-stroke: 0.9px black;">
                                 <button type="button" th:text="#{info.btn.edit}"></button>
@@ -431,7 +431,7 @@
 		<script>
 			function change_info() {
 			    // 비밀번호 확인을 위한 팝업 창 열기
-			    var passwordWindow = window.open('password.html', '_blank', 'width=400,height=300');
+			    var passwordWindow = window.open('password', '_blank', 'width=400,height=300');
 		}
 			</script>
     </div>

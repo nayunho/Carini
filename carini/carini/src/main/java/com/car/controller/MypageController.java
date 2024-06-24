@@ -114,10 +114,10 @@ public class MypageController {
 	 */
 	@GetMapping("/myinfo")
 	public ResponseEntity<Map<String, Object>> myinfo(@RequestParam("user_password") String memberPw,
-			@ModelAttribute("member") Member members, HttpServletRequest request) {
-		
+			@ModelAttribute("member") Member members, HttpServletRequest request,HttpSession session) {
 		Map<String, Object> response = new HashMap<>();
-		Member member = memberService.findByMemberId(members.getMemberId());
+		Member user = (Member) session.getAttribute("user");
+		Member member = memberService.findByMemberId(user.getMemberId());
 		Locale locale = localeResolver.resolveLocale(request);
 		
 		if (member != null && member.getMemberPw().equals(memberPw)) {
@@ -178,7 +178,8 @@ public class MypageController {
 	public String myInfoNicknameUpdate(@ModelAttribute("member") Member members,
 			@RequestParam("memberNickname") String memberNickname, Model model, HttpSession session,
 			HttpServletRequest request) {
-		Member member = memberService.findByMemberId(members.getMemberId());
+		Member user = (Member) session.getAttribute("user");
+		Member member = memberService.findByMemberId(user.getMemberId());
 		List<Member> memberList = memberService.findAllMember();
 		Locale locale = localeResolver.resolveLocale(request);
 
@@ -370,11 +371,7 @@ public class MypageController {
 		bookmark.setCarId(Integer.parseInt(carId));
 		bookmark.setMemberId(user.getMemberId());
 		
-<<<<<<< HEAD
 		bookMarkService.insertMember(bookmark,user);
-=======
-		Bookmark save_bookmark = bookMarkService.insertMember(bookmark);
->>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 		
 		model.addAttribute("msg", messageSource.getMessage("bookmark.add", null, locale));
 		model.addAttribute("url", request.getHeader("Referer"));

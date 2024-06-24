@@ -75,11 +75,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.car.dto.Agency;
 import com.car.dto.Board;
 import com.car.dto.Member;
 import com.car.dto.Notice;
 import com.car.dto.PagingInfo;
 import com.car.persistence.BoardRepository;
+import com.car.service.AgencyService;
 import com.car.service.BoardService;
 import com.car.service.MemberService;
 import com.car.service.NoticeService;
@@ -92,53 +94,22 @@ import lombok.extern.slf4j.Slf4j;
 
 
 
-
+@RequestMapping("/center")
 @Controller
 public class CenterController {
 
-    @GetMapping("center/map")
-    public String showMap(Model model) {
-        List<Position> positions = new ArrayList<>();
-        positions.add(new Position("여기", 37.55684, 126.91404));
-        positions.add(new Position("저기", 37.55834, 126.91302));
-        model.addAttribute("positions", positions);
-        return "center/CenterMap";
+	@Autowired
+	private AgencyService agencyService;
+	
+    @GetMapping("/centerMap")
+    public String centerView(@RequestParam(value="carBrand",defaultValue = "") String carBrand,Model model) {
+    	System.out.println(carBrand);
+    	List<Agency> agencies = agencyService.findagency(carBrand);
+    	
+    	System.out.println(agencies);
+    	model.addAttribute("agency", agencies);
+    	
+        return "center/centerMap";
     }
 
-    public static class Position {
-        private String title;
-        private double lat;
-        private double lng;
-
-        public Position(String title, double lat, double lng) {
-            this.title = title;
-            this.lat = lat;
-            this.lng = lng;
-        }
-
-        // getters and setters
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public double getLat() {
-            return lat;
-        }
-
-        public void setLat(double lat) {
-            this.lat = lat;
-        }
-
-        public double getLng() {
-            return lng;
-        }
-
-        public void setLng(double lng) {
-            this.lng = lng;
-        }
-    }
 }
