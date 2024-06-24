@@ -37,7 +37,6 @@
 
         <div style="height: 100px;"></div><!--공간 띄우기 위한 박스-->
     
-    <form action="">
 
         <main>
 			
@@ -52,10 +51,10 @@
             </div>
 
             <div class="search"  > <!--검색창 감싸는 박스-->
-
+				<form th:action="@{/center/search_address}" method="Post">
                 <div class="sub_search" style="height: 5%; "> <!--검색창 박스-->
 
-                        <select name="시/군/구" id="시/군/구" style="margin: 10px;">
+                        <select name="city" id="city" style="margin: 10px;">
                             <option value="서울특별시">서울특별시</option>
                             <option value="부산광역시">부산광역시</option>
                             <option value="대구광역시">대구광역시</option>
@@ -75,7 +74,7 @@
                             <option value="제주특별자치도">제주특별자치도</option>
                         </select>
                     
-                        <select name="현재위치" id="동네" place>
+                        <select name="gu" id="gu" place>
                             <option value="강남구">강남구</option>
                             <option value="강동구">강동구</option>
                             <option value="강북구">강북구</option>
@@ -102,16 +101,17 @@
                             <option value="중구">중구</option>
                             <option value="중랑구">중랑구</option>
                         </select>
-                
+						<input type="submit" name="검색창" id="search" style="width: 50px; height: 50px; margin-right: 20px;" value="검색">
                     </div>
-
-                <div class="sub_search" style="height: 5%;"> <!--검색창 박스-->
-
-                    <input type="text" name="검색창" id="search" style="width: 250px; height: 50px; margin: 10px;" placeholder=" 읍/면/동">
-                    <input type="submit" name="검색창" id="search" style="width: 50px; height: 50px; margin-right: 20px;" value="검색">
-                
-                </div>
-
+				</form>
+				<form th:action="@{/center/search_brand}" method="post">
+	                <div class="sub_search" style="height: 5%;"> <!--검색창 박스-->
+	
+	                    <input type="text" name="search_brand" id="search" style="width: 250px; height: 50px; margin: 10px;" placeholder="브랜드를 적어주세요!">
+	                    <input type="submit" name="검색창" id="search" style="width: 50px; height: 50px; margin-right: 20px;" value="검색">
+	                
+	                </div>
+				</form>
  
 
                 <div class="sub_search" style="height: 100%; width: 150%;"> <!--검색창 박스-->
@@ -136,7 +136,6 @@
 
         </main>
 		  
-    </form>
         
 	
   

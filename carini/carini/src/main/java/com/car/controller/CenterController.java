@@ -103,13 +103,44 @@ public class CenterController {
 	
     @GetMapping("/centerMap")
     public String centerView(@RequestParam(value="carBrand",defaultValue = "") String carBrand,Model model) {
-    	System.out.println(carBrand);
-    	List<Agency> agencies = agencyService.findagency(carBrand);
     	
-    	System.out.println(agencies);
+    	List<Agency> agencies = agencyService.findagency_carBrand(carBrand);
+    	
     	model.addAttribute("agency", agencies);
     	
         return "center/centerMap";
     }
-
+    
+    @PostMapping("/search_brand")
+    public String search_brandCenter(@RequestParam(value="search_brand", defaultValue = "") String search_brand,Model model) {
+    	List<Agency> agencies = agencyService.findagency_search_brand(search_brand);
+    	
+    	if(agencies.isEmpty()) {
+    		model.addAttribute("msg", "검색결과가 없습니다.");
+    		model.addAttribute("url", "/center/centerMap");
+    		return "alert";
+    	}
+    	
+    	model.addAttribute("agency", agencies);
+        	
+        return "center/centerMap";
+    
+    }
+    
+    @PostMapping("/search_address")
+    public String search_addressCenter(@RequestParam(value="city", defaultValue = "") String search_city,
+    		@RequestParam(value="gu", defaultValue = "") String search_gu,
+    		Model model) {
+    	List<Agency> agencies = agencyService.findagency_search_address(search_city,search_gu);
+    	
+    	if(agencies.isEmpty()) {
+    		model.addAttribute("msg", "검색결과가 없습니다.");
+    		model.addAttribute("url", "/center/centerMap");
+    		return "alert";
+    	}
+    	
+    	model.addAttribute("agency", agencies);
+        return "center/centerMap";
+    
+    }
 }

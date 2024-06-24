@@ -1,5 +1,6 @@
 package com.car.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -507,27 +508,27 @@ public class MypageController {
 	 @PostMapping("/updateBoard")
 	   public String updateBoard(Board board, Model model,
 			   @Validated @ModelAttribute("BoardUpdateFormValidation") BoardUpdateFormValidation boardValidation ,
-			   BindingResult bindingResult)  {
+			   BindingResult bindingResult) throws IllegalStateException, IOException  {
 	     
 		 if (bindingResult.hasErrors()) {
 
 		       return "mypage/updateMyBoard";
 		    }
-	      
-	      // 파일재업로드
+
+		 
 	      MultipartFile uploadFile = board.getUploadFile();
-	      if(uploadFile != null && !uploadFile.isEmpty()) {
+
+	      if(!uploadFile.isEmpty()) {
 	         String fileName = uploadFile.getOriginalFilename();
-	         Path filePath = Paths.get(uploadFolder + fileName);
-	         try {
-	            Files.copy(uploadFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-	               board.setBoardFilename(fileName);
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	         }         
+	         
+	         uploadFile.transferTo(new File(uploadFolder + fileName));
+	         board.setBoardFilename(fileName);
+	         board.setBoardTitle(boardValidation.getBoardTitle());
+	         board.setBoardContent(boardValidation.getBoardTitle());
+
 	      }
-	      
-	      boardService.updateBoard(board);
+
+	      	boardService.updateBoard(board);
 	        model.addAttribute("msg", "게시글이 수정되었습니다!");
 	        model.addAttribute("url", "/mypage/myBoard/getBoard?boardId=" + board.getBoardId());
 	        return "alert";

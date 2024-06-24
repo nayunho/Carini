@@ -14,4 +14,7 @@ public interface AgencyRepository  extends JpaRepository<Agency, Long>{
 	@Query("SELECT a FROM Agency a WHERE a.carBrand = :carBrand")
     List<Agency> findAllCarBrand(@Param("carBrand") String carBrand);
 
+	
+	
+
 }
