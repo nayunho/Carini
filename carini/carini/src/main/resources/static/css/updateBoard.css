@@ -1,6 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,400italic,600");
-@import url("fontawesome-all.min.css");
-
 /*
    Helios by HTML5 UP
    html5up.net | @ajlkn
@@ -2281,45 +2278,26 @@ input, select {
 }
 
  .header_carini{
-    color: white;
-    font-size: 6rem;
-    font-weight: 700;
-    text-shadow: 9px 9px 1px gray;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    -webkit-text-stroke: 0.4px rgb(115, 109, 119);
+      color: white;
+      font-size: 6rem;
+      font-weight: 700;
+      text-shadow: 9px 9px 1px gray;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      -webkit-text-stroke: 0.4px rgb(115, 109, 119);
 
 }
+.carini-hover{
+		display: block;
+	margin-top:40px;
+}
+  .carini-hover:hover {
+      color: black !important;
+      -webkit-text-stroke: 0.9px white;
+      text-shadow: 9px 9px 1px whitesmoke;
+      transition: none;
+  }
 
-.carini-hover:hover{
-   color: black;
-   -webkit-text-stroke: 0.9px white;
-            text-shadow: 9px 9px 1px whitesmoke;
-         }
 
-
-
-/* Nav */
-
-#nav {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   text-align: center;
-   padding: 1.5em 0 1.5em 0;
-   z-index: 1;
-   overflow: hidden;
-   }
-
-#nav > ul {
-   line-height: 0px;
-   position: relative;
-   display: inline-block;
-   margin: 0;
-   height: 21px;
-   border-left: solid 1px rgba(192, 192, 192, 0.35);
-   border-right: solid 1px rgba(192, 192, 192, 0.35);
-   } 
 
 /* Sidebar */
 
@@ -2517,13 +2495,6 @@ a.icon-hover:hover {
  background-color: white !important;
 }
 
-.carini-hover:hover {
-    color: black !important;
-    -webkit-text-stroke: 0.9px white;
-    text-shadow: 9px 9px 1px whitesmoke;
-    transition: none;
-
-}
 
 .side-hover:hover {
  color: white !important;
@@ -2758,7 +2729,8 @@ footer {
          }
 
          .dropotron li:hover {
-            color: #ef8376;
+            color:  rgb(187, 179, 179);
+            -webkit-text-stroke: 0.4px rgb(115, 109, 119);
          }
 
          .dropotron li a, .dropotron li span {
@@ -3085,10 +3057,13 @@ footer {
 
       /* Footer */
 
-         #footer {
-            padding: 4em 2em 4em 2em;
-         }
-
+	#footer {
+		position: relative;
+		overflow: hidden;
+		padding: 6em 0 6em 0;
+		
+	}
+	
       /* Carousel */
 
          .carousel {
@@ -3212,15 +3187,26 @@ footer {
 }
 
 .change_list a{
-	margin:0;
-	padding: 0;
+	margin:0 !important;
+	padding: 10px 20px !important;
+	border: 1px solid black !important;
+}
+.change_list .footer_btn1 a:hover{
+	
+	background-color: black !important;
+	margin:0 !important;
+	padding: 10px 20px !important;
+	color:white !important;
+	font-weight:700 !important;
 }
 
-.change_list a:hover{
-	margin:0;
-	padding: 0;
-	color: rgb(192, 192, 192);
-	font-weight:600;
+.change_list .footer_btn2 a:hover{
+	
+	background-color: black !important;
+	margin:0 !important;
+	padding: 10px 20px !important;
+	color:white !important;
+	font-weight:700 !important;
 }
 
 /* 게시판 내용(textarea) */
