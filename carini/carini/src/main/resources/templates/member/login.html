@@ -1,99 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/login.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/css/login.css">
 </head>
+
 <script>
-    import TextField from '@mui/material/TextField';
+	import TextField from '@mui/material/TextField';
 </script>
+
+
 <body>
-		
-    <form action="/member_login_check" method="post">
-        <header>
 
-            <a href="./index.html" class="header_carini carini-hover">CARINI</a>
+	<form th:action="@{/member_login_check(redirectURL=${redirectURL})}" th:object="${LoginFormValidation}"
+		method="post">
+		<header>
 
-            <p class="header-1">
-                <br>CARINI SEMPRE CON VUESTRO
-            </p>
+			<a th:href="@{/}" class="header_carini carini-hover">CARINI</a>
 
-        </header>
-        <br>
+			<p class="header-1">
+				<br>CARINI SEMPRE CON VUESTRO
+			</p>
 
-        <nav>
-            
-        </nav>
+		</header>
+		<br>
 
-        <section>
-                <div>
-                     <div style="height: 20%; " >
-                        
-                     </div>
+		<nav>
 
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/f_SjwyXNbas" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
+		</nav>
 
-                    <div style="float: left; padding-left: 10px;">
-                        <h1 class="flipped-text">ADVERTISEMENT</h1>
-                    </div>
+		<section>
+			<div>
+				<div style="height: 20%; ">
 
-                </div>
-     
-        </section>
+				</div>
 
-        
-        <aside>
-            
-            <div class="loginbox">
-                <fieldset>
-                    <legend> &nbsp;&nbsp;login&nbsp;&nbsp;</legend>
-                    <br>
-                    <h3> _WELCOME_</h3>
-            <br><br>   
+				<div class="video-container">
+					<iframe src="https://www.youtube.com/embed/f_SjwyXNbas" allow="autoplay; encrypted-media"
+						allowfullscreen></iframe>
+				</div>
 
-                    <input type="id" name="memberId" class="btn btn-outline-secondary" placeholder="ID" size="25">
-            <br>
-                    <input type="password" name="memberPw" class="btn btn-outline-secondary" placeholder="PASSWORD" size="25">
-            <br><br>
-                    <input id="login" type="submit" name="submit" class="btn btn-light" value="LOGIN" size="25" style="text-align: center;">
-            <br><br><br>
+				<div style="float: left; padding-left: 10px;">
+					<h1 class="flipped-text">ADVERTISEMENT</h1>
+				</div>
+
+			</div>
+
+		</section>
+
+		<aside>
+
+			<div class="loginbox">
+				<fieldset>
+					<legend> &nbsp;&nbsp;login&nbsp;&nbsp;</legend>
+					<br>
+					<h3> _WELCOME_</h3>
+					<br><br>
+					<input type="text" th:field="*{memberId}" class="btn btn-outline-secondary"
+						th:errorclass="field-error" placeholder="ID" size="25">
+					<br>
+					<div class="field-error" th:errors="*{memberId}" style="font-size: 15px;">
+						아이디 오류
+					</div>
+					<br>
+					<input type="password" th:field="*{memberPw}" class="btn btn-outline-secondary"
+						th:errorclass="field-error" placeholder="PASSWORD" size="25">
+					<br>
+					<div class="field-error" th:errors="*{memberPw}" style="font-size: 15px;">
+						비물번호 오류
+					</div>
+					<br>
+					<input id="login" type="submit" name="submit" class="btn btn-light" value="LOGIN" size="25"
+						style="text-align: center;">
+					<br><br><br>
 
 
-                <a href="http://www.naver.com" style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" >
-                    아이디찾기
-                </a> /
-                <a href="http://www.naver.com"  style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" >
-                    비밀번호찾기
-                </a> /
-                <a href="/signup" style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                    회원가입
-                </a>
-        <br><br>
+					<a th:href="@{/find_idForm}"
+						style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+						아이디찾기
+					</a> /
+					<a th:href="@{/find_pwForm}"
+						style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+						비밀번호찾기
+					</a> /
+					<a href="/signup"
+						style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+						회원가입
+					</a>
+					<br><br>
 
-        <a href="/api/naver/oauth" >
-            <img src="/img/naver.png" class="img-1" id="login">
-        </a>
-    <br>    
-        <a href="/oauth/kakao" >
-            <img src="/img/kakaotalk.png" class="img-1" id="login">
-        </a>
-    <br><br>
+					<a href="/api/naver/oauth">
+						<img src="/img/naver.png" class="img-1" id="login">
+					</a>
+					<br>
+					<a href="/oauth/kakao">
+						<img src="/img/kakaotalk.png" class="img-1" id="login">
+					</a>
+					<br><br>
 
-                
-    </fieldset>       
-    </div>     
-    <br><br><br>
-    </div>
-    </div>
-        </aside>
-        <footer>
-            
-        </footer>
+
+				</fieldset>
+			</div>
+			<br><br><br>
+
+		</aside>
 	</form>
 </body>
-	
+
 </html>

@@ -20,7 +20,6 @@ import com.car.service.BookMarkService;
 import jakarta.transaction.Transactional;
 
 @Service
-
 public class BookMarkServiceImpl implements BookMarkService{
 
 
@@ -32,11 +31,12 @@ public class BookMarkServiceImpl implements BookMarkService{
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
 	/* 멤버 아이디로 차데이터(번호) 추출 */
 	@Override
 	public List<Bookmark> findAllBookmarkCar(String id) {
-		List<Bookmark> BookmarkCarList = bookMarkRepository.findBookmarkByMemberId(id);
 		
+		List<Bookmark> BookmarkCarList = bookMarkRepository.findBookmarkByMemberId(id);
 		
 		return BookmarkCarList;
 	}
@@ -55,18 +55,37 @@ public class BookMarkServiceImpl implements BookMarkService{
 		return BookmarkList;
 	}
 
+	/*memberId와 carId에 대해 북마크가 존재하는지를 확인*/
+	@Override
+	public boolean isBookmarkedByMember(String memberId, int carId) {
+        return bookMarkRepository.existsByMemberIdAndCarId(memberId, carId);
+    }
+
 	/* bookmark 삭제 */
 	@Override
 	@Transactional
-	public void findBookmarkByCarDelete(int carid,String memberId) {
+	public void findBookmarkByCarDelete(int carId, String memberId) {
 		
-		bookMarkRepository.deleteByBookmarkIdAndMemberId(carid, memberId);
+		bookMarkRepository.deleteByBookmarkIdAndMemberId(carId, memberId);
 	}
 
 	@Override
-	public Bookmark insertMember(Bookmark bookmark) {
-		bookMarkRepository.save(bookmark);
-		return null;
+	@Transactional
+	public void insertMember(Bookmark bookmark,Member user) {
+		
+		List<Bookmark> BookmarkList =bookMarkRepository.findAllByMemberId(user.getMemberId());
+		
+		if(BookmarkList.isEmpty()) {
+			bookMarkRepository.save(bookmark);
+		}
+		
+		for(Bookmark bookmarkone : BookmarkList) {
+			if(bookmarkone.getBookmarkNum() == bookmark.getBookmarkNum()) {
+			}else {
+				bookMarkRepository.save(bookmark);
+			}
+		}
+
 	}
 
 	@Override

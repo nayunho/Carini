@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html th:fragment="common_header(header, footer)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문서</title>
+    <!-- 추가적인 메타 태그, 스타일시트, 스크립트 등이 필요한 경우 여기에 추가 -->
+</head>
+<body>
+    <div th:replace="${header}"></div>
+
+	
+	<!DOCTYPE HTML>
+	<!--
+	   Helios by HTML5 UP
+	   html5up.net | @ajlkn
+	   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	-->
+	<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <title>Left Sidebar - Helios by HTML5 UP</title>
+	    <meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	    <link rel="stylesheet" href="/css/My_board.css" />
+	    <noscript><link rel="stylesheet" th:href="@{/assets/css/noscript.css}" /></noscript>
+
+	    <style>
+	        input[type="checkbox"] {
+	            -webkit-appearance: checkbox;
+	            -moz-appearance: checkbox;
+	            appearance: checkbox;
+	        }
+	    </style>
+	</head>
+
+	<body class="no-sidebar is-preload">
+
+	<div id="page-wrapper">
+
+	    <!-- Header -->
+	   <div id="header">
+	        <!-- Inner -->
+	        <div class="inner">
+	            <header>
+	                <a th:href="@{/home}" class="header_carini carini-hover">CARINI</a>
+	            </header>
+	        </div>
+
+	
+	
+    <div th:replace="${footer}"></div>
+</body>
+</html>

@@ -1,10 +1,14 @@
 package com.car.dto;
 
+import org.springframework.data.annotation.Transient;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,11 +27,13 @@ public class Car {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long carId;
+	private int carId;
 	
 	private String carName;
-	private String carMinPrice;
-	private String carMaxPrice;
+	private Long carMinPrice;
+	private Long carMaxPrice;
+	private double carAvgPrice;
+
 	private String carSize;
 	private String carFuel;
 	private String carEff;
@@ -40,4 +46,15 @@ public class Car {
 	private double carScDesign;
 	private double carScEff;
 	private double carScAvg;
+	
+	@Transient
+	private boolean isBookmarked;
+	
+	@PrePersist
+    @PreUpdate
+    private void calculateCarAvgPrice() {
+		if (carMinPrice != null && carMaxPrice != null) {
+			this.carAvgPrice = (carMinPrice + carMaxPrice) / 2.0;
+		}
+    }
 }

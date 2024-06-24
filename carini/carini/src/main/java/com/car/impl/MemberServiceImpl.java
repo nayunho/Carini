@@ -10,7 +10,14 @@ import com.car.dto.Member;
 import com.car.persistence.MemberRepository;
 import com.car.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 	
 
@@ -42,9 +49,9 @@ public class MemberServiceImpl implements MemberService {
 	 * 해당 멤버 찾기
 	 * */
 	@Override
-	public Member findMember(Member member) {
+	public Member findMember(String memberId) {
 		
-		Optional<Member> findeMember = memberRepository.findByMemberId(member.getMemberId());
+		Optional<Member> findeMember = memberRepository.findByMemberId(memberId);
 		
 		if(!findeMember.isPresent()) {
 			
@@ -68,8 +75,12 @@ public class MemberServiceImpl implements MemberService {
 	 * */
 	@Override
 	public Member findByMemberId(String id) {
-		
+		System.out.println("sadadsa");
 		Optional<Member> findeMember = memberRepository.findByMemberId(id);
+		System.out.println(findeMember.isPresent());
+		if(!findeMember.isPresent()) {
+			return null;
+		}
 		
 		return findeMember.get();
 	}
@@ -133,6 +144,61 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 	}
+	@Override
+	public List<Member> findByMemberPhoneNum(String memberPhoneNum) {
+		List<Member> findeMember= memberRepository.findByMemberPhoneNum(memberPhoneNum);
+		return findeMember;
+	}
+
+	@Override
+	public SingleMessageSentResponse sendmessage(String phone, String codeNumber, String APIKEY, String SECRETKEY,String FROM_NUMBER) {
+		
+		DefaultMessageService messageService =   NurigoApp.INSTANCE.initialize(APIKEY, SECRETKEY, "https://api.coolsms.co.kr");
+		Message message = new Message();
+		
+		message.setFrom(FROM_NUMBER);	//발신번호
+		message.setTo(phone);	// 수신번호
+		message.setText("CARINI[인증번호]"+codeNumber +"를 입력해주세요!");
+		
+		SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
+		
+		return response;
+	}
+	
+	@Override
+	@Transactional
+	public Member SMSfindMember(String memberName, String memberPhoneNumber,HttpSession session) {
+
+		Optional<Member> member = memberRepository.findByMemberNameAndMemberPhoneNum(memberName,memberPhoneNumber);
+		
+		if(!member.isPresent()) {
+			return null;
+		}
+		
+		session.setAttribute("find_idMember", member.get());
+		//return member;
+		return member.get();
+	}
+	
+	@Override
+	@Transactional
+	public Member SMSfindMemberPw(String memberId, String memberPhoneNumber,HttpSession session) {
+		Optional<Member> member = memberRepository.findByMemberIdAndMemberPhoneNum(memberId,memberPhoneNumber);
+		if(!member.isPresent()) {
+			return null;
+		}
+		session.setAttribute("find_pwMember", member.get());
+		return member.get();
+	}
+	
+	/*
+	 * 비밀번호 수정
+	 * */
+	@Override
+	@Transactional
+	public void updatepw(String memberId, String newmemberPw) {
+		memberRepository.updateMemberPw(newmemberPw,memberId);
+	}
 	
 //	@Override
 //	@Transactional
@@ -143,18 +209,3 @@ public class MemberServiceImpl implements MemberService {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

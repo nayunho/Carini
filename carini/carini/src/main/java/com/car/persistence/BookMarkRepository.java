@@ -20,4 +20,9 @@ public interface BookMarkRepository extends JpaRepository<Bookmark, Integer>{
 	@Modifying
 	@Query("DELETE FROM Bookmark b WHERE b.carId = :carId AND b.memberId = :memberId")
 	void deleteByBookmarkIdAndMemberId(@Param("carId") int carId, @Param("memberId") String memberId);
+
+	boolean existsByMemberIdAndCarId(String memberId, int carId);
+	
+	@Query("SELECT b FROM Bookmark b WHERE b.memberId = :memberId")
+	List<Bookmark> findAllByMemberId(@Param("memberId") String memberId);
 }

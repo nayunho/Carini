@@ -1,0 +1,180 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+	margin: 0;
+	padding: 0
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh
+}
+
+.find_box1 {
+	background-color: #2e2e2e;
+	width: 750px;
+	height: 450px;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .1)
+}
+
+.find_box2 {
+	background-color: #2e2e2e;
+	width: 750px;
+	height: 450px;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .1)
+}
+
+.find_header a {
+	text-decoration: none;
+	font-size: 18px;
+	margin-right: 28px
+}
+
+#find_id {
+	opacity: 30%
+}
+
+.find_main {
+	padding-top: 5px;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	justify-content: center;
+	align-items: center;
+	height: 90%
+}
+
+.find_main span {
+	font-size: 16px;
+	font-weight: 700;
+	margin-bottom: 10px;
+	display: block
+}
+
+.find_main_id,
+.find_main_tel {
+	padding: 10px;
+	border-radius: 4px
+}
+
+.find_main input[type=text] {
+	width: calc(100% - 80px);
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px 0 0 4px;
+	margin-right: -4px;
+	font-size: 20px
+}
+
+.find_main button {
+	padding: 10px 20px;
+	background-color: #2d2d2d;
+	color: #fff;
+	border: none;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
+	font-size: 20px
+}
+
+#c_num {
+	margin-top: 30px;
+	margin-bottom: 0
+}
+
+#timer_wrapper {
+	display: flex
+}
+
+#timer {
+	margin: 5px
+}
+
+.find_main_tel {
+	height: 43px;
+	white-space: nowrap;
+	margin-bottom: 8%;
+	width: 80%
+}
+
+#nickname_title {
+	margin-left: 6px;
+	height: 43px;
+	white-space: nowrap;
+	width: 80%
+}
+
+#insert_nickname,
+.find_main_tel {
+	margin: 30px auto
+}
+
+#insert_nickname {
+	width: 91%;
+	margin-left: 64px
+}
+
+#c_num {
+	margin-top: 55px
+}
+
+* {
+	font-size: 20px !important;
+	font-weight: 700 !important
+}
+
+.password-input {
+	margin-bottom: 25px
+}
+
+.find_main_id {
+	width: 600px !important;
+	margin-left: 10px
+}
+
+#send_new_pw {
+	margin-left: 46%;
+	margin-top: 8%;
+	border-radius: 5px
+}
+
+#find_box2 {
+	position: absolute;
+	display: none
+}
+
+.find_header {
+	text-align: center;
+	margin-bottom: 15px;
+	color: #fff
+}
+
+#find_id,
+#find_pw_link #find_pw {
+	color: #fff
+}
+
+#find_pw {
+	color: #fff
+}
+
+#find_pw_link {
+	color: #fff
+}
+
+#c_num {
+	display: none
+}
+
+#c_num.red {
+	background-color: red
+}
+
+.field-error {
+	border-color: #dc3545;
+	color: #dc3545;
+}
