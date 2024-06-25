@@ -61,6 +61,7 @@ public class ModelController {
    @Autowired
    private BookMarkRepository bookMarkRepository;
 
+<<<<<<< HEAD
    @Autowired
    private LocaleResolver localeResolver;
    
@@ -86,9 +87,37 @@ public class ModelController {
           @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
           @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
           HttpSession session) {
+=======
+	@Autowired
+	private LocaleResolver localeResolver;
+	
+	public PagingInfo pagingInfo = new PagingInfo();
+	
+	@ModelAttribute("member")
+	public Member setMember() {
+		return new Member(); // 기본 Member 객체를 세션에 저장
+	}
+	
+	/*
+	 * 모델 목록보기
+	 * */
+
+	@GetMapping("/getModelList")
+	public String getBoardList(Model model, 
+	       @RequestParam(name = "curPage", defaultValue = "0") int curPage,
+	       @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
+	       @RequestParam(name = "filterMinPrice", defaultValue = "0") Long filterMinPrice,
+	       @RequestParam(name = "filterMaxPrice", defaultValue = "1000000000") Long filterMaxPrice,
+	       @RequestParam(name = "filterSize", defaultValue = "선택안함") String filterSize,
+	       @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
+	       @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
+	       @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
+	       HttpSession session) {
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
 
       Member user = (Member) session.getAttribute("user");
 
+<<<<<<< HEAD
       curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
       
       Pageable pageable;
@@ -102,6 +131,21 @@ public class ModelController {
       }
        
        Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
+=======
+		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
+		
+		Pageable pageable;
+		
+		if(carSort.equals("저가순")){
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").ascending());
+		}else if(carSort.equals("고가순")) {
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").descending());
+		}else {
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
+		}
+	    
+	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
 
        // 즐겨찾기 추가
        for (Car car1 : pagedResult) {
@@ -113,6 +157,7 @@ public class ModelController {
 
        }
 
+<<<<<<< HEAD
 
        int totalRowCount  = (int)pagedResult.getNumberOfElements();
        int totalPageCount = pagedResult.getTotalPages();
@@ -137,6 +182,32 @@ public class ModelController {
        model.addAttribute("pagingInfo", pagingInfo);
        model.addAttribute("pagedResult", pagedResult);
        model.addAttribute("pageable", pageable);
+=======
+
+	    int totalRowCount  = (int)pagedResult.getNumberOfElements();
+	    int totalPageCount = pagedResult.getTotalPages();
+	    int pageSize       = pagingInfo.getPageSize();
+	    int startPage      = (curPage / pageSize) * pageSize + 1;
+	    int endPage        = startPage + pageSize - 1;
+	    endPage = endPage > totalPageCount ? (totalPageCount > 0 ? totalPageCount : 1) : endPage;
+	    
+
+	    pagingInfo.setCurPage(curPage);
+	    pagingInfo.setTotalRowCount(totalRowCount);
+	    pagingInfo.setTotalPageCount(totalPageCount);
+	    pagingInfo.setStartPage(startPage);
+	    pagingInfo.setEndPage(endPage);
+	    pagingInfo.setCarMinPrice(filterMinPrice);
+	    pagingInfo.setCarMaxPrice(filterMaxPrice);
+	    pagingInfo.setCarSize(filterSize);
+	    pagingInfo.setCarFuel(filterFuel);
+	    pagingInfo.setSearchWord(searchWord);
+	    pagingInfo.setRowSizePerPage(rowSizePerPage);
+	    
+	    model.addAttribute("pagingInfo", pagingInfo);
+	    model.addAttribute("pagedResult", pagedResult);
+	    model.addAttribute("pageable", pageable);
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
         model.addAttribute("cp", curPage);
         model.addAttribute("sp", startPage);
         model.addAttribute("ep", endPage);
@@ -144,14 +215,20 @@ public class ModelController {
         model.addAttribute("rp", rowSizePerPage);
         model.addAttribute("tp", totalPageCount);
         model.addAttribute("sw", searchWord);
+<<<<<<< HEAD
        model.addAttribute("carList", pagedResult.getContent());
        model.addAttribute("user", user);
+=======
+	    model.addAttribute("carList", pagedResult.getContent());
+	    model.addAttribute("user", user);
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
 
        return "model/getModelList.html";
    }
    
     @GetMapping("/getModel")
     public String getCar(@RequestParam("carId") int carId, Model model) {
+<<<<<<< HEAD
        
        Car car = modelService.getCarbyId(carId);
        
@@ -170,6 +247,20 @@ public class ModelController {
        model.addAttribute("car", car);
        model.addAttribute("carBrand", carBrand);
        
+=======
+    	
+    	Car car = modelService.getCarbyId(carId);
+    	
+    	String[] carName = car.getCarName().strip().split(" ");
+    	String carBrandName = carName[0];
+    	
+    	CarBrand carBrand = modelService.getURLbrBrand(carBrandName);
+    	
+    	
+    	model.addAttribute("car", car);
+    	model.addAttribute("carBrand", carBrand);
+    	
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
         return "model/getModel.html";
     }
     
@@ -204,6 +295,7 @@ public class ModelController {
      * */
     @PostMapping("/bookmark/{carId}")
     public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
+<<<<<<< HEAD
        
        Locale locale = localeResolver.resolveLocale(request);
 
@@ -217,6 +309,21 @@ public class ModelController {
       return "redirect:/model/getModel?carId=" + carId;
     }
    
+=======
+    	
+    	Locale locale = localeResolver.resolveLocale(request);
+
+		Member user = (Member) session.getAttribute("user");
+
+		bookmark.setCarId(Integer.parseInt(carId));
+		bookmark.setMemberId(user.getMemberId());
+		
+		bookMarkService.insertMember(bookmark,user);
+	
+		return "redirect:/model/getModel?carId=" + carId;
+    }
+	
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
 
 }
    

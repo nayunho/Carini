@@ -13,6 +13,13 @@ naver:
   
 coolsms:
   api:
+<<<<<<< HEAD
     key: NCSQLKTTUEFKVFUV
     secret: D4JMVWJN10VRNAFPFPLKZZPTNQIFPV6R
     form_number: 01086310457
+=======
+    key: NCS53PZHXZGQTIMZ
+    secret: OZJQ52BWLKR8SKHBRUEPGZWY70ROXHKO
+    form_number: 01086176289
+
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458

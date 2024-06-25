@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Service
 public interface ModelService {
+<<<<<<< HEAD
    
    long getTotalRowCount(Car car);
    List<Car> getAllCarList();
@@ -26,3 +27,17 @@ public interface ModelService {
    
    
 }
+=======
+	
+	long getTotalRowCount(Car car);
+	List<Car> getAllCarList();
+	Car getCarbyId(int carId);
+	Page<Car> filterCars(Pageable pageable, Long carMinPrice, Long carMaxPrice, String carSize, String carFuel, String searchWord);
+	void addCarToComparison(int carId, HttpSession session);
+	void removeCarFromComparison(int position, HttpSession session);
+	List<Car> getComparisonCars(HttpSession session);
+	CarBrand getURLbrBrand(String carBrandName);
+	
+	
+}
+>>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
