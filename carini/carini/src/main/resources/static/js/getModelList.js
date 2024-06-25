@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
    var filterMaxPrice = document.getElementById('filterMaxPrice');
    
    noUiSlider.create(priceSlider, {
-       start: [0, 220000],
+       start: [0, 50000],
        connect: true,
        range: {
            'min': 0,
-           'max': 220000
+           'max': 50000
        },
        step: 100,
        tooltips: true,
@@ -70,6 +70,7 @@ function selectCarForComparison(carId) {
 
     selectedCarIds.push(carId);
     localStorage.setItem('selectedCarIds', JSON.stringify(selectedCarIds));
+    
     if (selectedCarIds.length === 2) {
         fetchComparisonData(selectedCarIds[0], selectedCarIds[1]);
     } else {
@@ -258,6 +259,9 @@ function combineRadarChart() {
         if(charts[`carCombineRadarChart`]){
            charts[`carCombineRadarChart`].destroy();
       }
+      
+      
+
         // Radar 차트 생성
         charts[`carCombineRadarChart`] = new Chart(radarChartElement, {
             type: 'radar',
@@ -279,7 +283,10 @@ function combineRadarChart() {
             }
         });
         
+
    } // if end
+
+
 } // function end
 
 
