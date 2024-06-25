@@ -1,5 +1,6 @@
 package com.car.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,12 +100,14 @@ public class MypageController {
 	public String mypageForm(HttpSession session,Model model,HttpServletRequest request,@ModelAttribute("InquiryWriteValidation") InquiryWriteValidation InquiryValidation) {
 
 		Member user = (Member) session.getAttribute("user");
+
 		Member findmember = memberService.findMember(user.getMemberId());
+		findmember.setMemberPw(user.getMemberNickname());
 		findmember.setMemberPw("*****");
 		findmember.setMemberPhoneNum("***-****-****");
 		findmember.setMemberEmail("****@****.***");
 	    session.setAttribute("originalUrl", request.getRequestURI());
-		session.setAttribute("user", findmember);
+	    model.addAttribute("hiddenuser", findmember);
 		model.addAttribute("inquiry", new Inquiry());
 		return "mypage/mypageview.html";
 	}
@@ -114,10 +117,10 @@ public class MypageController {
 	 */
 	@GetMapping("/myinfo")
 	public ResponseEntity<Map<String, Object>> myinfo(@RequestParam("user_password") String memberPw,
-			@ModelAttribute("member") Member members, HttpServletRequest request) {
-		
+			@ModelAttribute("member") Member members, HttpServletRequest request,HttpSession session) {
 		Map<String, Object> response = new HashMap<>();
-		Member member = memberService.findByMemberId(members.getMemberId());
+		Member user = (Member) session.getAttribute("user");
+		Member member = memberService.findByMemberId(user.getMemberId());
 		Locale locale = localeResolver.resolveLocale(request);
 		
 		if (member != null && member.getMemberPw().equals(memberPw)) {
@@ -145,26 +148,18 @@ public class MypageController {
 	}
 
 	@GetMapping("/myinfo_edit")
-	public String myinfo_edit(@ModelAttribute("member") Member members, HttpSession session) {
-
-		
-		Member findmember = memberService.findMember(members.getMemberId());
-		session.setAttribute("user", findmember);
+	public String myinfo_edit(HttpSession session,@ModelAttribute("member") Member member) {
+		Member user = (Member) session.getAttribute("user");
+		Member finduser = memberService.findByMemberId(user.getMemberId());
+		session.setAttribute("showuser", finduser);
 		return "mypage/myinfo_edit.html";
 	}
 
 	@GetMapping("/myinfo_social_edit")
 	public String myinfo_social_edit(@ModelAttribute("member") Member members, HttpSession session) {
-
-		Member findMember = (Member) session.getAttribute("user");
-		if (findMember.getMemberSocial() == "naver") {
-			findMember = memberService.findByMemberId(findMember.getMemberId().replace("\"", ""));
-		} else {
-			findMember = memberService.findByMemberId(findMember.getMemberId().replace("\"", ""));
-		}
-
-		session.setAttribute("user", findMember);
-
+		Member user = (Member) session.getAttribute("user");
+		Member finduser = memberService.findByMemberId(user.getMemberId());
+		session.setAttribute("showuser", finduser);
 		return "mypage/myinfo_edit.html";
 	}
 
@@ -175,10 +170,11 @@ public class MypageController {
 	 * 닉네임 수정
 	 */
 	@PostMapping("/myinfo/updatenickname")
-	public String myInfoNicknameUpdate(@ModelAttribute("member") Member members,
+	public String myInfoNicknameUpdate(@ModelAttribute("member") Member members,BindingResult bindingResult,
 			@RequestParam("memberNickname") String memberNickname, Model model, HttpSession session,
 			HttpServletRequest request) {
-		Member member = memberService.findByMemberId(members.getMemberId());
+		Member user = (Member) session.getAttribute("user");
+		Member member = memberService.findByMemberId(user.getMemberId());
 		List<Member> memberList = memberService.findAllMember();
 		Locale locale = localeResolver.resolveLocale(request);
 
@@ -246,19 +242,18 @@ public class MypageController {
 	 * 회원정보 모두 수정
 	 */
 	@PostMapping("/myinfo/updateAll")
-	public String myInfoUpdateAll(@ModelAttribute("member") Member members, @RequestParam("memberPw") String memberPw,
-			@RequestParam("memberName") String memberName, @RequestParam("memberEmail") String memberEmail,
-			@RequestParam("memberPhoneNum") String memberPhoneNum, Model model, HttpServletRequest request) {
-
+	public String myInfoUpdateAll(@ModelAttribute Member members, Model model, HttpServletRequest request) {
 		final Pattern PASSWORD_PATTERN = Pattern.compile(passwordRegex);
 		List<Member> memberList = memberService.findAllMember();
 		Locale locale = localeResolver.resolveLocale(request);
 		Member member = memberService.findByMemberId(members.getMemberId());
+		System.out.println("============");
+		System.out.println(member);
 		if (member != null) {
-			if (!PASSWORD_PATTERN.matcher(memberPw).matches()) {
+			if (!PASSWORD_PATTERN.matcher(members.getMemberPw()).matches()) {
 
 				model.addAttribute("msg", messageSource.getMessage("info.pwcheck.failure", null, locale));
-				model.addAttribute("url", "/mypage/myinfo/" + members.getMemberId());
+				model.addAttribute("url", "/mypage/form");
 				return "alert";
 			}
 
@@ -266,18 +261,18 @@ public class MypageController {
 			for (Member memberOne : memberList) {
 
 				if (!memberOne.getMemberEmail().equals(currentMemberEmail)
-						&& memberOne.getMemberEmail().equals(memberEmail)) {
+						&& memberOne.getMemberEmail().equals(members.getMemberEmail())) {
 
 					model.addAttribute("msg", messageSource.getMessage("info.emailcheck.failure", null, locale));
-					model.addAttribute("url", "/mypage/myinfo/");
+					model.addAttribute("url", "/mypage/form");
 					return "alert";
 				}
 			}
-			member.setMemberPw(memberPw);
-			member.setMemberName(memberName);
+			member.setMemberPw(members.getMemberPw());
+			member.setMemberName(members.getMemberName());
 
-			member.setMemberEmail(memberEmail);
-			member.setMemberPhoneNum(memberPhoneNum);
+			member.setMemberEmail(members.getMemberEmail());
+			member.setMemberPhoneNum(members.getMemberPhoneNum());
 
 			memberService.updateAllMember(members.getMemberId(), member);
 
@@ -285,7 +280,9 @@ public class MypageController {
 			model.addAttribute("url", "/mypage/form");
 			return "alert";
 		} else {
-			return "redirect:/member_login";
+			model.addAttribute("msg", messageSource.getMessage("info.update.fail", null, locale));
+			model.addAttribute("url", "/mypage/form");
+			return "alert";
 		}
 	}
 
@@ -369,12 +366,8 @@ public class MypageController {
 
 		bookmark.setCarId(Integer.parseInt(carId));
 		bookmark.setMemberId(user.getMemberId());
-		
-<<<<<<< HEAD
+
 		bookMarkService.insertMember(bookmark,user);
-=======
-		Bookmark save_bookmark = bookMarkService.insertMember(bookmark);
->>>>>>> a0233bc5645fd35912370fe9db2e0410fa18e8f9
 		
 		model.addAttribute("msg", messageSource.getMessage("bookmark.add", null, locale));
 		model.addAttribute("url", request.getHeader("Referer"));
@@ -383,12 +376,10 @@ public class MypageController {
 	
 	@GetMapping("/bookmark/{carId}")
 	public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
-
 		
 		Locale locale = localeResolver.resolveLocale(request);
 
 		Member user = (Member) session.getAttribute("user");
-
 		bookmark.setCarId(Integer.parseInt(carId));
 		bookmark.setMemberId(user.getMemberId());
 		
@@ -510,27 +501,27 @@ public class MypageController {
 	 @PostMapping("/updateBoard")
 	   public String updateBoard(Board board, Model model,
 			   @Validated @ModelAttribute("BoardUpdateFormValidation") BoardUpdateFormValidation boardValidation ,
-			   BindingResult bindingResult)  {
+			   BindingResult bindingResult) throws IllegalStateException, IOException  {
 	     
 		 if (bindingResult.hasErrors()) {
 
 		       return "mypage/updateMyBoard";
 		    }
-	      
-	      // 파일재업로드
+
+		 
 	      MultipartFile uploadFile = board.getUploadFile();
-	      if(uploadFile != null && !uploadFile.isEmpty()) {
+
+	      if(!uploadFile.isEmpty()) {
 	         String fileName = uploadFile.getOriginalFilename();
-	         Path filePath = Paths.get(uploadFolder + fileName);
-	         try {
-	            Files.copy(uploadFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-	               board.setBoardFilename(fileName);
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	         }         
+	         
+	         uploadFile.transferTo(new File(uploadFolder + fileName));
+	         board.setBoardFilename(fileName);
+	         board.setBoardTitle(boardValidation.getBoardTitle());
+	         board.setBoardContent(boardValidation.getBoardTitle());
+
 	      }
-	      
-	      boardService.updateBoard(board);
+
+	      	boardService.updateBoard(board);
 	        model.addAttribute("msg", "게시글이 수정되었습니다!");
 	        model.addAttribute("url", "/mypage/myBoard/getBoard?boardId=" + board.getBoardId());
 	        return "alert";

@@ -53,6 +53,7 @@ public class ModelServiceImpl implements ModelService{
 	public Page<Car> filterCars(Pageable pageable, Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
 		
 		// 주어진 조건에 따른 Specification 생성
+
         Specification<Car> spec = createSpecification(filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
         return carRepository.findAll(spec, pageable);
     }
@@ -74,12 +75,12 @@ public class ModelServiceImpl implements ModelService{
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("carAvgPrice"), filterMaxPrice));
             }
 
-            if (!"선택안함".equals(filterSize)) {
-                predicates.add(criteriaBuilder.like(root.get("carSize"), "%" + filterSize + "%"));
+            if (!filterFuel.equals("선택안함")) {
+                predicates.add(criteriaBuilder.like(root.get("carFuel"), "%" + filterFuel + "%"));
             }
 
-            if (!"선택안함".equals(filterSize)) {
-                predicates.add(criteriaBuilder.like(root.get("carFuel"), "%" + filterFuel + "%"));
+            if (!filterSize.equals("선택안함")) {
+                predicates.add(criteriaBuilder.like(root.get("carSize"), "%" + filterSize + "%"));
             }
             
             if (searchWord != null) {
@@ -131,10 +132,13 @@ public class ModelServiceImpl implements ModelService{
     
     @Override
 	public CarBrand getURLbrBrand(String carBrandName) {
-
-    	CarBrand carBrand = carBrandRepository.findById(carBrandName).get();
+    	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
 		
-		return carBrand;
+    	if(!carBrand.isPresent()) {
+    		return null;
+    	}
+    	
+		return carBrand.get();
 	}
 
 
