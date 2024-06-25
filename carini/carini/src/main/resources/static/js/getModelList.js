@@ -259,9 +259,6 @@ function combineRadarChart() {
         if(charts[`carCombineRadarChart`]){
            charts[`carCombineRadarChart`].destroy();
       }
-      
-      
-
         // Radar 차트 생성
         charts[`carCombineRadarChart`] = new Chart(radarChartElement, {
             type: 'radar',
@@ -285,7 +282,6 @@ function combineRadarChart() {
         
 
    } // if end
-
 
 } // function end
 
