@@ -21,21 +21,12 @@ import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ModelServiceImpl implements ModelService{
-<<<<<<< HEAD
    
    @Autowired
    private CarRepository carRepository;
    @Autowired
    private CarBrandRepository carBrandRepository;
    
-=======
-	
-	@Autowired
-	private CarRepository carRepository;
-	@Autowired
-	private CarBrandRepository carBrandRepository;
-	
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
 
    @Override
    public long getTotalRowCount(Car car) {
@@ -53,7 +44,6 @@ public class ModelServiceImpl implements ModelService{
    @Override
    public Car getCarbyId(int carId) {
 
-<<<<<<< HEAD
       Car car = carRepository.findById(carId).get();
       
       return car;
@@ -74,28 +64,6 @@ public class ModelServiceImpl implements ModelService{
       // List<Predicate> : 각 필터 조건이 존재하는지 확인하고, 존재할 경우 해당 조건을 Predicates로 추가
       // 모든 Predicate를 AND로 결합하여 Specification을 반환
       
-=======
-		Car car = carRepository.findById(carId).get();
-		
-		return car;
-	}
-	
-	@Override
-	public Page<Car> filterCars(Pageable pageable, Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
-		
-		// 주어진 조건에 따른 Specification 생성
-        Specification<Car> spec = createSpecification(filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
-        return carRepository.findAll(spec, pageable);
-    }
-	
-	private Specification<Car> createSpecification(Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
-		// root: 조회할 엔티티의 루트를 나타내며, 엔티티의 속성에 접근할 수 있음.
-		// query: 쿼리 객체로, 쿼리 자체를 나타냄. select, where 등의 조건을 설정할 수 있음.
-		// criteriaBuilder: Predicate(조건)를 생성하는 데 사용되는 빌더 객체.
-		// List<Predicate> : 각 필터 조건이 존재하는지 확인하고, 존재할 경우 해당 조건을 Predicates로 추가
-		// 모든 Predicate를 AND로 결합하여 Specification을 반환
-		
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (filterMinPrice != null) {
@@ -115,11 +83,7 @@ public class ModelServiceImpl implements ModelService{
             }
             
             if (searchWord != null) {
-<<<<<<< HEAD
                predicates.add(criteriaBuilder.like(root.get("carName"), "%" + searchWord + "%"));
-=======
-            	predicates.add(criteriaBuilder.like(root.get("carName"), "%" + searchWord + "%"));
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
@@ -166,21 +130,15 @@ public class ModelServiceImpl implements ModelService{
     }
     
     @Override
-<<<<<<< HEAD
-    public Optional<CarBrand> getURLbrBrand(String carBrandName) {
-        return carBrandRepository.findById(carBrandName);
-    }
-=======
-	public CarBrand getURLbrBrand(String carBrandName) {
-    	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
-		
-    	if(!carBrand.isPresent()) {
-    		return null;
-    	}
-    	
-		return carBrand.get();
-	}
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
+   public CarBrand getURLbrBrand(String carBrandName) {
+       Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
+      
+       if(!carBrand.isPresent()) {
+          return null;
+       }
+       
+      return carBrand.get();
+   }
 
 
 }

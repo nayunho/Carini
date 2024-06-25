@@ -9,28 +9,28 @@ function toggleBookmark(carId, isBookmarked) {
  
  // 가격 범위 설정 ===============================================================
 document.addEventListener('DOMContentLoaded', function () {
-	var priceSlider = document.getElementById('priceSlider');
-	var filterMinPrice = document.getElementById('filterMinPrice');
-	var filterMaxPrice = document.getElementById('filterMaxPrice');
-	
-	noUiSlider.create(priceSlider, {
-	    start: [0, 50000],
-	    connect: true,
-	    range: {
-	        'min': 0,
-	        'max': 50000
-	    },
-	    step: 100,
-		 tooltips: true,
-	    format: {
-	        to: function (value) {
-	            return Math.round(value);
-	        },
-	        from: function (value) {
-	            return Number(value);
-	        }
-	    }
-	});
+   var priceSlider = document.getElementById('priceSlider');
+   var filterMinPrice = document.getElementById('filterMinPrice');
+   var filterMaxPrice = document.getElementById('filterMaxPrice');
+   
+   noUiSlider.create(priceSlider, {
+       start: [0, 50000],
+       connect: true,
+       range: {
+           'min': 0,
+           'max': 50000
+       },
+       step: 100,
+       tooltips: true,
+       format: {
+           to: function (value) {
+               return Math.round(value);
+           },
+           from: function (value) {
+               return Number(value);
+           }
+       }
+   });
 
     
 
@@ -114,81 +114,81 @@ function fetchComparisonData(carId1, carId2) {
 var carRadarLabels = ["주행", "가격", "거주성", "품질", "디자인", "연비"]
 
 function populateCarData(car, position) {
-	// 표 내용
+   // 표 내용
     document.getElementById(`car${position}Img`).src = car.carImg;
     document.getElementById(`car${position}Name`).innerText = car.carName;
     document.getElementById(`car${position}Price`).innerText = new Intl.NumberFormat('ko-KR').format(Math.round(car.carAvgPrice));
     document.getElementById(`car${position}Size`).innerText = car.carSize;
     document.getElementById(`car${position}Fuel`).innerText = car.carFuel;
     document.getElementById(`car${position}Eff`).innerText = car.carEff;
-	
-	 // 육각형 차트 만들기
-	 
-	 // label, y값, datasets 설정
-	 var carYValues = [
-	 		         car.carScPer,
-	 		         car.carScPrice,
-	 		         car.carScGeoju,
-	 		         car.carScQuality,
-	 		         car.carScDesign,
-	 		         car.carScEff
-	 		     ];
-	    
-	 var carDatasets = []
-	 
-	 if(position === 1){
-		radarBackgroundColor = 'rgba(255, 99, 132, 0.2)';
-		radarColor = 'rgb(255, 99, 132)';
-	 } else if(position === 2) {
-		radarBackgroundColor = 'rgba(54, 162, 235, 0.2)';
-		radarColor = 'rgb(54, 162, 235)';
-	 }
-	 
-	 carDatasets.push(
-		{
-			label: car.carName,
-			data: carYValues,
-			fill: true,
-			backgroundColor: radarBackgroundColor,
-		    borderColor: radarColor,
-		    pointBackgroundColor: radarColor,
-			pointBorderColor: '#fff',
-		    pointHoverBackgroundColor: '#fff',
-		    pointHoverBorderColor: radarColor
-		})
-	
-	 
-	 let radarChartElement  = document.getElementById(`car${position}RadarChart`);
-	 
-	 // 기존 차트 있으면 제거
-	 if (charts[`car${position}RadarChart`]) {
-	         charts[`car${position}RadarChart`].destroy();
-	     }
-	 
-	 // Radar 차트 생성
-	 charts[`car${position}RadarChart`] = new Chart(radarChartElement , {
-		type: 'radar',
-		data: {
-			labels: carRadarLabels,
-			datasets: carDatasets
-		},
-		options: {
-			responsive: false,
-			plugins: {
-				legend: {display:false}
-			},
-			scales: {
-				r: {
-					suggestedMin: 0,
-					suggestedMax: 10,
-					ticks: {
-						stepSize: 2
-					}
-				}
-			}
-		}
-	 })
-	 saveCompareCar(car, position);
+   
+    // 육각형 차트 만들기
+    
+    // label, y값, datasets 설정
+    var carYValues = [
+                   car.carScPer,
+                   car.carScPrice,
+                   car.carScGeoju,
+                   car.carScQuality,
+                   car.carScDesign,
+                   car.carScEff
+               ];
+       
+    var carDatasets = []
+    
+    if(position === 1){
+      radarBackgroundColor = 'rgba(255, 99, 132, 0.2)';
+      radarColor = 'rgb(255, 99, 132)';
+    } else if(position === 2) {
+      radarBackgroundColor = 'rgba(54, 162, 235, 0.2)';
+      radarColor = 'rgb(54, 162, 235)';
+    }
+    
+    carDatasets.push(
+      {
+         label: car.carName,
+         data: carYValues,
+         fill: true,
+         backgroundColor: radarBackgroundColor,
+          borderColor: radarColor,
+          pointBackgroundColor: radarColor,
+         pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: radarColor
+      })
+   
+    
+    let radarChartElement  = document.getElementById(`car${position}RadarChart`);
+    
+    // 기존 차트 있으면 제거
+    if (charts[`car${position}RadarChart`]) {
+            charts[`car${position}RadarChart`].destroy();
+        }
+    
+    // Radar 차트 생성
+    charts[`car${position}RadarChart`] = new Chart(radarChartElement , {
+      type: 'radar',
+      data: {
+         labels: carRadarLabels,
+         datasets: carDatasets
+      },
+      options: {
+         responsive: false,
+         plugins: {
+            legend: {display:false}
+         },
+         scales: {
+            r: {
+               suggestedMin: 0,
+               suggestedMax: 10,
+               ticks: {
+                  stepSize: 2
+               }
+            }
+         }
+      }
+    })
+    saveCompareCar(car, position);
 } // function populateCarData END
 
 /**
@@ -197,7 +197,7 @@ function populateCarData(car, position) {
 var combineCarDic = {};
 
 function saveCompareCar(car, position){
-	combineCarDic[position] = car;
+   combineCarDic[position] = car;
 }
 
 function combineRadarChart() {
@@ -257,15 +257,11 @@ function combineRadarChart() {
 
         // 기존 차트 있으면 제거
         if(charts[`carCombineRadarChart`]){
-<<<<<<< HEAD
            charts[`carCombineRadarChart`].destroy();
       }
       
       
-=======
-        	charts[`carCombineRadarChart`].destroy();
-		}
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
+
         // Radar 차트 생성
         charts[`carCombineRadarChart`] = new Chart(radarChartElement, {
             type: 'radar',
@@ -287,13 +283,9 @@ function combineRadarChart() {
             }
         });
         
-<<<<<<< HEAD
-   } // if end
-   
-=======
-	} // if end
 
->>>>>>> 04be8888df1fbb5a2f5f24f12510d8c20bef3458
+   } // if end
+
 
 } // function end
 
@@ -332,7 +324,7 @@ function clearCarData(position) {
     
     // RadarChart 제거
     if (charts[`car${position}RadarChart`]) {
-    	charts[`car${position}RadarChart`].destroy();
+       charts[`car${position}RadarChart`].destroy();
     }
     document.getElementById(`car${position}RadarChart`).innerText = ''; // 캔버스 초기화
 
