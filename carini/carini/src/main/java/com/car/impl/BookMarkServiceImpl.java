@@ -70,7 +70,7 @@ public class BookMarkServiceImpl implements BookMarkService{
 	}
 
 	@Override
-	public Bookmark insertMember(Bookmark bookmark) {
+	public Bookmark insertMember(Bookmark bookmark,Member member) {
 		bookMarkRepository.save(bookmark);
 		return null;
 	}

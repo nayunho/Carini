@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	var filterMaxPrice = document.getElementById('filterMaxPrice');
 	
 	noUiSlider.create(priceSlider, {
-	    start: [0, 220000],
+	    start: [0, 50000],
 	    connect: true,
 	    range: {
 	        'min': 0,
-	        'max': 220000
+	        'max': 50000
 	    },
 	    step: 100,
 		 tooltips: true,
@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	    }
 	});
 
+    
+
     // 슬라이더 값이 변경될 때 input 요소 업데이트
     priceSlider.noUiSlider.on('update', function (values, handle) {
         var value = values[handle];
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+
 
 // 차 비교 =====================================================================
 var charts = {}; // 차트 인스턴스를 저장할 객체
@@ -199,8 +202,8 @@ function saveCompareCar(car, position){
 }
 
 function combineRadarChart() {
-	
-	// Show the combined radar chart and hide the individual ones
+   
+   // Show the combined radar chart and hide the individual ones
     var carRadarChart = document.getElementById('carRadarChart');
     var carCombineRadarChartTR = document.getElementById('carCombineRadarChartTR');
     
@@ -222,13 +225,13 @@ function combineRadarChart() {
         var carDatasets = [];
 
         for (i = 1; i <= 2; i++) {
-			if (i === 1) {
-	            radarBackgroundColor = 'rgba(255, 99, 132, 0.2)';
-	            radarColor = 'rgb(255, 99, 132)';
-	        } else if (i === 2) {
-	            radarBackgroundColor = 'rgba(54, 162, 235, 0.2)';
-	            radarColor = 'rgb(54, 162, 235)';
-	        }
+         if (i === 1) {
+               radarBackgroundColor = 'rgba(255, 99, 132, 0.2)';
+               radarColor = 'rgb(255, 99, 132)';
+           } else if (i === 2) {
+               radarBackgroundColor = 'rgba(54, 162, 235, 0.2)';
+               radarColor = 'rgb(54, 162, 235)';
+           }
             car = combineCarDic[i];
             var carYValues = [
                 car.carScPer,
@@ -255,10 +258,10 @@ function combineRadarChart() {
 
         // 기존 차트 있으면 제거
         if(charts[`carCombineRadarChart`]){
-        	charts[`carCombineRadarChart`].destroy();
-		}
-		
-		
+           charts[`carCombineRadarChart`].destroy();
+      }
+      
+      
         // Radar 차트 생성
         charts[`carCombineRadarChart`] = new Chart(radarChartElement, {
             type: 'radar',
@@ -280,8 +283,8 @@ function combineRadarChart() {
             }
         });
         
-	} // if end
-	
+   } // if end
+   
 
 } // function end
 
