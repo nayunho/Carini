@@ -48,4 +48,5 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	Page<Member> findByMemberIdContaining(String searchWord, Pageable pageable);
 
 
+
 }

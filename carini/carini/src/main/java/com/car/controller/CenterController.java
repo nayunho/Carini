@@ -98,6 +98,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class CenterController {
 
+
 	@Autowired
 	private AgencyService agencyService;
 	
@@ -109,6 +110,7 @@ public class CenterController {
     	model.addAttribute("agency", agencies);
     	
         return "center/centerMap";
+
     }
     
     @PostMapping("/search_brand")

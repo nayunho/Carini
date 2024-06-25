@@ -61,6 +61,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         return bookMarkRepository.existsByMemberIdAndCarId(memberId, carId);
     }
 
+
    /* bookmark 삭제 */
    @Override
    @Transactional
@@ -93,6 +94,7 @@ public class BookMarkServiceImpl implements BookMarkService{
       Optional<Car> car=carRepository.findById(carId);
       return car.get();
    }
+
 
 
 }

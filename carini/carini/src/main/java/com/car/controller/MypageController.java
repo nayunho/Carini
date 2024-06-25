@@ -531,6 +531,7 @@ public class MypageController {
          @RequestParam(name = "searchWord", defaultValue = "") String searchWord,HttpSession session,Model model) {
       
       Member user = (Member) session.getAttribute("user");
+
         if (user == null || user.getMemberId() == null) {
             // 사용자 정보가 없는 경우 로그인 페이지로 리다이렉트
             return "redirect:/member_login";

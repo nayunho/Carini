@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/model")
 @SessionAttributes({"user", "pagingInfo"})
 public class ModelController {
-   
+
    @Autowired
    private MemberService memberService;
    @Autowired
@@ -147,11 +147,13 @@ public class ModelController {
        model.addAttribute("carList", pagedResult.getContent());
        model.addAttribute("user", user);
 
+
        return "model/getModelList.html";
    }
    
     @GetMapping("/getModel")
     public String getCar(@RequestParam("carId") int carId, Model model) {
+
        
        Car car = modelService.getCarbyId(carId);
        
@@ -164,6 +166,7 @@ public class ModelController {
        model.addAttribute("car", car);
        model.addAttribute("carBrand", carBrand);
        
+
         return "model/getModel.html";
     }
     
@@ -211,5 +214,6 @@ public class ModelController {
       return "redirect:/model/getModel?carId=" + carId;
     }
    
+
 
 }
