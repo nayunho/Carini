@@ -70,8 +70,6 @@ function selectCarForComparison(carId) {
 
     selectedCarIds.push(carId);
     localStorage.setItem('selectedCarIds', JSON.stringify(selectedCarIds));
-    
-       
     if (selectedCarIds.length === 2) {
         fetchComparisonData(selectedCarIds[0], selectedCarIds[1]);
     } else {
@@ -260,8 +258,6 @@ function combineRadarChart() {
         if(charts[`carCombineRadarChart`]){
            charts[`carCombineRadarChart`].destroy();
       }
-      
-      
         // Radar 차트 생성
         charts[`carCombineRadarChart`] = new Chart(radarChartElement, {
             type: 'radar',
@@ -284,8 +280,6 @@ function combineRadarChart() {
         });
         
    } // if end
-   
-
 } // function end
 
 

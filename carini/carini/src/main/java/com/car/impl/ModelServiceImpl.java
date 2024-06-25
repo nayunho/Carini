@@ -131,7 +131,6 @@ public class ModelServiceImpl implements ModelService{
     
     @Override
 	public CarBrand getURLbrBrand(String carBrandName) {
-
     	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
 		
     	if(!carBrand.isPresent()) {
