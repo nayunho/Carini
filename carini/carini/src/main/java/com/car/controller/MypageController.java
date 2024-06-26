@@ -105,7 +105,7 @@ public class MypageController {
 			@ModelAttribute("InquiryWriteValidation") InquiryWriteValidation InquiryValidation) {
 
 		Member user = (Member) session.getAttribute("user");
-		
+
 		Member findmember = memberService.findMember(user.getMemberId());
 		findmember.setMemberPw(user.getMemberNickname());
 		findmember.setMemberPw("*****");
@@ -116,7 +116,7 @@ public class MypageController {
 		session.setAttribute("originalUrl", request.getRequestURI());
 		System.out.println(findmember);
 		model.addAttribute("hiddenuser", findmember);
-	
+
 		model.addAttribute("inquiry", new Inquiry());
 		return "mypage/mypageview.html";
 	}
@@ -168,7 +168,6 @@ public class MypageController {
 		model.addAttribute("Update_InfoFormValidation", finduser);
 		session.setAttribute("showuser", finduser);
 		System.out.println(session.getAttribute("showuser"));
-
 		return "mypage/myinfo_edit.html";
 	}
 
