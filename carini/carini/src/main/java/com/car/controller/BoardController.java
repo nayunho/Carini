@@ -165,10 +165,11 @@ public class BoardController {
      * */
    @GetMapping("/board/getBoard")
    public String getBoard(Board board, Model model, HttpSession session) {
-      Member user = (Member) session.getAttribute("user");
+     
+	   Member user = (Member) session.getAttribute("user");
        
       model.addAttribute("board", boardService.getBoard(board, user.getMemberId())); // 여기서 조회수 증가
-      
+    
       return "board/getBoard";
    }
    
@@ -199,7 +200,9 @@ public class BoardController {
 			return "board/insertBoard";
       }
 
+
       // 파일업로드
+
       MultipartFile uploadFile = board.getUploadFile();
       if(!uploadFile.isEmpty()) {
          String fileName = uploadFile.getOriginalFilename();

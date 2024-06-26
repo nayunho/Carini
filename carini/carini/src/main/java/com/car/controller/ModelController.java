@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/model")
 @SessionAttributes({"user", "pagingInfo"})
 public class ModelController {
-
+   
    @Autowired
    private MemberService memberService;
    @Autowired
@@ -92,7 +92,10 @@ public class ModelController {
       curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
       
       Pageable pageable;
-      
+      System.out.println(filterSize);
+      System.out.println(filterFuel);
+      System.out.println(carSort);
+
       if(carSort.equals("저가순")){
          pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").ascending());
       }else if(carSort.equals("고가순")) {
@@ -144,16 +147,19 @@ public class ModelController {
         model.addAttribute("rp", rowSizePerPage);
         model.addAttribute("tp", totalPageCount);
         model.addAttribute("sw", searchWord);
+        model.addAttribute("fpr", filterMinPrice);
+        model.addAttribute("fph", filterMaxPrice);
+        model.addAttribute("fs", filterSize);
+        model.addAttribute("ff", filterFuel);
+        model.addAttribute("cs", carSort);
        model.addAttribute("carList", pagedResult.getContent());
        model.addAttribute("user", user);
-
-
+       
        return "model/getModelList.html";
    }
    
     @GetMapping("/getModel")
     public String getCar(@RequestParam("carId") int carId, Model model) {
-
        
        Car car = modelService.getCarbyId(carId);
        
@@ -166,7 +172,6 @@ public class ModelController {
        model.addAttribute("car", car);
        model.addAttribute("carBrand", carBrand);
        
-
         return "model/getModel.html";
     }
     
@@ -214,6 +219,5 @@ public class ModelController {
       return "redirect:/model/getModel?carId=" + carId;
     }
    
-
 
 }

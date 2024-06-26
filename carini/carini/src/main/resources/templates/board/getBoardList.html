@@ -10,6 +10,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="/css/boardList.css" />
+	<link rel="stylesheet" href="/css/base.css" />
 	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
 
@@ -17,7 +18,7 @@
 <div id="page-wrapper">
 
 	<!-- Header -->
-	
+	<header th:replace="~{base/base :: main_header}"></header>
 
 	<!-- 우측 플로팅 아이콘 -->
 	<div id="float_icons">
@@ -141,11 +142,7 @@
 		</div>
 
 		<hr style="">
-		<footer style="opacity: 50%;">
-			<!-- Contact -->
-			<h1>@ carini</h1>
-			
-		</footer>
+		<footer th:replace="~{base/base :: main_footer}"></footer>
 	</div>
 	<!-- Scripts -->
 	   	<script src="/js/jquery.min.js"></script>

@@ -28,7 +28,6 @@ public class ModelServiceImpl implements ModelService{
    private CarBrandRepository carBrandRepository;
    
 
-
    @Override
    public long getTotalRowCount(Car car) {
       // TODO Auto-generated method stub
@@ -54,6 +53,7 @@ public class ModelServiceImpl implements ModelService{
    public Page<Car> filterCars(Pageable pageable, Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
       
       // 주어진 조건에 따른 Specification 생성
+
         Specification<Car> spec = createSpecification(filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
         return carRepository.findAll(spec, pageable);
     }
@@ -64,7 +64,7 @@ public class ModelServiceImpl implements ModelService{
       // criteriaBuilder: Predicate(조건)를 생성하는 데 사용되는 빌더 객체.
       // List<Predicate> : 각 필터 조건이 존재하는지 확인하고, 존재할 경우 해당 조건을 Predicates로 추가
       // 모든 Predicate를 AND로 결합하여 Specification을 반환
-
+      
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (filterMinPrice != null) {
@@ -75,18 +75,16 @@ public class ModelServiceImpl implements ModelService{
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("carAvgPrice"), filterMaxPrice));
             }
 
-            if (!"선택안함".equals(filterSize)) {
-                predicates.add(criteriaBuilder.like(root.get("carSize"), "%" + filterSize + "%"));
+            if (!filterFuel.equals("선택안함")) {
+                predicates.add(criteriaBuilder.like(root.get("carFuel"), "%" + filterFuel + "%"));
             }
 
-            if (!"선택안함".equals(filterSize)) {
-                predicates.add(criteriaBuilder.like(root.get("carFuel"), "%" + filterFuel + "%"));
+            if (!filterSize.equals("선택안함")) {
+                predicates.add(criteriaBuilder.like(root.get("carSize"), "%" + filterSize + "%"));
             }
             
             if (searchWord != null) {
-
                predicates.add(criteriaBuilder.like(root.get("carName"), "%" + searchWord + "%"));
-
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
@@ -142,7 +140,6 @@ public class ModelServiceImpl implements ModelService{
        
       return carBrand.get();
    }
-
 
 
 }
