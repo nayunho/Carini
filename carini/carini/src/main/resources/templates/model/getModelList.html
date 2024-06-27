@@ -18,7 +18,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script th:inline="javascript" src="/js/getModelList.js"></script>
 	<link rel="stylesheet" href="/css/getModelList.css">
-	<link rel="stylesheet" href="/css/base.css">
+
 	<style>
 		/* css에서 안 먹어서 따로 기재 */
 		table {
@@ -46,11 +46,11 @@
 		}
 	</style>
 
+
 </head>
 
 <body>
-
-	<header th:replace="~{base/base :: main_header}"></header>
+	<header th:replace="~{base/base :: header}"></header>
 
 	<section class="SubTitle">SELECT_MODEL</section>
 
@@ -357,10 +357,10 @@
 							<td colspan="3" style="text-align: center;">
 								<canvas id="carCombineRadarChart"></canvas>
 								<div style="height: 50px;"></div> <!--간격박스-->
-								<button th:onclick="returnChart()"
+								<a th:onclick="returnChart()"
 									style="font-size: 25px; letter-spacing: 5px; font-weight: 100;">
 									RETURN
-								</button>
+								</a>
 							</td>
 						</tr>
 					</tbody>
@@ -374,6 +374,7 @@
 	<footer th:replace="~{base/base :: footer}"></footer>
 
 </body>
+
 <!-- 메뉴바 Scripts -->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/jquery.dropotron.min.js"></script>

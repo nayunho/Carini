@@ -226,13 +226,18 @@ public class BoardController {
                                  BindingResult bindingResult, HttpSession session) {
        Member user = (Member) session.getAttribute("user");
        
+       
+       
        Board board = boardService.getBoardById(boardId);
+      
        if (board == null) {
+    	   System.out.println("===================");
+           System.out.println(boardId);
            model.addAttribute("msg", "게시글을 찾을 수 없습니다.");
            model.addAttribute("url", "/board/getBoardList");
            return "alert";
        }
-       
+
        if (board.getMemberId().equals(user.getMemberId())) {
            boardValidation.setBoardTitle(board.getBoardTitle());
            boardValidation.setBoardContent(board.getBoardContent());
@@ -274,6 +279,7 @@ public class BoardController {
             throw new RuntimeException("파일 저장 중 오류가 발생했습니다: " + e.getMessage(), e);
          }         
       }
+      
       boardService.updateBoard(board);
       model.addAttribute("msg", "게시글이 수정되었습니다!");
       model.addAttribute("url", "/board/getBoard?boardId=" + board.getBoardId());

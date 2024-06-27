@@ -116,7 +116,6 @@ public class MypageController {
 		session.setAttribute("originalUrl", request.getRequestURI());
 		System.out.println(findmember);
 		model.addAttribute("hiddenuser", findmember);
-	
 		model.addAttribute("inquiry", new Inquiry());
 		return "mypage/mypageview.html";
 	}
@@ -167,7 +166,6 @@ public class MypageController {
 		members.setMemberPw(finduser.getMemberPw());
 		model.addAttribute("Update_InfoFormValidation", finduser);
 		session.setAttribute("showuser", finduser);
-		System.out.println(session.getAttribute("showuser"));
 
 		return "mypage/myinfo_edit.html";
 	}
@@ -403,7 +401,9 @@ public class MypageController {
 			HttpServletRequest request, HttpSession session) {
 
 		Locale locale = localeResolver.resolveLocale(request);
-
+		if(((Member) session.getAttribute("user") == null)) {
+			
+		}
 		Member user = (Member) session.getAttribute("user");
 		bookmark.setCarId(Integer.parseInt(carId));
 		bookmark.setMemberId(user.getMemberId());

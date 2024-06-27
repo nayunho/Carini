@@ -140,7 +140,13 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public Board getBoardById(Long boardId) {
-		return boardRepository.findById(boardId).orElseThrow(() -> new RuntimeException("Board not found"));
+		
+		Optional<Board> board=boardRepository.findById(boardId);
+		if(board.isPresent()) {
+			return board.get();
+		}else {
+			return null;		
+		}
 	}
 
 	
@@ -154,8 +160,6 @@ public class BoardServiceImpl implements BoardService{
 	    if(filename != null && !filename.isEmpty()) {
 	        Path filePath = Paths.get(uploadFolder + filename);
 	        if (Files.deleteIfExists(filePath)) {
-	        	System.out.println("=====================");
-	        	System.out.println(Files.deleteIfExists(filePath));
 	            board.setBoardFilename(null);
 	            boardRepository.save(board);
 	        } else {
