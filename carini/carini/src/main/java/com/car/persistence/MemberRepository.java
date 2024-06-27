@@ -46,7 +46,10 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	Page<Member> findByMemberNicknameContaining(String searchWord, Pageable pageable);
 	Page<Member> findByMemberPhoneNumContaining(String searchWord, Pageable pageable);
 	Page<Member> findByMemberIdContaining(String searchWord, Pageable pageable);
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 
 
 }

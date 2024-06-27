@@ -49,6 +49,7 @@
 					</div>
 				</div>
 
+<<<<<<< HEAD
 				<table>
 					<tr>
 						<td th:text="#{board.write.writer}"></td>
@@ -68,6 +69,18 @@
 						<td colspan="3"><input type="file" name="uploadFile" aria-describedby="uploadFile"
 								aria-label="Upload"></td>
 					</tr>
+=======
+                     <input type="file" name="uploadFile" id="uploadFile" aria-describedby="uploadFile"
+                        aria-label="Upload" />
+                  </div>
+
+                  <div class="change_list" style="gap:10px">
+                     <div style="width: 105px;">
+                        <a th:text="#{board.writing}" onclick="document.forms['boardForm'].submit();"></a>
+                     </div>
+                     <div style="width:85px;">
+                        <a th:text="#{board.list}" th:href="@{/board/getBoardList}" class="btn"></a>
+>>>>>>> origin/main
 
 					<tr>
 						<td colspan="4" th:text="#{board.write.content}"></td>

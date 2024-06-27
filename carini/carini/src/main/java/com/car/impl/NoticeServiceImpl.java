@@ -76,6 +76,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	@Transactional
 	public void updateNotice(Notice notice) {
 		Notice findNotice = noticeRepository.findById(notice.getNoticeId()).get();
@@ -91,6 +92,11 @@ public class NoticeServiceImpl implements NoticeService {
 			}
         }
 		noticeRepository.save(findNotice);
+=======
+	public void updateNotice(Notice notice) {
+		Notice findNotice = noticeRepository.findById(notice.getNoticeId()).get();
+		
+>>>>>>> origin/main
 	}
 	
 	@Override
@@ -106,6 +112,7 @@ public class NoticeServiceImpl implements NoticeService {
 		noticeRepository.deleteById(noticeId);
 		
 	}
+<<<<<<< HEAD
 	
 	private String saveFile(MultipartFile file) throws IOException {
 	    if (file == null || file.isEmpty()) {
@@ -152,6 +159,8 @@ public class NoticeServiceImpl implements NoticeService {
 	        throw new IllegalStateException("삭제할 파일이 없습니다.");
 	    }
 	}
+=======
+>>>>>>> origin/main
 
 
 }

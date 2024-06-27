@@ -347,7 +347,11 @@ public class AdminController {
 	    }
 	    
 	    model.addAttribute("msg", "관리자만 수정이 가능합니다!.");
+<<<<<<< HEAD
 	    model.addAttribute("url", "/admin/boardList");
+=======
+	    model.addAttribute("url", "/admin/updateBoard?boardId=" + board.getBoardId());
+>>>>>>> origin/main
 	    return "alert";
 	}
 	
@@ -358,7 +362,11 @@ public class AdminController {
 		   
 		   if (bindingResult.hasErrors()) {
 	
+<<<<<<< HEAD
 		       return "admin/updateBoard";
+=======
+		       return "board/updateBoard";
+>>>>>>> origin/main
 		    }
 	   
 	   // 파일재업로드
@@ -376,7 +384,11 @@ public class AdminController {
 	   }
 	   boardService.updateBoard(board);
 	   model.addAttribute("msg", "게시글이 수정되었습니다!");
+<<<<<<< HEAD
 	   model.addAttribute("url", "/admin/boardList");
+=======
+	   model.addAttribute("url", "/admin/updateBoard?boardId=" + board.getBoardId());
+>>>>>>> origin/main
 	   return "alert";
 	}
 	
@@ -387,16 +399,76 @@ public class AdminController {
 		  
 		  if(findboard ==null) {
 			  model.addAttribute("msg", "해당 게시물이 존재하지않습니다.");
+<<<<<<< HEAD
 			  model.addAttribute("url", "/admin/boardList");
+=======
+			  model.addAttribute("url", "/board/getBoardList");
+>>>>>>> origin/main
 			  return "alert";
 		  }
 		  
 	   boardService.deleteBoard(findboard);
 	   model.addAttribute("msg", "해당 게시물을 삭제하였숩니다.");
+<<<<<<< HEAD
 		  model.addAttribute("url", "/admin/boardList");
 	   return "alert";
 	}
 	
+=======
+		  model.addAttribute("url", "/board/getBoardList");
+	   return "alert";
+	}
+	
+	// 게시판 파일 다운로드
+	@GetMapping("/board/download")
+	public ResponseEntity<Resource> handleFileDownload(HttpServletRequest req, 
+	      @RequestParam(name = "boardId") Long boardId, @RequestParam(name = "fn") String fn) throws Exception {
+		   req.setCharacterEncoding("utf-8");
+		   String fileName = req.getParameter("fn");
+	    Path filePath = Paths.get(uploadFolder + fileName).toAbsolutePath();
+	    Resource resource = null;
+	    try {
+	        resource = new UrlResource(filePath.toUri());           
+	        if (resource.exists()) {
+	            return ResponseEntity.ok()
+	                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+	                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" 
+	                          + URLEncoder.encode(resource.getFilename(), "utf-8") + "\"")
+	                    .body(resource);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	    } catch (MalformedURLException e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
+	
+	/*
+	  * 파일 삭제
+	  * */
+	@PostMapping("/board/deleteFile/{boardId}")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> deleteFile(@PathVariable(name = "boardId") Long boardId, HttpServletRequest request) {
+	    Map<String, String> response = new HashMap<>();
+	    Locale locale = localeResolver.resolveLocale(request);
+	    try {
+	 	   
+	        boardService.deleteFile(boardId);
+	        response.put("message", messageSource.getMessage("board.filedelete.success", null, locale));
+	        response.put("status", "success");
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	
+	        log.error("게시글 파일 삭제 중 오류 발생: {}", e.getMessage(), e);
+	        response.put("message", messageSource.getMessage("board.filedelete.failure", null, locale));
+	        response.put("status", "error");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	        
+	 	   //throw new BoardDeleteFileException(ErrorCode.BOARD_DELETE,null);
+	    }
+	}
+	
+>>>>>>> origin/main
 	
    /*
     * 공지사항(Notice) 관리 =======================================================================
@@ -471,13 +543,22 @@ public class AdminController {
 			
 			return "admin/updateNotice";
 		}
+<<<<<<< HEAD
 		System.out.println("user.getMemberRole()====>"+user.getMemberRole().toString());
 		model.addAttribute("msg", "관리자만 공지사항 수정이 가능합니다!.");
+=======
+		
+		model.addAttribute("msg", "관리자만 수정이 가능합니다!.");
+>>>>>>> origin/main
 	    model.addAttribute("url", "/admin/noticeList");
 		return "alert";
 	}
 	
+<<<<<<< HEAD
 	// 공지사항 수정
+=======
+	
+>>>>>>> origin/main
 	@PostMapping("/updateNotice")
 	public String updateNotice(Notice notice, @Validated @ModelAttribute("NoticeUpdateFormValidation") NoticeUpdateFormValidation noticeValidation,
 			BindingResult bindingResult, Model model) {
@@ -501,11 +582,16 @@ public class AdminController {
 		}
 		
 		noticeService.updateNotice(notice);
+<<<<<<< HEAD
 		model.addAttribute("msg", "공지사항이 수정되었습니다!");
+=======
+		model.addAttribute("msg", "게시글이 수정되었습니다!");
+>>>>>>> origin/main
 		model.addAttribute("url", "/admin/noticeList");
 		return "alert";
 	}
 	
+<<<<<<< HEAD
 	// 공지사항 작성 폼
 	@GetMapping("insertNotice")
 	public String insertNoticeForm(Notice notice, Model model, HttpSession session) {
@@ -527,6 +613,8 @@ public class AdminController {
 	}
 
 	// 공지사항 작성
+=======
+>>>>>>> origin/main
 	@PostMapping("/insertNotice")
 	public String insertNotice(Notice notice,@Validated @ModelAttribute("NoticeUpdateFormValidation") NoticeUpdateFormValidation noticeValidation,
 			   BindingResult bindingResult, Model model) throws IOException {
@@ -548,11 +636,16 @@ public class AdminController {
 	   
 	   noticeService.insertNotice(notice);
 	   
+<<<<<<< HEAD
 	   model.addAttribute("msg", "공지사항이 작성되었습니다!");
+=======
+	   model.addAttribute("msg", "게시글이 작성되었습니다!");
+>>>>>>> origin/main
 	   model.addAttribute("url", "/admin/noticeList");
 	   return "alert";
 	}
 	
+<<<<<<< HEAD
 	// 공지사항 파일 다운로드
 	@GetMapping("/notice/download")
 	public ResponseEntity<Resource> handleFileDownload(HttpServletRequest req, 
@@ -700,6 +793,8 @@ public class AdminController {
 	
 	
 	
+=======
+>>>>>>> origin/main
 }
 
 

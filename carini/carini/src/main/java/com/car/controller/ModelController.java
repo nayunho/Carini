@@ -96,6 +96,16 @@ public class ModelController {
       System.out.println(filterFuel);
       System.out.println(carSort);
 
+<<<<<<< HEAD
+=======
+		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
+		
+		Pageable pageable;
+		System.out.println(filterSize);
+		System.out.println(filterFuel);
+		System.out.println(carSort);
+
+>>>>>>> origin/main
 		if(carSort.equals("저가순")){
 			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
 		}else if(carSort.equals("고가순")) {
@@ -152,6 +162,7 @@ public class ModelController {
         model.addAttribute("fs", filterSize);
         model.addAttribute("ff", filterFuel);
         model.addAttribute("cs", carSort);
+<<<<<<< HEAD
        model.addAttribute("carList", pagedResult.getContent());
        model.addAttribute("user", user);
        
@@ -172,6 +183,28 @@ public class ModelController {
        model.addAttribute("car", car);
        model.addAttribute("carBrand", carBrand);
        
+=======
+	    model.addAttribute("carList", pagedResult.getContent());
+	    model.addAttribute("user", user);
+	    
+	    return "model/getModelList.html";
+	}
+	
+    @GetMapping("/getModel")
+    public String getCar(@RequestParam("carId") int carId, Model model) {
+    	
+    	Car car = modelService.getCarbyId(carId);
+    	
+    	String[] carName = car.getCarName().strip().split(" ");
+    	String carBrandName = carName[0];
+    	
+    	CarBrand carBrand = modelService.getURLbrBrand(carBrandName);
+    	
+    	
+    	model.addAttribute("car", car);
+    	model.addAttribute("carBrand", carBrand);
+    	
+>>>>>>> origin/main
         return "model/getModel.html";
     }
     
@@ -218,6 +251,10 @@ public class ModelController {
    
       return "redirect:/model/getModel?carId=" + carId;
     }
+<<<<<<< HEAD
    
+=======
+	
+>>>>>>> origin/main
 
 }

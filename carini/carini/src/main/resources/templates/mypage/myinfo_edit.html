@@ -34,8 +34,83 @@
 				<img src="/img/큐알.png" alt="큐알">
 			</a>
 
+<<<<<<< HEAD
 		</div>
 
+=======
+	  
+      <!-- Main -->
+      <div class="wrapper style1">
+         <div class="container">
+            <article  id="main" class="special" style="background-color: white;">
+               <div>
+                  <table id="info_box">
+					<p class="Board_text">_Edit_My_Inforamtion</p>
+					
+					<form th:action="${session.user.memberSocial == '회원' ? '/mypage/myinfo/updatenickname' : '/mypage/myinfo/updatenicknameSocial'}" method="post">
+						
+						<tr>
+					        <th th:text="#{info.nickname}"></th>
+					        <td id="nicknameCell" th:if="${session.user.memberSocial == '회원'}">
+					            <input type="text" name="memberNickname" th:value="${session.user.memberNickname}">
+					            <button class="pencil-button" id="editNickname" type='submit'>
+					                <img th:src="@{/img/edit_icon.png}" alt="edit icon" style="height: 15px; width: 15px;">
+					            </button>
+					        </td>
+					        <td th:unless="${session.user.memberSocial == '회원'}">
+					            <input type="text" name="memberSocialNickname" th:value="${session.user.memberSocialNickname}">
+					            <button class="pencil-button" id="editNickname" type='submit'>
+					                <img th:src="@{/img/edit_icon.png}" alt="edit icon" style="height: 15px; width: 15px;">
+					            </button>
+					        </td>
+					    </tr>
+					</form>
+                     <form th:action="@{/mypage/myinfo/updateAll}" method="post">
+                        <tr>
+                           <th th:text="#{info.id}"></th>
+						   <input name="memberId" th:value="${session.user.memberId}" type="hidden" />
+                           <td th:if="${session.showuser.memberSocial == '회원'}" ><span  th:text="${session.showuser.memberId}"></span></td>
+                           <td th:unless="${session.showuser.memberSocial == '회원'}"><span th:text="${session.showuser.memberEmail}" readonly>이메일</span></td>
+                        </tr>
+						<tr>
+                           <th th:text="#{info.pw}"></th>
+                           <td th:if="${session.user.memberSocial == '회원'}">
+                              <div class="password-input-container" style="margin-left: 27px;">
+                                 <input type="password"  name="memberPw" th:value="${session.showuser.memberPw}" placeholder="memberPw"/>
+                                  &nbsp;<i class="fa fa-eye fa-lg"></i>
+                              </div>
+                           </td>
+                           <td th:unless="${session.user.memberSocial == '회원'}"><span th:text="${session.showuser.memberPw}" readonly></span></td>
+                        </tr>
+                        <tr>
+                           <th th:text="#{info.name}"></th>
+                           <td th:if="${session.user.memberSocial == '회원'}"><input type="text" name="memberName" th:value="${session.showuser.memberName}" placeholder="memberName" /></td>
+                           <td th:unless="${session.user.memberSocial == '회원'}"><span th:text="${session.showuser.memberName}" readonly></span></td>
+                        </tr>
+                        <tr>
+                           <th th:text="#{info.email}"></th>
+                           <td th:if="${session.user.memberSocial == '회원'}"><input type="email" name="memberEmail" th:value="${session.showuser.memberEmail}" placeholder="memberEmail"/></td>
+                           <td th:unless="${session.user.memberSocial == '회원'}"><span th:text="${session.showuser.memberEmail}" readonly></span></td>
+                        </tr>
+                        <tr>
+                           <th th:text="#{info.phone}"></th>
+                           <td th:if="${session.user.memberSocial == '회원'}"><input type="tel" name="memberPhoneNum" th:value="${session.showuser.memberPhoneNum}" placeholder="memberPhoneNum" /></td>
+                           <td th:unless="${session.user.memberSocial == '회원'}"><span th:text="${session.showuser.memberPhoneNum}" readonly></span></td>
+                        </tr>
+					</table>
+					</div>
+					<div style="padding: 10%;">
+						<input type="submit" id="edit_save_td" th:value="#{info.btn.edit}" style="padding: 10px 20px;">
+                </form>
+               
+               
+			   </article>
+			   <form th:action="@{/mypage/myinfo/delete}" method="post">
+			                     <button id="member_quit" th:text="#{info.btn.unsubscribe}"></button>
+			   </form>
+         </div>
+      </div>
+>>>>>>> origin/main
 
 		<!-- Main -->
 		<div class="wrapper style1">
