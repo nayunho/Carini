@@ -69,9 +69,7 @@ body {
 body.is-preload *,
 body.is-preload :after,
 body.is-preload :before {
-   -moz-animation: none !important;
-   -webkit-animation: none !important;
-   -ms-animation: none !important;
+  
    /*
    animation: none !important;
    -moz-transition: none !important;
@@ -260,19 +258,26 @@ ul.icons li a:hover {
    font-weight: 700;
    text-shadow: 9px 9px 1px gray;
    font-family: Verdana, Geneva, Tahoma, sans-serif;
-   -webkit-text-stroke: .4px #736d77
+   -webkit-text-stroke: 0.4px #736d77
 }
 
-.carini-hover {
-   display: block;
-   margin-top: 40px
+.header_carini:hover {
+   color: #fff;
+   font-size: 6rem;
+   font-weight: 700;
+   text-shadow: 9px 9px 1px gray;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   -webkit-text-stroke: 0.4px #736d77;
+    display: block;
+   margin-top: 40px;
 }
+
 
 .carini-hover:hover {
    color: #000 !important;
    -webkit-text-stroke: .9px #fff;
    text-shadow: 9px 9px 1px #f5f5f5;
-   transition: none
+
 }
 
 #sidebar {
@@ -634,7 +639,6 @@ footer img {
    color: #fff !important;
    background-color: #000 !important;
    border-radius: .5rem;
-<<<<<<< HEAD
    padding: 1.5%
 }
 
@@ -647,7 +651,5 @@ footer img {
    -webkit-transition: none !important;
    -ms-transition: none !important;
    transition: none !important
-=======
 
->>>>>>> a15406a02a3a9e9c65196ff8c015a0c9bfe7389d
 }
