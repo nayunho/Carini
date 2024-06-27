@@ -165,10 +165,11 @@ public class BoardController {
      * */
    @GetMapping("/board/getBoard")
    public String getBoard(Board board, Model model, HttpSession session) {
-      Member user = (Member) session.getAttribute("user");
+     
+	   Member user = (Member) session.getAttribute("user");
        
       model.addAttribute("board", boardService.getBoard(board, user.getMemberId())); // 여기서 조회수 증가
-      
+    
       return "board/getBoard";
    }
    
@@ -255,7 +256,9 @@ public class BoardController {
 		   BindingResult bindingResult, Model model)  {
 	   
 	   if (bindingResult.hasErrors()) {
+		   board = boardService.getBoardById(board.getBoardId());
 
+		   model.addAttribute("board", board);
 	       return "board/updateBoard";
 	    }
       
@@ -272,6 +275,7 @@ public class BoardController {
             throw new RuntimeException("파일 저장 중 오류가 발생했습니다: " + e.getMessage(), e);
          }         
       }
+      
       boardService.updateBoard(board);
       model.addAttribute("msg", "게시글이 수정되었습니다!");
       model.addAttribute("url", "/board/getBoard?boardId=" + board.getBoardId());
@@ -351,21 +355,3 @@ public class BoardController {
    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

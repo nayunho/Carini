@@ -50,45 +50,54 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/model")
 @SessionAttributes({"user", "pagingInfo"})
 public class ModelController {
-	
-	@Autowired
-	private MemberService memberService;
-	@Autowired
-	private ModelService modelService;
-	@Autowired
-	private BookMarkService bookMarkService;
-	
-	@Autowired
-	private BookMarkRepository bookMarkRepository;
+   
+   @Autowired
+   private MemberService memberService;
+   @Autowired
+   private ModelService modelService;
+   @Autowired
+   private BookMarkService bookMarkService;
+   
+   @Autowired
+   private BookMarkRepository bookMarkRepository;
 
-	@Autowired
-	private LocaleResolver localeResolver;
-	
-	public PagingInfo pagingInfo = new PagingInfo();
-	
-	@ModelAttribute("member")
-	public Member setMember() {
-		return new Member(); // 기본 Member 객체를 세션에 저장
-	}
-	
-	/*
-	 * 모델 목록보기
-	 * */
+   @Autowired
+   private LocaleResolver localeResolver;
+   
+   public PagingInfo pagingInfo = new PagingInfo();
+   
+   @ModelAttribute("member")
+   public Member setMember() {
+      return new Member(); // 기본 Member 객체를 세션에 저장
+   }
+   
+   /*
+    * 모델 목록보기
+    * */
 
-	@GetMapping("/getModelList")
-	public String getBoardList(Model model, 
-	       @RequestParam(name = "curPage", defaultValue = "0") int curPage,
-	       @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
-	       @RequestParam(name = "filterMinPrice", defaultValue = "0") Long filterMinPrice,
-	       @RequestParam(name = "filterMaxPrice", defaultValue = "1000000000") Long filterMaxPrice,
-	       @RequestParam(name = "filterSize", defaultValue = "선택안함") String filterSize,
-	       @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
-	       @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
-	       @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
-	       HttpSession session) {
+   @GetMapping("/getModelList")
+   public String getBoardList(Model model, 
+          @RequestParam(name = "curPage", defaultValue = "0") int curPage,
+          @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
+          @RequestParam(name = "filterMinPrice", defaultValue = "0") Long filterMinPrice,
+          @RequestParam(name = "filterMaxPrice", defaultValue = "1000000000") Long filterMaxPrice,
+          @RequestParam(name = "filterSize", defaultValue = "선택안함") String filterSize,
+          @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
+          @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
+          @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
+          HttpSession session) {
 
-		Member user = (Member) session.getAttribute("user");
+      Member user = (Member) session.getAttribute("user");
 
+      curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
+      
+      Pageable pageable;
+      System.out.println(filterSize);
+      System.out.println(filterFuel);
+      System.out.println(carSort);
+
+<<<<<<< HEAD
+=======
 		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
 		
 		Pageable pageable;
@@ -96,50 +105,51 @@ public class ModelController {
 		System.out.println(filterFuel);
 		System.out.println(carSort);
 
+>>>>>>> origin/main
 		if(carSort.equals("저가순")){
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").ascending());
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
 		}else if(carSort.equals("고가순")) {
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").descending());
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
 		}else {
 			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
 		}
 	    
 	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
 
-	    // 즐겨찾기 추가
-	    for (Car car1 : pagedResult) {
-	    	boolean isBookmarked = false;
-	    	if (user != null) {
-	    		isBookmarked = bookMarkService.isBookmarkedByMember(user.getMemberId(), car1.getCarId());
-	    	}
-	        car1.setBookmarked(isBookmarked);
+       // 즐겨찾기 추가
+       for (Car car1 : pagedResult) {
+          boolean isBookmarked = false;
+          if (user != null) {
+             isBookmarked = bookMarkService.isBookmarkedByMember(user.getMemberId(), car1.getCarId());
+          }
+           car1.setBookmarked(isBookmarked);
 
-	    }
+       }
 
 
-	    int totalRowCount  = (int)pagedResult.getNumberOfElements();
-	    int totalPageCount = pagedResult.getTotalPages();
-	    int pageSize       = pagingInfo.getPageSize();
-	    int startPage      = (curPage / pageSize) * pageSize + 1;
-	    int endPage        = startPage + pageSize - 1;
-	    endPage = endPage > totalPageCount ? (totalPageCount > 0 ? totalPageCount : 1) : endPage;
-	    
+       int totalRowCount  = (int)pagedResult.getNumberOfElements();
+       int totalPageCount = pagedResult.getTotalPages();
+       int pageSize       = pagingInfo.getPageSize();
+       int startPage      = (curPage / pageSize) * pageSize + 1;
+       int endPage        = startPage + pageSize - 1;
+       endPage = endPage > totalPageCount ? (totalPageCount > 0 ? totalPageCount : 1) : endPage;
+       
 
-	    pagingInfo.setCurPage(curPage);
-	    pagingInfo.setTotalRowCount(totalRowCount);
-	    pagingInfo.setTotalPageCount(totalPageCount);
-	    pagingInfo.setStartPage(startPage);
-	    pagingInfo.setEndPage(endPage);
-	    pagingInfo.setCarMinPrice(filterMinPrice);
-	    pagingInfo.setCarMaxPrice(filterMaxPrice);
-	    pagingInfo.setCarSize(filterSize);
-	    pagingInfo.setCarFuel(filterFuel);
-	    pagingInfo.setSearchWord(searchWord);
-	    pagingInfo.setRowSizePerPage(rowSizePerPage);
-	    
-	    model.addAttribute("pagingInfo", pagingInfo);
-	    model.addAttribute("pagedResult", pagedResult);
-	    model.addAttribute("pageable", pageable);
+       pagingInfo.setCurPage(curPage);
+       pagingInfo.setTotalRowCount(totalRowCount);
+       pagingInfo.setTotalPageCount(totalPageCount);
+       pagingInfo.setStartPage(startPage);
+       pagingInfo.setEndPage(endPage);
+       pagingInfo.setCarMinPrice(filterMinPrice);
+       pagingInfo.setCarMaxPrice(filterMaxPrice);
+       pagingInfo.setCarSize(filterSize);
+       pagingInfo.setCarFuel(filterFuel);
+       pagingInfo.setSearchWord(searchWord);
+       pagingInfo.setRowSizePerPage(rowSizePerPage);
+       
+       model.addAttribute("pagingInfo", pagingInfo);
+       model.addAttribute("pagedResult", pagedResult);
+       model.addAttribute("pageable", pageable);
         model.addAttribute("cp", curPage);
         model.addAttribute("sp", startPage);
         model.addAttribute("ep", endPage);
@@ -152,6 +162,28 @@ public class ModelController {
         model.addAttribute("fs", filterSize);
         model.addAttribute("ff", filterFuel);
         model.addAttribute("cs", carSort);
+<<<<<<< HEAD
+       model.addAttribute("carList", pagedResult.getContent());
+       model.addAttribute("user", user);
+       
+       return "model/getModelList.html";
+   }
+   
+    @GetMapping("/getModel")
+    public String getCar(@RequestParam("carId") int carId, Model model) {
+       
+       Car car = modelService.getCarbyId(carId);
+       
+       String[] carName = car.getCarName().strip().split(" ");
+       String carBrandName = carName[0];
+       
+       CarBrand carBrand = modelService.getURLbrBrand(carBrandName);
+       
+       
+       model.addAttribute("car", car);
+       model.addAttribute("carBrand", carBrand);
+       
+=======
 	    model.addAttribute("carList", pagedResult.getContent());
 	    model.addAttribute("user", user);
 	    
@@ -172,22 +204,23 @@ public class ModelController {
     	model.addAttribute("car", car);
     	model.addAttribute("carBrand", carBrand);
     	
+>>>>>>> origin/main
         return "model/getModel.html";
     }
     
     
-	/*
-	 * 차 비교
-	 * */   
+   /*
+    * 차 비교
+    * */   
     @GetMapping("/getCompareModel")
     @ResponseBody
     public Car getCompareModel(@RequestParam("carId") int carId) {
-    	
-    	Car car1 = modelService.getCarbyId(carId);
-    	
-    	return car1;
+       
+       Car car1 = modelService.getCarbyId(carId);
+       
+       return car1;
     }
-	
+   
     @GetMapping("/compare")
     @ResponseBody
     public Map<String, Car> compareCars(@RequestParam("carId1") int carId1, @RequestParam("carId2") int carId2) {
@@ -206,18 +239,22 @@ public class ModelController {
      * */
     @PostMapping("/bookmark/{carId}")
     public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
-    	
-    	Locale locale = localeResolver.resolveLocale(request);
+       
+       Locale locale = localeResolver.resolveLocale(request);
 
-		Member user = (Member) session.getAttribute("user");
+      Member user = (Member) session.getAttribute("user");
 
-		bookmark.setCarId(Integer.parseInt(carId));
-		bookmark.setMemberId(user.getMemberId());
-		
-		bookMarkService.insertMember(bookmark,user);
-	
-		return "redirect:/model/getModel?carId=" + carId;
+      bookmark.setCarId(Integer.parseInt(carId));
+      bookmark.setMemberId(user.getMemberId());
+      
+      bookMarkService.insertMember(bookmark,user);
+   
+      return "redirect:/model/getModel?carId=" + carId;
     }
+<<<<<<< HEAD
+   
+=======
 	
+>>>>>>> origin/main
 
 }

@@ -23,76 +23,78 @@ import jakarta.transaction.Transactional;
 public class BookMarkServiceImpl implements BookMarkService{
 
 
-	@Autowired
-	private BookMarkRepository bookMarkRepository;
-	
-	@Autowired
-	private CarRepository carRepository;
-	
-	@Autowired
-	private BoardRepository boardRepository;
-	
-	/* 멤버 아이디로 차데이터(번호) 추출 */
-	@Override
-	public List<Bookmark> findAllBookmarkCar(String id) {
-		
-		List<Bookmark> BookmarkCarList = bookMarkRepository.findBookmarkByMemberId(id);
-		
-		return BookmarkCarList;
-	}
+   @Autowired
+   private BookMarkRepository bookMarkRepository;
+   
+   @Autowired
+   private CarRepository carRepository;
+   
+   @Autowired
+   private BoardRepository boardRepository;
+   
+   /* 멤버 아이디로 차데이터(번호) 추출 */
+   @Override
+   public List<Bookmark> findAllBookmarkCar(String id) {
+      
+      List<Bookmark> BookmarkCarList = bookMarkRepository.findBookmarkByMemberId(id);
+      
+      return BookmarkCarList;
+   }
 
-	/* 차데이터(번호)로 bookmark 리스트 추출 */
-	@Override
-	public List<Car> findAllCar(List<Bookmark> BookmarkCarList) {
-		
-		List<Car> BookmarkList = new ArrayList<>();
-		for(Bookmark bookmark : BookmarkCarList) {
-			Optional<Car> car=carRepository.findById(bookmark.getCarId());
+   /* 차데이터(번호)로 bookmark 리스트 추출 */
+   @Override
+   public List<Car> findAllCar(List<Bookmark> BookmarkCarList) {
+      
+      List<Car> BookmarkList = new ArrayList<>();
+      for(Bookmark bookmark : BookmarkCarList) {
+         Optional<Car> car=carRepository.findById(bookmark.getCarId());
 
-			BookmarkList.add(car.get());
-		}
-		System.out.println(BookmarkList);
-		return BookmarkList;
-	}
+         BookmarkList.add(car.get());
+      }
+      System.out.println(BookmarkList);
+      return BookmarkList;
+   }
 
-	/*memberId와 carId에 대해 북마크가 존재하는지를 확인*/
-	@Override
-	public boolean isBookmarkedByMember(String memberId, int carId) {
+   /*memberId와 carId에 대해 북마크가 존재하는지를 확인*/
+   @Override
+   public boolean isBookmarkedByMember(String memberId, int carId) {
         return bookMarkRepository.existsByMemberIdAndCarId(memberId, carId);
     }
 
-	/* bookmark 삭제 */
-	@Override
-	@Transactional
-	public void findBookmarkByCarDelete(int carId, String memberId) {
-		
-		bookMarkRepository.deleteByBookmarkIdAndMemberId(carId, memberId);
-	}
 
-	@Override
-	@Transactional
-	public void insertMember(Bookmark bookmark,Member user) {
-		
-		List<Bookmark> BookmarkList =bookMarkRepository.findAllByMemberId(user.getMemberId());
-		
-		if(BookmarkList.isEmpty()) {
-			bookMarkRepository.save(bookmark);
-		}
-		
-		for(Bookmark bookmarkone : BookmarkList) {
-			if(bookmarkone.getBookmarkNum() == bookmark.getBookmarkNum()) {
-			}else {
-				bookMarkRepository.save(bookmark);
-			}
-		}
+   /* bookmark 삭제 */
+   @Override
+   @Transactional
+   public void findBookmarkByCarDelete(int carId, String memberId) {
+      
+      bookMarkRepository.deleteByBookmarkIdAndMemberId(carId, memberId);
+   }
 
-	}
+   @Override
+   @Transactional
+   public void insertMember(Bookmark bookmark,Member user) {
+      
+      List<Bookmark> BookmarkList =bookMarkRepository.findAllByMemberId(user.getMemberId());
+      
+      if(BookmarkList.isEmpty()) {
+         bookMarkRepository.save(bookmark);
+      }
+      
+      for(Bookmark bookmarkone : BookmarkList) {
+         if(bookmarkone.getBookmarkNum() == bookmark.getBookmarkNum()) {
+         }else {
+            bookMarkRepository.save(bookmark);
+         }
+      }
 
-	@Override
-	public Car selectCar(int carId) {
-		Optional<Car> car=carRepository.findById(carId);
-		return car.get();
-	}
+   }
+
+   @Override
+   public Car selectCar(int carId) {
+      Optional<Car> car=carRepository.findById(carId);
+      return car.get();
+   }
+
 
 
 }

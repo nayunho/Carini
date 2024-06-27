@@ -9,17 +9,18 @@ import com.car.dto.Car;
 import com.car.dto.Member;
 public interface BookMarkService {
 
-	List<Bookmark> findAllBookmarkCar(String id);
+   List<Bookmark> findAllBookmarkCar(String id);
 
-	List<Car> findAllCar(List<Bookmark> bookmarkCar_ID);
+   List<Car> findAllCar(List<Bookmark> bookmarkCar_ID);
 
-	boolean isBookmarkedByMember(String memberId, int carId);
-	
-	void findBookmarkByCarDelete(int carId, String member_id);
+   boolean isBookmarkedByMember(String memberId, int carId);
+   
+   void findBookmarkByCarDelete(int carId, String member_id);
 
-	void insertMember(Bookmark bookmark, Member user);
+   void insertMember(Bookmark bookmark, Member user);
 
-	Car selectCar(int carId);
 
-	
+   Car selectCar(int carId);
+
+   
 }

@@ -21,29 +21,41 @@ import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ModelServiceImpl implements ModelService{
-	
-	@Autowired
-	private CarRepository carRepository;
-	@Autowired
-	private CarBrandRepository carBrandRepository;
-	
+   
+   @Autowired
+   private CarRepository carRepository;
+   @Autowired
+   private CarBrandRepository carBrandRepository;
+   
 
-	@Override
-	public long getTotalRowCount(Car car) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+   @Override
+   public long getTotalRowCount(Car car) {
+      // TODO Auto-generated method stub
+      return 0;
+   }
 
-	@Override
-	public List<Car> getAllCarList() {
-		List<Car> car = carRepository.findAll();
-		System.out.println(car);
-		return car;
-	}
+   @Override
+   public List<Car> getAllCarList() {
+      List<Car> car = carRepository.findAll();
+      System.out.println(car);
+      return car;
+   }
 
-	@Override
-	public Car getCarbyId(int carId) {
+   @Override
+   public Car getCarbyId(int carId) {
 
+      Car car = carRepository.findById(carId).get();
+      
+      return car;
+   }
+   
+   @Override
+   public Page<Car> filterCars(Pageable pageable, Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
+      
+      // 주어진 조건에 따른 Specification 생성
+
+<<<<<<< HEAD
+=======
 		Car car = carRepository.findById(carId).get();
 		
 		return car;
@@ -54,17 +66,18 @@ public class ModelServiceImpl implements ModelService{
 		
 		// 주어진 조건에 따른 Specification 생성
 
+>>>>>>> origin/main
         Specification<Car> spec = createSpecification(filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
         return carRepository.findAll(spec, pageable);
     }
-	
-	private Specification<Car> createSpecification(Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
-		// root: 조회할 엔티티의 루트를 나타내며, 엔티티의 속성에 접근할 수 있음.
-		// query: 쿼리 객체로, 쿼리 자체를 나타냄. select, where 등의 조건을 설정할 수 있음.
-		// criteriaBuilder: Predicate(조건)를 생성하는 데 사용되는 빌더 객체.
-		// List<Predicate> : 각 필터 조건이 존재하는지 확인하고, 존재할 경우 해당 조건을 Predicates로 추가
-		// 모든 Predicate를 AND로 결합하여 Specification을 반환
-		
+   
+   private Specification<Car> createSpecification(Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
+      // root: 조회할 엔티티의 루트를 나타내며, 엔티티의 속성에 접근할 수 있음.
+      // query: 쿼리 객체로, 쿼리 자체를 나타냄. select, where 등의 조건을 설정할 수 있음.
+      // criteriaBuilder: Predicate(조건)를 생성하는 데 사용되는 빌더 객체.
+      // List<Predicate> : 각 필터 조건이 존재하는지 확인하고, 존재할 경우 해당 조건을 Predicates로 추가
+      // 모든 Predicate를 AND로 결합하여 Specification을 반환
+      
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (filterMinPrice != null) {
@@ -84,14 +97,14 @@ public class ModelServiceImpl implements ModelService{
             }
             
             if (searchWord != null) {
-            	predicates.add(criteriaBuilder.like(root.get("carName"), "%" + searchWord + "%"));
+               predicates.add(criteriaBuilder.like(root.get("carName"), "%" + searchWord + "%"));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
-	
-	@Override
-	public void addCarToComparison(int carId, HttpSession session) {
+   
+   @Override
+   public void addCarToComparison(int carId, HttpSession session) {
         List<Car> comparisonCars = (List<Car>) session.getAttribute("comparisonCars");
         if (comparisonCars == null) {
             comparisonCars = new ArrayList<>();
@@ -104,9 +117,9 @@ public class ModelServiceImpl implements ModelService{
             session.setAttribute("comparisonCars", comparisonCars);
         }
         
-	}
-	
-	@Override
+   }
+   
+   @Override
     public void removeCarFromComparison(int position, HttpSession session) {
         List<Integer> selectedCarIds = (List<Integer>) session.getAttribute("selectedCarIds");
         if (selectedCarIds != null && position >= 0 && position < selectedCarIds.size()) {
@@ -114,8 +127,8 @@ public class ModelServiceImpl implements ModelService{
         }
         session.setAttribute("selectedCarIds", selectedCarIds);
     }
-	
-	@Override
+   
+   @Override
     public List<Car> getComparisonCars(HttpSession session) {
         List<Integer> selectedCarIds = (List<Integer>) session.getAttribute("selectedCarIds");
         if (selectedCarIds == null || selectedCarIds.isEmpty()) {
@@ -131,6 +144,17 @@ public class ModelServiceImpl implements ModelService{
     }
     
     @Override
+<<<<<<< HEAD
+   public CarBrand getURLbrBrand(String carBrandName) {
+       Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
+      
+       if(!carBrand.isPresent()) {
+          return null;
+       }
+       
+      return carBrand.get();
+   }
+=======
 	public CarBrand getURLbrBrand(String carBrandName) {
     	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
 		
@@ -140,6 +164,7 @@ public class ModelServiceImpl implements ModelService{
     	
 		return carBrand.get();
 	}
+>>>>>>> origin/main
 
 
 }

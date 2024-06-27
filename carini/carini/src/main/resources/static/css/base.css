@@ -69,14 +69,14 @@ body {
 body.is-preload *,
 body.is-preload :after,
 body.is-preload :before {
-   -moz-animation: none !important;
-   -webkit-animation: none !important;
-   -ms-animation: none !important;
+  
+   /*
    animation: none !important;
    -moz-transition: none !important;
    -webkit-transition: none !important;
    -ms-transition: none !important;
    transition: none !important
+   */
 }
 
 h1,
@@ -118,10 +118,12 @@ a {
    color: inherit;
    border-radius: .5rem;
    text-decoration: none;
+   /*
    -moz-transition: background-color .35s ease-in-out, color .35s ease-in-out, border-bottom-color .35s ease-in-out;
    -webkit-transition: background-color .35s ease-in-out, color .35s ease-in-out, border-bottom-color .35s ease-in-out;
    -ms-transition: background-color .35s ease-in-out, color .35s ease-in-out, border-bottom-color .35s ease-in-out;
    transition: background-color .35s ease-in-out, color .35s ease-in-out, border-bottom-color .35s ease-in-out
+   */
 }
 
 a:hover {
@@ -235,25 +237,7 @@ ul.icons li a:hover {
    color: #ef8376
 }
 
-form ::-webkit-input-placeholder {
-   color: #555 !important
-}
 
-form :-moz-placeholder {
-   color: #555 !important
-}
-
-form ::-moz-placeholder {
-   color: #555 !important
-}
-
-form :-ms-input-placeholder {
-   color: #555 !important
-}
-
-form ::-moz-focus-inner {
-   border: 0
-}
 
 #header {
    position: relative;
@@ -274,19 +258,26 @@ form ::-moz-focus-inner {
    font-weight: 700;
    text-shadow: 9px 9px 1px gray;
    font-family: Verdana, Geneva, Tahoma, sans-serif;
-   -webkit-text-stroke: .4px #736d77
+   -webkit-text-stroke: 0.4px #736d77
 }
 
-.carini-hover {
-   display: block;
-   margin-top: 40px
+.header_carini:hover {
+   color: #fff;
+   font-size: 6rem;
+   font-weight: 700;
+   text-shadow: 9px 9px 1px gray;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   -webkit-text-stroke: 0.4px #736d77;
+    display: block;
+   margin-top: 40px;
 }
+
 
 .carini-hover:hover {
    color: #000 !important;
    -webkit-text-stroke: .9px #fff;
    text-shadow: 9px 9px 1px #f5f5f5;
-   transition: none
+
 }
 
 #sidebar {
@@ -498,10 +489,10 @@ footer {
    border-radius: .5em;
    padding: .85em;
    border: solid 1px transparent;
-   -moz-transition: color .35s ease-in-out, border-color .35s ease-in-out;
+   /*-moz-transition: color .35s ease-in-out, border-color .35s ease-in-out;
    -webkit-transition: color .35s ease-in-out, border-color .35s ease-in-out;
    -ms-transition: color .35s ease-in-out, border-color .35s ease-in-out;
-   transition: color .35s ease-in-out, border-color .35s ease-in-out
+   transition: color .35s ease-in-out, border-color .35s ease-in-out*/
 }
 
 #nav>ul>li>a {
@@ -548,10 +539,11 @@ footer {
    display: block;
    border: 0;
    padding: .5em 0 .5em 0;
+   /*
    -moz-transition: color .35s ease-in-out;
    -webkit-transition: color .35s ease-in-out;
    -ms-transition: color .35s ease-in-out;
-   transition: color .35s ease-in-out
+   transition: color .35s ease-in-ou*/
 }
 
 #content>hr {
@@ -648,4 +640,16 @@ footer img {
    background-color: #000 !important;
    border-radius: .5rem;
    padding: 1.5%
+}
+
+* {
+   -moz-animation: none !important;
+   -webkit-animation: none !important;
+   -ms-animation: none !important;
+   animation: none !important;
+   -moz-transition: none !important;
+   -webkit-transition: none !important;
+   -ms-transition: none !important;
+   transition: none !important
+
 }
