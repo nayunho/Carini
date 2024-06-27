@@ -96,15 +96,15 @@ public class ModelController {
       System.out.println(filterFuel);
       System.out.println(carSort);
 
-      if(carSort.equals("저가순")){
-         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").ascending());
-      }else if(carSort.equals("고가순")) {
-         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carMinPrice").descending());
-      }else {
-         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
-      }
-       
-       Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
+		if(carSort.equals("저가순")){
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
+		}else if(carSort.equals("고가순")) {
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
+		}else {
+			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
+		}
+	    
+	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
 
        // 즐겨찾기 추가
        for (Car car1 : pagedResult) {

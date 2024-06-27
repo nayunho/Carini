@@ -72,9 +72,15 @@ main {
 /* form */
 
 form {
+<<<<<<< HEAD
 	display: flex;
 	align-items: center;
 	justify-content: center;
+=======
+   display: flex;
+   align-items: center;
+   justify-content: center;
+>>>>>>> a15406a02a3a9e9c65196ff8c015a0c9bfe7389d
     flex-direction: column;
     width: 100%;
 }
@@ -338,6 +344,7 @@ a.Board-hover:hover {
 
 select:hover {
     border: 2px solid rgb(170, 170, 170);
+<<<<<<< HEAD
 }
 
 
@@ -345,3 +352,6 @@ select:hover {
 
 
 
+=======
+}
+>>>>>>> a15406a02a3a9e9c65196ff8c015a0c9bfe7389d
