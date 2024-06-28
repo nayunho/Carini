@@ -105,7 +105,7 @@ public class MypageController {
          @ModelAttribute("InquiryWriteValidation") InquiryWriteValidation InquiryValidation) {
 
       Member user = (Member) session.getAttribute("user");
-
+      System.out.println(session.getAttribute("user"));
       Member findmember = memberService.findMember(user.getMemberId());
       findmember.setMemberPw(user.getMemberNickname());
       findmember.setMemberPw("*****");

@@ -1,4 +1,4 @@
-// My_page.html에서 닉네임 빠르게 수정하는 코드입니다.
+/*// My_page.html에서 닉네임 빠르게 수정하는 코드입니다.
 function editNickname() {
     // 닉네임 셀을 가져옵니다.
     var nicknameCell = document.getElementById('nicknameCell');
@@ -207,3 +207,4 @@ function goToPage(pageNumber) {
 
 // 초기 렌더링
 document.addEventListener('DOMContentLoaded', renderBoard);
+*/
