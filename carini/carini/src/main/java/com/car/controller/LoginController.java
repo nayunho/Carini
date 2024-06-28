@@ -75,7 +75,7 @@ public class LoginController {
 		// session이 null이 아니라는건 기존에 세션이 존재했었다는 뜻이므로
 		// 세션이 null이 아니라면 session.invalidate()로 세션 삭제해주기.
 		if (session != null) {
-			session.removeAttribute("user");
+			session.invalidate();
 			System.out.println("세션이 무효화되었습니다.");
 		} else {
 			System.out.println("세션이 존재하지 않습니다.");
@@ -92,7 +92,6 @@ public class LoginController {
 	public String firstHome() {
 		return "homepage/first_home";
 	}
-
 	/*
 	 * 회원가입 view
 	 */
@@ -235,7 +234,6 @@ public class LoginController {
 
 	/*
 	 * 로그아웃
-	 
 	@PostMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		// 세션을 삭제
