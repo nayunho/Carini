@@ -89,12 +89,16 @@ public class BookMarkServiceImpl implements BookMarkService{
 
    }
 
-   @Override
-   public Car selectCar(int carId) {
-      Optional<Car> car=carRepository.findById(carId);
-      return car.get();
-   }
-
+	@Override
+	public Car selectCar(int carId) {
+		Optional<Car> car=carRepository.findById(carId);
+		return car.get();
+	}
+	
+	@Override
+	public int countBookmarkById(String memberId) {
+		return bookMarkRepository.getBookmarkCount(memberId);
+	}
 
 
 }

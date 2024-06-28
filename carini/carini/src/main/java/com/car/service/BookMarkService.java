@@ -19,8 +19,8 @@ public interface BookMarkService {
 
    void insertMember(Bookmark bookmark, Member user);
 
-
    Car selectCar(int carId);
 
-   
+   int countBookmarkById(String memberId);
+
 }
