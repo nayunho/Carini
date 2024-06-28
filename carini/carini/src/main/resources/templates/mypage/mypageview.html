@@ -47,214 +47,214 @@
             cursor: pointer;
         }
     </style>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
        var temp = 0; // 세션에서 temp 값 가져오기
-	   console.log(temp);
-	   function pop() {
-	       $.ajax({
-	           type: "GET",
-	           url: "/inquiry/inquiryList",
-	           success: function(response) {
-	               if (!response.success) {
-	                   alert(response.message);
-	                   window.location.href = response.redirectUrl;
-	               } else {
-	                   var inquiries = response.inquirys;
-	                   var qnaUl = $('#qna_ul');
-	                   qnaUl.empty(); // 기존 내용 삭제
+      console.log(temp);
+      function pop() {
+          $.ajax({
+              type: "GET",
+              url: "/inquiry/inquiryList",
+              success: function(response) {
+                  if (!response.success) {
+                      alert(response.message);
+                      window.location.href = response.redirectUrl;
+                  } else {
+                      var inquiries = response.inquirys;
+                      var qnaUl = $('#qna_ul');
+                      qnaUl.empty(); // 기존 내용 삭제
 
-	                   for (var i = 0; i < inquiries.length; i++) {
-	                       var inquiry = inquiries[i];
+                      for (var i = 0; i < inquiries.length; i++) {
+                          var inquiry = inquiries[i];
 
-						   // 클로저를 이용한 클릭 이벤트 핸들러 설정
-						       (function(inquiry) {
-						           var qnaDiv = $('<div>').addClass('qna_div').click(function() {
-						               viewdetail(inquiry.reId);
-						           });
+                     // 클로저를 이용한 클릭 이벤트 핸들러 설정
+                         (function(inquiry) {
+                             var qnaDiv = $('<div>').addClass('qna_div').click(function() {
+                                 viewdetail(inquiry.reId);
+                             });
 
-						           var qnaHeader = $('<div>').addClass('qna_header');
-						           var qnaTitle = $('<div>').addClass('qna_title').append($('<span>').text(inquiry.reTitle)).css("width","150px").css("text-align", "left");
-						           var qnaDate = $('<div>').addClass('qna_title').attr('id', 'q_date').append($('<span>').text(new Date(inquiry.reDate).toLocaleDateString()));
-						           var deleteButton = $('<button>').addClass('delete_qna').text('x').click(function(event) {
-						               event.stopPropagation(); // 클릭 이벤트 전파 방지
-						               deleteInquiry(inquiry.reId);
-						           });
+                             var qnaHeader = $('<div>').addClass('qna_header');
+                             var qnaTitle = $('<div>').addClass('qna_title').append($('<span>').text(inquiry.reTitle)).css("width","150px").css("text-align", "left");
+                             var qnaDate = $('<div>').addClass('qna_title').attr('id', 'q_date').append($('<span>').text(new Date(inquiry.reDate).toLocaleDateString()));
+                             var deleteButton = $('<button>').addClass('delete_qna').text('x').click(function(event) {
+                                 event.stopPropagation(); // 클릭 이벤트 전파 방지
+                                 deleteInquiry(inquiry.reId);
+                             });
 
-						           qnaHeader.append(qnaTitle, qnaDate, deleteButton).css("display","flex").css("justify-content", "space-between");
+                             qnaHeader.append(qnaTitle, qnaDate, deleteButton).css("display","flex").css("justify-content", "space-between");
 
-						           var qnaWrapper = $('<div>').attr('id', 'qna_wrapper');
-						           var qnaContent = $('<div>').addClass('qna_content').append(
-						               $('<div>').attr('id', 'click_qna').text(inquiry.reContent),
-						               $('<span>').addClass('qna_result').text(inquiry.reCheckRq ? '답변 완료' : '답변 대기 중').css('color', inquiry.reCheckRq ? 'green' : 'red').css('border', inquiry.reCheckRq ? '3px solid green' : '3px solid red').css("width","150px")
-						           ).css("display","flex").css("justify-content", "space-between");
+                             var qnaWrapper = $('<div>').attr('id', 'qna_wrapper');
+                             var qnaContent = $('<div>').addClass('qna_content').append(
+                                 $('<div>').attr('id', 'click_qna').text(inquiry.reContent),
+                                 $('<span>').addClass('qna_result').text(inquiry.reCheckRq ? '답변 완료' : '답변 대기 중').css('color', inquiry.reCheckRq ? 'green' : 'red').css('border', inquiry.reCheckRq ? '3px solid green' : '3px solid red').css("width","150px")
+                             ).css("display","flex").css("justify-content", "space-between");
 
 
-						           qnaWrapper.append(qnaContent);
-						           qnaDiv.append(qnaHeader, qnaWrapper);
-						           qnaUl.append(qnaDiv);
-						       })(inquiry); // IIFE로 inquiry를 전달
-	                   }
-	               }
-	           }
-	       });
+                             qnaWrapper.append(qnaContent);
+                             qnaDiv.append(qnaHeader, qnaWrapper);
+                             qnaUl.append(qnaDiv);
+                         })(inquiry); // IIFE로 inquiry를 전달
+                      }
+                  }
+              }
+          });
 
-	       // 팝업 띄우는 로직
-	       if (temp == 0) {
-	           temp = 1;
-	           var popup = document.getElementById('popup');
-	           var overlay = document.getElementById('popup-overlay');
-	           popup.classList.add('popup');
-	           popup.classList.remove('popup_hidden');
-	           overlay.classList.add('active');
-	       }
-	   }
-	   
-	   // 삭제 기능 함수
-	      function deleteInquiry(reId) {
-	          $.ajax({
-	              type: "POST",
-	              url: "/inquiry/inquirydelete",
-	              data: { reId: reId },
-	              success: function(response) {
-					  	alert(response.message);
-					  	window.location.href = response.redirectUrl;
+          // 팝업 띄우는 로직
+          if (temp == 0) {
+              temp = 1;
+              var popup = document.getElementById('popup');
+              var overlay = document.getElementById('popup-overlay');
+              popup.classList.add('popup');
+              popup.classList.remove('popup_hidden');
+              overlay.classList.add('active');
+          }
+      }
+      
+      // 삭제 기능 함수
+         function deleteInquiry(reId) {
+             $.ajax({
+                 type: "POST",
+                 url: "/inquiry/inquirydelete",
+                 data: { reId: reId },
+                 success: function(response) {
+                    alert(response.message);
+                    window.location.href = response.redirectUrl;
  
-	              }
-	          });
-	      }
+                 }
+             });
+         }
 
-		  	//팝업창 닫기 기능
-		      function closePopup() {
-		          temp = 0;
-		          var popup = document.getElementById('popup');
-		          var insertpop = document.getElementById('insertpopup');
-		          var getpopup = document.getElementById('getpopup');
-		          var editpopup = document.getElementById('editpopup');
-		          var overlay = document.getElementById('popup-overlay');
-				  
-		          popup.classList.add('popup_hidden');
-		          popup.classList.remove('popup');
-				  overlay.classList.remove('active');
-				  
-		          insertpop.classList.add('popup_hidden');
-		          insertpop.classList.remove('popup');
-				  overlay.classList.remove('active');
-				  
-		          getpopup.classList.add('popup_hidden');
-		          getpopup.classList.remove('popup');
-				  overlay.classList.remove('active');
-		      }
+           //팝업창 닫기 기능
+            function closePopup() {
+                temp = 0;
+                var popup = document.getElementById('popup');
+                var insertpop = document.getElementById('insertpopup');
+                var getpopup = document.getElementById('getpopup');
+                var editpopup = document.getElementById('editpopup');
+                var overlay = document.getElementById('popup-overlay');
+              
+                popup.classList.add('popup_hidden');
+                popup.classList.remove('popup');
+              overlay.classList.remove('active');
+              
+                insertpop.classList.add('popup_hidden');
+                insertpop.classList.remove('popup');
+              overlay.classList.remove('active');
+              
+                getpopup.classList.add('popup_hidden');
+                getpopup.classList.remove('popup');
+              overlay.classList.remove('active');
+            }
 
-		
-		function to_insert_popup() {
-		       if (temp == 1) {
-		           var popup = document.getElementById('popup');
-		           var insertpop = document.getElementById('insertpopup');
-		           var overlay = document.getElementById('popup-overlay');
-		           popup.classList.add('popup_hidden');
-		           popup.classList.remove('popup');
-				   popup.classList.remove('overlay');
-		           insertpop.classList.add('popup');
-		           insertpop.classList.remove('popup_hidden');
-				   insertpop.classList.remove('overlay');
-		       }
-		}
-		
-		function to_popup(){
-		    if (temp == 1)
-		    var getpopup = document.getElementById('getpopup')
-		    var popup = document.getElementById('popup')
-		    getpopup.classList.add('popup_hidden');
-		    getpopup.classList.remove('popup');
-		    popup.classList.add('popup');
-		    popup.classList.remove('popup_hidden');
+      
+      function to_insert_popup() {
+             if (temp == 1) {
+                 var popup = document.getElementById('popup');
+                 var insertpop = document.getElementById('insertpopup');
+                 var overlay = document.getElementById('popup-overlay');
+                 popup.classList.add('popup_hidden');
+                 popup.classList.remove('popup');
+               popup.classList.remove('overlay');
+                 insertpop.classList.add('popup');
+                 insertpop.classList.remove('popup_hidden');
+               insertpop.classList.remove('overlay');
+             }
+      }
+      
+      function to_popup(){
+          if (temp == 1)
+          var getpopup = document.getElementById('getpopup')
+          var popup = document.getElementById('popup')
+          getpopup.classList.add('popup_hidden');
+          getpopup.classList.remove('popup');
+          popup.classList.add('popup');
+          popup.classList.remove('popup_hidden');
 
-		} 
+      } 
 
-		function viewdetail(reId){
-			console.log(reId)
-			$.ajax({
-	            type: "GET",
-				data: { reId: reId },
-	            url: "/inquiry/getinquiry",
-	            success: function(response) {
-					if (!response.success) {
-			                alert(response.message);
-			                pop();
-			            } else {
-							
-							var inquiry = response.inquiry;
-							
-							var popup = document.getElementById('popup');
-					        var getpopup = document.getElementById('getpopup');
-					        var overlay = document.getElementById('popup-overlay');
-					        popup.classList.add('popup_hidden');
-					        popup.classList.remove('popup');
-					        getpopup.classList.add('popup');
-					        getpopup.classList.remove('popup_hidden');
-							console.log(inquiry.reDateRq);
-						   console.log(inquiry.reCheckRq);
-							// 사용자 문의 정보 출력
-	                       $('#detailsreTitle').text(inquiry.reTitle); // 사용자 문의 제목
-	                       $('#q_content').text(inquiry.reContent);// 사용자 문의 내용
-	                       $('#detailsreDate').text(new Date(inquiry.reDate).toLocaleDateString()); // 사용자 문의 날짜   
-	                       // 관리자 답변 정보 출력
-	                       $('#detailsreTitleRq').text(inquiry.reTitleRq) // 관리자 문의 제목
-	                       $('#a_content').text(inquiry.reContentRq).css('border',inquiry.reCheckRq ? '3px solid green' : '3px solid red');// 관리자 문의 내용
-						   
-						   var reDateRqText = inquiry.reDateRq ? new Date(inquiry.reDateRq).toLocaleDateString() : '';
-						   $('#detailsreDateRq').text(reDateRqText).css("height","35px"); // 관리자 문의 날짜
-						   $('.a_section').css('border',inquiry.reCheckRq ? '3px solid green' : '3px solid red');
-					   }
-    			},
-				error: function(xhr, status, error) {
-					var response = JSON.parse(xhr.responseText);
-					alert(response.message);
-	            }
-	        });
-		}
-		
-		function verifyPassword(event) {
+      function viewdetail(reId){
+         console.log(reId)
+         $.ajax({
+               type: "GET",
+            data: { reId: reId },
+               url: "/inquiry/getinquiry",
+               success: function(response) {
+               if (!response.success) {
+                         alert(response.message);
+                         pop();
+                     } else {
+                     
+                     var inquiry = response.inquiry;
+                     
+                     var popup = document.getElementById('popup');
+                       var getpopup = document.getElementById('getpopup');
+                       var overlay = document.getElementById('popup-overlay');
+                       popup.classList.add('popup_hidden');
+                       popup.classList.remove('popup');
+                       getpopup.classList.add('popup');
+                       getpopup.classList.remove('popup_hidden');
+                     console.log(inquiry.reDateRq);
+                     console.log(inquiry.reCheckRq);
+                     // 사용자 문의 정보 출력
+                          $('#detailsreTitle').text(inquiry.reTitle); // 사용자 문의 제목
+                          $('#q_content').text(inquiry.reContent);// 사용자 문의 내용
+                          $('#detailsreDate').text(new Date(inquiry.reDate).toLocaleDateString()); // 사용자 문의 날짜   
+                          // 관리자 답변 정보 출력
+                          $('#detailsreTitleRq').text(inquiry.reTitleRq) // 관리자 문의 제목
+                          $('#a_content').text(inquiry.reContentRq).css('border',inquiry.reCheckRq ? '3px solid green' : '3px solid red');// 관리자 문의 내용
+                     
+                     var reDateRqText = inquiry.reDateRq ? new Date(inquiry.reDateRq).toLocaleDateString() : '';
+                     $('#detailsreDateRq').text(reDateRqText).css("height","35px"); // 관리자 문의 날짜
+                     $('.a_section').css('border',inquiry.reCheckRq ? '3px solid green' : '3px solid red');
+                  }
+             },
+            error: function(xhr, status, error) {
+               var response = JSON.parse(xhr.responseText);
+               alert(response.message);
+               }
+           });
+      }
+      
+      function verifyPassword(event) {
             event.preventDefault();
-			var reTitle = $("input[name='reTitle']").val();
-			var reContent = $("#write_qna").val();
-			$.ajax({
+         var reTitle = $("input[name='reTitle']").val();
+         var reContent = $("#write_qna").val();
+         $.ajax({
                 type: "Post",
                 url: "/inquiry/inquirywrite",
                 data: { reTitle: reTitle,
-					 reContent: reContent },
-					
+                reContent: reContent },
+               
                 success: function(response) {
-					// 오류 메시지 초기화
-		            $("#reTitleError").text("");
-		            $("#reContentError").text("");
+               // 오류 메시지 초기화
+                  $("#reTitleError").text("");
+                  $("#reContentError").text("");
                     if (response.success) {
                         alert(response.message);
                         window.location.href  = response.redirectUrl;
                     }
                 },
-				error: function(xhr, status, error) {
-					var response = JSON.parse(xhr.responseText);
-					alert(response.message);
-					$.each(response.errors, function(field, errorMessage) {
+            error: function(xhr, status, error) {
+               var response = JSON.parse(xhr.responseText);
+               alert(response.message);
+               $.each(response.errors, function(field, errorMessage) {
                         if (field === "reTitle") {
                             $("#reTitleError").text(errorMessage);
-							$("#reContentError").text("");
+                     $("#reContentError").text("");
                         } else if (field === "reContent") {
                             $("#reContentError").text(errorMessage);
-							$("#reTitleError").text("");
-						}
-						
+                     $("#reTitleError").text("");
+                  }
+                  
                     });
-					if (response.errors && response.errors.reContent && response.errors.reTitle) {
-					    var reContent = response.errors.reContent; // reContent에 대한 오류 메시지를 가져옴
-						var reTitle = response.errors.reTitle; // reContent에 대한 오류 메시지를 가져옴
-					    // reContentError와 reTitleError에 오류 메시지 설정
-					    $("#reContentError").text(reContent);
-					    $("#reTitleError").text(reTitle);
-					}
-	            }
+               if (response.errors && response.errors.reContent && response.errors.reTitle) {
+                   var reContent = response.errors.reContent; // reContent에 대한 오류 메시지를 가져옴
+                  var reTitle = response.errors.reTitle; // reContent에 대한 오류 메시지를 가져옴
+                   // reContentError와 reTitleError에 오류 메시지 설정
+                   $("#reContentError").text(reContent);
+                   $("#reTitleError").text(reTitle);
+               }
+               }
             });
         }
     </script>
@@ -281,11 +281,11 @@
             <nav id="nav">
                 <ul>
                     <li><a th:href="@{/board/getBoardList}">Board</a>
-						<ul>
+                  <ul>
                             <li><a th:href="@{/board/getBoardList}" style="text-align: center;" class="side-hver" >커뮤니티</a></li>
                             <li><a th:href="@{/notice/getNoticeList}" style="text-align: center;" class="side-hver">공지사항</a></li>
-                        </ul>	
-					</li>
+                        </ul>   
+               </li>
                     <li><a href="Models.html">Model</a></li>
                     <li><a href="Center.html">Center</a></li>
                     <li>
@@ -319,22 +319,12 @@
                             <tr style="height: 40px;">
                                 <th th:text="#{info.nickname}"></th>
                                 <td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberNickname}" aria-disabled="true"></td>
-<<<<<<< HEAD
                                 <td th:unless="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberSocialNickname}" aria-disabled="true"></td>
-
-=======
-                                <td th:unless="${session.user.memberSocial == '회원'}" th:text="${session.user.memberSocialNickname}" aria-disabled="true"></td>
->>>>>>> origin/main
                             </tr>
                             <tr style="height: 40px;">
                                 <th th:text="#{info.id}"></th>
                                 <td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberId}" aria-disabled="true"></td>
-<<<<<<< HEAD
                                 <td th:unless="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberEmail}" aria-disabled="true"></td>
-
-=======
-                                <td th:unless="${session.user.memberSocial == '회원'}" th:text="${session.user.memberEmail}" aria-disabled="true"></td>
->>>>>>> origin/main
                             </tr>
                             <tr style="height: 40px;">
                                 <th th:text="#{info.pw}"></th>
@@ -366,71 +356,71 @@
                 </div>
             </div>
         </div>
-		<!-- Popup and Overlay -->
-		  <!-- 문의 리스트 -->
-		 <div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
+      <!-- Popup and Overlay -->
+        <!-- 문의 리스트 -->
+       <div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
 
-		 <div id="popup" class="popup_hidden" style="width:500px;height: 600px;"> <!-- 평상시에 안보이게 -->
-		     <button id="close-popup" class="close-popup" onclick="closePopup()">X</button>
-		     <div id="qna_header">문의 내역</div>
-		     <div class="qna_container">
-		         <div id="qna_ul">
-					
-		         </div>
-		     </div>
-		     <button onclick="to_insert_popup()" class="qna_button">문의하기</button>
-		 </div>
-		 <!-- 문의 글 작성하기 -->
-	 	  <div id="insertpopup" class="popup_hidden"  th:object="${InquiryWriteValidation}">
-	 	      <button id="close-popup" class="close-popup" onclick="closePopup()">x</button>
-	 	      <div id="qna_header">문의하기</div>
-			  <form onsubmit="verifyPassword(event)"  th:object="${InquiryWriteValidation}" >
-	 	          <input type="text" th:field="*{reTitle}" id="write_qna_title" placeholder="제목을 입력하세요">
-				  <div class="field-error" id="reTitleError" style="font-size: 15px; color: red;">
-				              <!-- 제목 오류 메시지 표시 영역 -->
-				  </div>
-				  
-				  <textarea class="qna_container" th:field="*{reContent}" id="write_qna" placeholder="문의사항을 작성해주세요" style="width:100%;height: 250px; resize: none; "></textarea>
-				  <div class="field-error" id="reContentError"  style="font-size: 15px; color: red;">
-		              <!-- 내용 오류 메시지 표시 영역 -->
-		          </div>
-				  <button type="submit" class="qna_button">제출하기</button>
-				</form>
-	 	  </div>
-		  
-		   <!-- 나의 문의 상세보기 팝업 -->
-		   <div id="getpopup" class="popup_hidden">
-		        <button id="close-popup" class="close-popup" onclick="closePopup()">x</button>
+       <div id="popup" class="popup_hidden" style="width:500px;height: 600px;"> <!-- 평상시에 안보이게 -->
+           <button id="close-popup" class="close-popup" onclick="closePopup()">X</button>
+           <div id="qna_header">문의 내역</div>
+           <div class="qna_container">
+               <div id="qna_ul">
+               
+               </div>
+           </div>
+           <button onclick="to_insert_popup()" class="qna_button">문의하기</button>
+       </div>
+       <!-- 문의 글 작성하기 -->
+         <div id="insertpopup" class="popup_hidden"  th:object="${InquiryWriteValidation}">
+             <button id="close-popup" class="close-popup" onclick="closePopup()">x</button>
+             <div id="qna_header">문의하기</div>
+           <form onsubmit="verifyPassword(event)"  th:object="${InquiryWriteValidation}" >
+                 <input type="text" th:field="*{reTitle}" id="write_qna_title" placeholder="제목을 입력하세요">
+              <div class="field-error" id="reTitleError" style="font-size: 15px; color: red;">
+                          <!-- 제목 오류 메시지 표시 영역 -->
+              </div>
+              
+              <textarea class="qna_container" th:field="*{reContent}" id="write_qna" placeholder="문의사항을 작성해주세요" style="width:100%;height: 250px; resize: none; "></textarea>
+              <div class="field-error" id="reContentError"  style="font-size: 15px; color: red;">
+                    <!-- 내용 오류 메시지 표시 영역 -->
+                </div>
+              <button type="submit" class="qna_button">제출하기</button>
+            </form>
+         </div>
+        
+         <!-- 나의 문의 상세보기 팝업 -->
+         <div id="getpopup" class="popup_hidden">
+              <button id="close-popup" class="close-popup" onclick="closePopup()">x</button>
 
-		        <div id="qna_header">상세보기</div>
+              <div id="qna_header">상세보기</div>
 
-		        <!-- 여기부터 문의 글 영역 -->
-		        <div id="qna_section">
-		            <span class="q_section">
-		                <span id="detailsreDate" class="title-date"></span>
-		                <span id="detailsreTitle">문의합니다</span> 
-		            </span>
-		            <p id="q_content" class="q_section"></p>
-					
-		            <span class="a_section">
-		                <span class="title-date" id="detailsreDateRq"></span>
-		                <span id="detailsreTitleRq"></span>
-		            </span>
-		            <p id="a_content" class="a_section"></p>
-		        </div>
+              <!-- 여기부터 문의 글 영역 -->
+              <div id="qna_section">
+                  <span class="q_section">
+                      <span id="detailsreDate" class="title-date"></span>
+                      <span id="detailsreTitle">문의합니다</span> 
+                  </span>
+                  <p id="q_content" class="q_section"></p>
+               
+                  <span class="a_section">
+                      <span class="title-date" id="detailsreDateRq"></span>
+                      <span id="detailsreTitleRq"></span>
+                  </span>
+                  <p id="a_content" class="a_section"></p>
+              </div>
 
-		        <!-- 문의 글 영역 여기까지 -->
-		        <div id="button_list">
-		            <button onclick="to_popup()" class="qna_button" id="list_button">목록</button>
-		        </div>
+              <!-- 문의 글 영역 여기까지 -->
+              <div id="button_list">
+                  <button onclick="to_popup()" class="qna_button" id="list_button">목록</button>
+              </div>
 
-		  </div>
+        </div>
         <hr>
         <!-- Footer -->
         <footer>
             @ carini
         </footer>
-		
+      
         <!-- Scripts -->
         <script src="/js/jquery.min.js"></script>
         <script src="/js/jquery.dropotron.min.js"></script>
@@ -440,12 +430,12 @@
         <script src="/js/breakpoints.min.js"></script>
         <script src="/js/util.js"></script>
         <script src="/js/main.js"></script>
-		<script>
-			function change_info() {
-			    // 비밀번호 확인을 위한 팝업 창 열기
-			    var passwordWindow = window.open('password', '_blank', 'width=400,height=300');
-		}
-			</script>
+      <script>
+         function change_info() {
+             // 비밀번호 확인을 위한 팝업 창 열기
+             var passwordWindow = window.open('password', '_blank', 'width=400,height=300');
+      }
+         </script>
     </div>
 </body>
 </html>

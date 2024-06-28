@@ -1,9 +1,5 @@
 package com.car.validation;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

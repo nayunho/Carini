@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.springframework.context.MessageSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.data.domain.Page;
@@ -60,7 +60,8 @@ public class ModelController {
    
    @Autowired
    private BookMarkRepository bookMarkRepository;
-
+   @Autowired
+   private MessageSource messageSource;
    @Autowired
    private LocaleResolver localeResolver;
    
@@ -85,10 +86,11 @@ public class ModelController {
           @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
           @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
           @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
-          HttpSession session) {
-
+          HttpServletRequest request) {
+      HttpSession session = request.getSession(false);
       Member user = (Member) session.getAttribute("user");
 
+      
       curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
       
       Pageable pageable;
@@ -96,25 +98,15 @@ public class ModelController {
       System.out.println(filterFuel);
       System.out.println(carSort);
 
-<<<<<<< HEAD
-=======
-		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
-		
-		Pageable pageable;
-		System.out.println(filterSize);
-		System.out.println(filterFuel);
-		System.out.println(carSort);
-
->>>>>>> origin/main
-		if(carSort.equals("저가순")){
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
-		}else if(carSort.equals("고가순")) {
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
-		}else {
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
-		}
-	    
-	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
+      if(carSort.equals("저가순")){
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
+      }else if(carSort.equals("고가순")) {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
+      }else {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
+      }
+       
+       Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
 
        // 즐겨찾기 추가
        for (Car car1 : pagedResult) {
@@ -162,7 +154,6 @@ public class ModelController {
         model.addAttribute("fs", filterSize);
         model.addAttribute("ff", filterFuel);
         model.addAttribute("cs", carSort);
-<<<<<<< HEAD
        model.addAttribute("carList", pagedResult.getContent());
        model.addAttribute("user", user);
        
@@ -178,33 +169,11 @@ public class ModelController {
        String carBrandName = carName[0];
        
        CarBrand carBrand = modelService.getURLbrBrand(carBrandName);
-       
-       
+       car.setBookmarked(true);
+       System.out.println(car);
        model.addAttribute("car", car);
        model.addAttribute("carBrand", carBrand);
        
-=======
-	    model.addAttribute("carList", pagedResult.getContent());
-	    model.addAttribute("user", user);
-	    
-	    return "model/getModelList.html";
-	}
-	
-    @GetMapping("/getModel")
-    public String getCar(@RequestParam("carId") int carId, Model model) {
-    	
-    	Car car = modelService.getCarbyId(carId);
-    	
-    	String[] carName = car.getCarName().strip().split(" ");
-    	String carBrandName = carName[0];
-    	
-    	CarBrand carBrand = modelService.getURLbrBrand(carBrandName);
-    	
-    	
-    	model.addAttribute("car", car);
-    	model.addAttribute("carBrand", carBrand);
-    	
->>>>>>> origin/main
         return "model/getModel.html";
     }
     
@@ -233,28 +202,47 @@ public class ModelController {
         
         return comparisonData;
     }
+
     
-    /*
-     * 자동차 상세페이지 즐겨찾기 추가
+    /**
+     * bookmark 추가(겟모델)
      * */
-    @PostMapping("/bookmark/{carId}")
-    public String myPagebookmarkAddGet(@PathVariable("carId") String carId, Model model, Bookmark bookmark, HttpServletRequest request, HttpSession session) {
-       
-       Locale locale = localeResolver.resolveLocale(request);
+   @PostMapping("/getmodel/bookmark/{carId}")
+   public String myPagebookmarkAdd(@PathVariable("carId") String carId, Model model, Bookmark bookmark,
+         HttpServletRequest request, HttpSession session) {
+
+      Locale locale = localeResolver.resolveLocale(request);
 
       Member user = (Member) session.getAttribute("user");
 
       bookmark.setCarId(Integer.parseInt(carId));
       bookmark.setMemberId(user.getMemberId());
-      
-      bookMarkService.insertMember(bookmark,user);
-   
-      return "redirect:/model/getModel?carId=" + carId;
-    }
-<<<<<<< HEAD
-   
-=======
-	
->>>>>>> origin/main
 
+      bookMarkService.insertMember(bookmark, user);
+
+      model.addAttribute("msg", messageSource.getMessage("bookmark.add", null, locale));
+      model.addAttribute("url", request.getHeader("Referer"));
+      return "alert";
+   }
+
+
+   
+   /*
+    * bookmark 삭제(겟모델)
+    */
+   @PostMapping("/getmodel/bookmark/delete/{carId}")
+   public String myPagebookmarkdelete(@PathVariable("carId") String carId, Model model, HttpServletRequest request,
+         HttpSession session) {
+
+      Locale locale = localeResolver.resolveLocale(request);
+      Member user = (Member) session.getAttribute("user");
+
+      bookMarkService.findBookmarkByCarDelete(Integer.parseInt(carId), user.getMemberId());
+      model.addAttribute("msg", messageSource.getMessage("bookmark.delete", null, locale));
+      model.addAttribute("url", request.getHeader("Referer"));
+      return "alert";
+   }
+    
+    
+    
 }

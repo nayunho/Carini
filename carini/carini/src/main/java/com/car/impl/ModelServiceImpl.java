@@ -54,19 +54,6 @@ public class ModelServiceImpl implements ModelService{
       
       // 주어진 조건에 따른 Specification 생성
 
-<<<<<<< HEAD
-=======
-		Car car = carRepository.findById(carId).get();
-		
-		return car;
-	}
-	
-	@Override
-	public Page<Car> filterCars(Pageable pageable, Long filterMinPrice, Long filterMaxPrice, String filterSize, String filterFuel, String searchWord) {
-		
-		// 주어진 조건에 따른 Specification 생성
-
->>>>>>> origin/main
         Specification<Car> spec = createSpecification(filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
         return carRepository.findAll(spec, pageable);
     }
@@ -144,7 +131,6 @@ public class ModelServiceImpl implements ModelService{
     }
     
     @Override
-<<<<<<< HEAD
    public CarBrand getURLbrBrand(String carBrandName) {
        Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
       
@@ -154,17 +140,6 @@ public class ModelServiceImpl implements ModelService{
        
       return carBrand.get();
    }
-=======
-	public CarBrand getURLbrBrand(String carBrandName) {
-    	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
-		
-    	if(!carBrand.isPresent()) {
-    		return null;
-    	}
-    	
-		return carBrand.get();
-	}
->>>>>>> origin/main
 
 
 }

@@ -9,20 +9,17 @@ import com.car.dto.Notice;
 
 @Service
 public interface NoticeService {
-	
-	long getTotalRowCount(Notice notice);
-	Page<Notice> getNoticeList(Pageable pageable, String searchType, String searchWord);
-	Notice getNotice(Notice notice);
-	Notice getNoticebyId(Long noticeId);
-	List<Notice> noticeList();
-	
-	void insertNotice(Notice notice);
-	void updateNotice(Notice notice);
-	void deleteNoticeById(Long noticeId);
-<<<<<<< HEAD
-	void deleteFile(Long noticeId) throws Exception;
-=======
->>>>>>> origin/main
-	
-	
+   
+   long getTotalRowCount(Notice notice);
+   Page<Notice> getNoticeList(Pageable pageable, String searchType, String searchWord);
+   Notice getNotice(Notice notice);
+   Notice getNoticebyId(Long noticeId);
+   List<Notice> noticeList();
+   
+   void insertNotice(Notice notice);
+   void updateNotice(Notice notice);
+   void deleteNoticeById(Long noticeId);
+   void deleteFile(Long noticeId) throws Exception;
+   
+   
 }
