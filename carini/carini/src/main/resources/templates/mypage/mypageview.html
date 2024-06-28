@@ -8,101 +8,100 @@
 <link rel="stylesheet" href="css/base.css">
 <script src="/js/mypage.js"></script>
 <noscript>
-	<link rel="stylesheet" href="assets/css/noscript.css" />
+   <link rel="stylesheet" href="assets/css/noscript.css" />
 </noscript>
 
 
 <body>
+   <header th:replace="~{base/base :: header}"></header>
 
-	<header th:replace="~{base/base :: main_header}"></header>
+   <!--SubTitle-->
 
-	<!--SubTitle-->
-
-	<section class="SubTitle">MY_INFORMATION</section>
-
-
-	<!-- Main -->
-	<main>
-
-		<div id="Favorites_box" style="background-color: white;">
-
-			<div class="div">
-				<h3>- WE ARE KEEPING YOUR INFORMATION SAFE -</h3>
-			</div>
+   <section class="SubTitle">MY_INFORMATION</section>
 
 
+   <!-- Main -->
+   <main>
 
-			<!--main 안에 있는 큰 박스-->
-			<div class="flex-container_column">
+      <div id="Favorites_box" style="background-color: white;">
 
-				<div style="width: 60%; height: 100%;">
+         <div class="div">
+            <h3>- WE ARE KEEPING YOUR INFORMATION SAFE -</h3>
+         </div>
 
 
-					<table>
 
-						<tr>
-							<th th:text="#{info.nickname}"></th>
-							<td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberNickname}"
-								aria-disabled="true"></td>
-							<td th:unless="${session.user.memberSocial == '회원'}"
-								th:text="${hiddenuser.memberSocialNickname}" aria-disabled="true"></td>
-						</tr>
+         <!--main 안에 있는 큰 박스-->
+         <div class="flex-container_column">
 
-						<tr>
-							<th th:text="#{info.id}"></th>
-							<td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberId}"
-								aria-disabled="true"></td>
-							<td th:unless="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberEmail}"
-								aria-disabled="true"></td>
-						</tr>
+            <div style="width: 60%; height: 100%;">
 
-						<tr>
-							<th th:text="#{info.pw}"></th>
-							<td th:text="${hiddenuser.memberPw}"></td>
-						</tr>
 
-						<tr>
-							<th th:text="#{info.name}"></th>
-							<td th:text="${hiddenuser.memberName}"></td>
-						</tr>
+               <table>
 
-						<tr>
-							<th th:text="#{info.email}"></th>
-							<td th:text="${hiddenuser.memberEmail}"></td>
-						</tr>
+                  <tr>
+                     <th th:text="#{info.nickname}"></th>
+                     <td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberNickname}"
+                        aria-disabled="true"></td>
+                     <td th:unless="${session.user.memberSocial == '회원'}"
+                        th:text="${hiddenuser.memberSocialNickname}" aria-disabled="true"></td>
+                  </tr>
 
-						<tr>
-							<th th:text="#{info.phone}"></th>
-							<td th:text="${hiddenuser.memberPhoneNum}"></td>
-						</tr>
+                  <tr>
+                     <th th:text="#{info.id}"></th>
+                     <td th:if="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberId}"
+                        aria-disabled="true"></td>
+                     <td th:unless="${session.user.memberSocial == '회원'}" th:text="${hiddenuser.memberEmail}"
+                        aria-disabled="true"></td>
+                  </tr>
 
-					</table>
-					<br>
+                  <tr>
+                     <th th:text="#{info.pw}"></th>
+                     <td th:text="${hiddenuser.memberPw}"></td>
+                  </tr>
 
-					<div class="flex-container_row" style="height: 10%;">
-						<a id="edit_save_td" th:if="${session.user.memberSocial == '회원'}">
-							<button type="button" onclick="change_info()" th:text="#{info.btn.edit}"></button>
-						</a>
-						<a id="edit_save_td" th:unless="${session.user.memberSocial == '회원'}"
-							th:href="@{/mypage/myinfo_social_edit}">
-							<button type="button" th:text="#{info.btn.edit}"></button>
-						</a>
+                  <tr>
+                     <th th:text="#{info.name}"></th>
+                     <td th:text="${hiddenuser.memberName}"></td>
+                  </tr>
 
-					</div>
-				</div>
-			</div>
+                  <tr>
+                     <th th:text="#{info.email}"></th>
+                     <td th:text="${hiddenuser.memberEmail}"></td>
+                  </tr>
 
-		</div>
+                  <tr>
+                     <th th:text="#{info.phone}"></th>
+                     <td th:text="${hiddenuser.memberPhoneNum}"></td>
+                  </tr>
 
-		</div>
+               </table>
+               <br>
 
-	</main>
+               <div class="flex-container_row" style="height: 10%;">
+                  <a id="edit_save_td" th:if="${session.user.memberSocial == '회원'}">
+                     <button type="button" onclick="change_info()" th:text="#{info.btn.edit}"></button>
+                  </a>
+                  <a id="edit_save_td" th:unless="${session.user.memberSocial == '회원'}"
+                     th:href="@{/mypage/myinfo_social_edit}">
+                     <button type="button" th:text="#{info.btn.edit}"></button>
+                  </a>
 
-	
+               </div>
+            </div>
+         </div>
 
-	<!-- Footer -->
+      </div>
 
-	<footer th:replace="~{base/base :: main_footer}"></footer>
+      </div>
+
+   </main>
+
+   
+
+   <!-- Footer -->
+
+   <footer th:replace="~{base/base :: footer}"></footer>
 
 
 
