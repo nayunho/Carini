@@ -80,4 +80,6 @@ public class InquiryServiceImpl implements InquiryService{
 	public int countInquiryById(String memberId) {
 		return inquiryRepository.getBookmarkCount(memberId);
 	}
+	
+	
 }

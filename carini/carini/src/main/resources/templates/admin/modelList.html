@@ -85,7 +85,7 @@
 										<input type="hidden" class="form-control" id="filterMinPrice"
 											name="filterMinPrice" th:value="${filterMinPrice}">
 										<input type="hidden" class="form-control" id="filterMaxPrice"
-											name="filterMaxPrice" th:value="${filterMinPrice}">
+											name="filterMaxPrice" th:value="${filterMaxPrice}">
 										<span id="priceDisplay" style="text-align: justify;">
 											"filterMinPrice"원
 											"filterMaxPrice"원</span>
@@ -124,7 +124,7 @@
 											document.getElementById('priceDisplay').innerText = formatPrice(minPrice) + " - " + formatPrice(maxPrice);
 										});
 									</script>
-									<input type="checkbox"> 5억 이상
+									<input type="checkbox" name="exCar"> 5억 이상
 								</td>
 							</tr>
 
@@ -164,6 +164,7 @@
 										<option value="저가순" th:selected="${cs == '저가순'}">저가순</option>
 										<option value="고가순" th:selected="${cs == '고가순'}">고가순</option>
 										<option value="이름순" th:selected="${cs == '이름순'}">이름순</option>
+										<option value="즐겨찾기순" th:selected="${cs == '즐겨찾기순'}">즐겨찾기순</option>
 									</select>
 								</td>
 							</tr>
@@ -172,6 +173,7 @@
 					<div style="height: 50px;"></div><!--간격박스-->
 					<button type="submit"
 						style="font-size: 25px; letter-spacing: 5px; font-weight: 100;">FILTER</button>
+					
 				</div>
 		</form>
 
@@ -201,6 +203,7 @@
 				</div>
 			</div>
 		</div>
+		
 
 		<script><!--카드에 이미지랑 글씨 같이 선택되게 하는 스크립-->
 			document.querySelectorAll('.card').forEach(card => {
