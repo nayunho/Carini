@@ -185,7 +185,6 @@ form input[type=email],
 form input[type=password],
 form input[type=text],
 form select {
-   -webkit-appearance: none;
    display: block;
    border: 0;
    background: #fafafa;

@@ -280,13 +280,9 @@ nav > ul > li > ul {
 }
 
 #map_box { /* 지도 박스 */
-<<<<<<< HEAD
-	width: 100%; 
-	height: 100%;
-=======
+
    width: 100%; 
    height: 100%;
->>>>>>> a15406a02a3a9e9c65196ff8c015a0c9bfe7389d
 }
 
 div {

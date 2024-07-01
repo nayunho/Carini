@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<<<<<<< HEAD
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="/css/getModel.css">
@@ -11,16 +10,6 @@
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    <!-- 차트 -->
    <script src="/js/getModel.js"></script>
-=======
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="/css/getModel.css">
-	<link rel="stylesheet" href="/css/base.css">
-	<title>자동차상세보기(getModel.html)</title>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<!-- 차트 -->
-	<script src="/js/getModel.js"></script>
->>>>>>> 4192f04938f83a594f19e59e65dd30c09a152977
 </head>
 
 <body>
@@ -52,25 +41,16 @@
 
             </fieldset>
 
-<<<<<<< HEAD
             <!-- 오른쪽 박스 : 자동차 사진 -->
-            <fieldset style="width: 700px; height: 400px;">
+            <fieldset class="fieldset_img" style="width: 700px; height: 400px;">
 
                <legend th:text="${car.carName}"></legend>
                <img class="flipped-image" th:src="@{${car.carImg}}" style="width: 850px; height: 400px;"
                   alt="좌우반전 자동차사진">
-=======
-				<!-- 오른쪽 박스 : 자동차 사진 -->
-				<fieldset class="fieldset_img" style="width: 700px; height: 400px;">
-
-					<legend th:text="${car.carName}"></legend>
-					<img class="flipped-image" th:src="@{${car.carImg}}" style="width: 850px; height: 400px;"
-						alt="좌우반전 자동차사진">
-					<img id="bookmark_img"
-						th:src="${car.isBookmarked} ? @{/img/bookmarked.png} : @{/img/unbookmarked.png}"
-						th:alt="${car.isBookmarked} ? '즐겨찾기 삭제' : '즐겨찾기 추가'"
-						th:onclick="'toggleBookmark(' + ${car.carId} + ',' + ${car.isBookmarked} + ')'" alt="즐겨찾기 버튼">
->>>>>>> 4192f04938f83a594f19e59e65dd30c09a152977
+               <img id="bookmark_img"
+                  th:src="${car.isBookmarked} ? @{/img/bookmarked.png} : @{/img/unbookmarked.png}"
+                  th:alt="${car.isBookmarked} ? '즐겨찾기 삭제' : '즐겨찾기 추가'"
+                  th:onclick="'toggleBookmark(' + ${car.carId} + ',' + ${car.isBookmarked} + ')'" alt="즐겨찾기 버튼">
 
             </fieldset>
 
@@ -140,12 +120,10 @@
                </a>
             </fieldset>
 
-<<<<<<< HEAD
             <!-- 중간 박스 : 뭐넣을지 몰라박스 -->
             <fieldset style="width: 390px; height: 400px; background-color: whitesmoke;">
-               <legend>&nbsp;</legend>
+               <legend> &nbsp;</legend>
             </fieldset>
-
             <!-- 오른쪽 박스 : 대리점 -> 링크:홈페이지 -->
             <fieldset style="width: 390px; height: 400px;">
                <legend> AGENCY</legend>
@@ -154,20 +132,6 @@
                      style="height:60%; width:70%; padding-left:10%;margin-left:45%;">
                </a>
             </fieldset>
-=======
-				<!-- 중간 박스 : 뭐넣을지 몰라박스 -->
-				<fieldset style="width: 390px; height: 400px; background-color: whitesmoke;">
-					<legend> &nbsp;</legend>
-				</fieldset>
-				<!-- 오른쪽 박스 : 대리점 -> 링크:홈페이지 -->
-				<fieldset style="width: 390px; height: 400px;">
-					<legend> AGENCY</legend>
-					<a th:href="@{/center/centerMap(carBrand=${carBrand.carBrandName})}" style="margin-right: 10%;">
-						<img th:src="@{/img/agency.png}" alt="대리점"
-							style="height:60%; width:70%; padding-left:10%;margin-left:45%;">
-					</a>
-				</fieldset>
->>>>>>> 4192f04938f83a594f19e59e65dd30c09a152977
 
          </div>
 

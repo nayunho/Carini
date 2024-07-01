@@ -1977,7 +1977,6 @@ input, select, textarea {
 	form input[type="password"],
 	form select,
 	form textarea {
-		-webkit-appearance: none;
 		display: block;
 		border: 0;
 		background: #fafafa;
@@ -2484,10 +2483,6 @@ input, select, textarea {
 
 }
 
-#login{
-	
-}
-
 
 	#main {
 		margin-bottom: 0;
@@ -2581,7 +2576,6 @@ input, select, textarea {
 				-o-transition: background-color 0.35s ease-in-out;
 				-ms-transition: background-color 0.35s ease-in-out;
 				transition: background-color 0.35s ease-in-out;
-				-webkit-backface-visibility: hidden;
 			}
 
 			.carousel .forward:after, .carousel .backward:after {
