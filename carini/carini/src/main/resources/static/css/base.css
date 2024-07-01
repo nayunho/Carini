@@ -66,18 +66,7 @@ body {
    font-weight: 300
 }
 
-body.is-preload *,
-body.is-preload :after,
-body.is-preload :before {
-  
-   /*
-   animation: none !important;
-   -moz-transition: none !important;
-   -webkit-transition: none !important;
-   -ms-transition: none !important;
-   transition: none !important
-   */
-}
+
 
 h1,
 h2,
@@ -627,7 +616,7 @@ footer img {
    }
 
    h2 {
-      fongt-size: 1.25em
+      font-size: 1.25em
    }
 }
 
