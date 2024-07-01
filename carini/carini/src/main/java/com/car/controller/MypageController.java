@@ -67,6 +67,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MypageController {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    @Value("${pw-role.password-rejex}")
    private String passwordRegex;
 
@@ -104,8 +107,13 @@ public class MypageController {
    public String mypageForm(HttpSession session, Model model, HttpServletRequest request,
          @ModelAttribute("InquiryWriteValidation") InquiryWriteValidation InquiryValidation) {
 
-      Member user = (Member) session.getAttribute("user");
-      System.out.println(session.getAttribute("user"));
+      
+      Member user =null;
+      
+      if(session != null) {
+         user = (Member) session.getAttribute("user");
+      } 
+
       Member findmember = memberService.findMember(user.getMemberId());
       findmember.setMemberPw(user.getMemberNickname());
       findmember.setMemberPw("*****");
@@ -312,14 +320,16 @@ public class MypageController {
     * 회원탈퇴
     */
    @PostMapping("/myinfo/delete")
-   public String myInfoDeletePwCheck(@ModelAttribute("member") Member members, Model model,
-         HttpServletRequest request) {
-      Member member = memberService.findByMemberId(members.getMemberId());
+   public String myInfoDeletePwCheck( Model model,
+         HttpServletRequest request,HttpSession session) {
+      Member member=(Member) session.getAttribute("user");
+      System.out.println(member.getMemberId());
+      Member findmember = memberService.findByMemberId(member.getMemberId());
       Locale locale = localeResolver.resolveLocale(request);
-      memberService.deleteMember(member);
-
+      memberService.deleteMember(findmember);
+      
       model.addAttribute("msg", messageSource.getMessage("info.exit.success", null, locale));
-      model.addAttribute("url", "/");
+      model.addAttribute("url", "/user_logout");
       return "alert";
    }
 
@@ -381,7 +391,7 @@ public class MypageController {
    @PostMapping("/bookmark/{carId}")
    public String myPagebookmarkAdd(@PathVariable("carId") String carId, Model model, Bookmark bookmark,
          HttpServletRequest request, HttpSession session) {
-
+      
       Locale locale = localeResolver.resolveLocale(request);
 
       Member user = (Member) session.getAttribute("user");
@@ -661,6 +671,7 @@ public class MypageController {
       model.addAttribute("url", "/mypage/myBoard");
       return "alert";
    }
+<<<<<<< HEAD
 =======
 	@Value("${pw-role.password-rejex}")
 	private String passwordRegex;
@@ -1264,5 +1275,7 @@ public class MypageController {
 		return "alert";
 	}
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
 }

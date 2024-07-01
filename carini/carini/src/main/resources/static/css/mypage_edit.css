@@ -69,7 +69,6 @@ main {
 	align-items: center;
 	justify-content: center;
 	flex-direction: row;
-	background-color: blue;
 }
 
 
@@ -86,14 +85,14 @@ form {
 
 /* 박스적용 css */
 
- .div {
-    width: 100%;
-    height: 5%;
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1%;
+.div {
+	width: 100%;
+	height: 5%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1%;
 }
 
 
@@ -112,9 +111,8 @@ form {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 95%;
+	width: 100%;
 	height: 95%;
-	background-color: red;
 }
 
 /* 가로박스 */
@@ -123,7 +121,6 @@ form {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	background-color: yellow;
 	width: 100%;
 	height: 90%;
 }
@@ -163,9 +160,11 @@ table {
 	border-collapse: collapse;
 	font-size: larger;
 	font-weight: 700;
-
+}
 
 th {
+	width: 40%;
+	height: 15%;
 	padding: 1%;
 	text-align: center;
 	border-bottom: 3px solid white;
@@ -180,19 +179,38 @@ tr {
 }
 
 td {
+	width: 60%;
+	height: 15%;
 	background-color: white;
 	color: black;
 	padding: 1%;
 	text-align: center;
-	border-bottom: 3px solid whitesmoke;
-	border-top: 3px solid whitesmoke;
+	border-bottom: 3px solid black;
+	border-top: 3px solid black;
 }
 
 /* 수정하기 버튼 */
 
 #edit_save_td {
-	width: 15%;
-	height: 10%;
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+	width: 120px;
+	height: 50px;
+	cursor: pointer;
+	padding: 1%;
+	font-weight: bold;
+}
+
+#edit_save_td:hover {
+	color: white;
+	background-color: black;
+	border: 3px solid black;
+	font-weight: bold;
+	width: 120px;
+	height: 50px;
+	cursor: pointer;
+	padding: 1%;
 }
 
 
@@ -218,6 +236,49 @@ button:hover {
 	border-radius: 0.5rem;
 	cursor: pointer;
 }
+
+/* input요소 : table에 td자리 */
+
+
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="submit"]
+ {
+    background: white;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    margin: 1%;
+    padding: 2%;
+    padding-left: 3%;
+    cursor: text;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+
+input[type="email"] {
+	width: 260px;
+	height: 30px;
+    background: white;
+      padding: 2%;
+    padding-left: 3%;
+    border-radius: 0.5em;
+    border: 1.5px solid whitesmoke;
+    cursor: text;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+
+
+#search {
+    height: 15px;
+    width: 30px;
+}
+
 
 
 /* a */
@@ -273,25 +334,25 @@ select:hover {
 .btn:hover {
 	color: black;
 	text-shadow: 1px 1px 1px 1px white;
-	
+
 }
 
 
 .information_box {
-    width: 130%;
-    height: 100%
- }
+	width: 130%;
+	height: 100%
+}
 
 
 
 
 #Favorites_box {
-	
+
 	height: 90%;
 	width: 75%;
 	display: flex;
 	flex-direction: column;
-	margin-top: 50px
+	margin-top: 50px;
 }
 
 #Favorites_box>P {
@@ -299,16 +360,16 @@ select:hover {
 	flex-direction: row;
 	font-size: 45px;
 	font-weight: 700;
-	color: #000
+	color: #000;
 }
 
 .card {
 	margin: 10px;
 	padding: 1%;
-
+	;
 	text-align: center;
 	height: 350px;
-	background-color: #fff
+	background-color: #fff;
 }
 
 .card-text {
@@ -321,7 +382,7 @@ select:hover {
 	flex-wrap: wrap;
 	flex: 1;
 	overflow: scroll;
-	overflow-x: hidden
+	overflow-x: hidden;
 }
 
 .card-title {
@@ -334,7 +395,7 @@ select:hover {
 .card:hover {
 	background-color: #f5f5f5;
 	border-radius: 30px;
-	box-shadow: inset 0 1px 0 0 rgba(192, 192, 192, .35)
+	box-shadow: inset 0 1px 0 0 rgba(192, 192, 192, .35);
 }
 
 .card_button_box {
@@ -342,7 +403,7 @@ select:hover {
 	align-items: center;
 	justify-content: center;
 	bottom: 0;
-	font-weight: 700
+	font-weight: 700;
 }
 
 .delete_button {
@@ -353,11 +414,12 @@ select:hover {
 	border: 0px;
 	align-items: center;
 	justify-content: center;
-	margin-left: 12px;;
-	padding: 0
+	margin-left: 12px;
+	padding: 0%;
 }
 
 #member_quit {
+<<<<<<< HEAD
 <<<<<<< HEAD
 	height: 10%;
 	width: 10%;
@@ -369,6 +431,16 @@ select:hover {
 	float:right;
 	padding:10px 20px;
 >>>>>>> upstream/main
+=======
+	font-size: 13px;
+	height: 25px;
+	width: 70px;
+	color: black;
+	background-color: white;
+	padding: 0%;
+	border: 0px;
+	margin-left: 900px;
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 }
 
 #first_card_box {
@@ -382,19 +454,23 @@ select:hover {
 /* 닉네임 옆에 연필모양 버튼 */
 .pencil-button {
 	padding: 0% !important;
-	margin:0%;
+	margin: 0%;
 	border: 0px;
 	cursor: pointer;
-	width: 100%;
+	width: 10%;
 }
 
 
 .pencil-button:hover {
 	padding: 0%;
-	margin:0%;
+	margin: 0%;
 	border: 0px;
 	cursor: pointer;
-	background-color:none;
-	width: 100%;
+	width: 10%;
+	background-color: white;
 }
 
+/* 연필 이미지 */
+#pencil:hover {
+	background-color: white;
+}

@@ -3,6 +3,9 @@
 
 <head>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="/css/getModel.css">
@@ -11,6 +14,7 @@
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    <!-- 차트 -->
    <script src="/js/getModel.js"></script>
+<<<<<<< HEAD
 =======
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +25,8 @@
 	<!-- 차트 -->
 	<script src="/js/getModel.js"></script>
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 </head>
 
 <body>
@@ -53,12 +59,16 @@
             </fieldset>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
             <!-- 오른쪽 박스 : 자동차 사진 -->
-            <fieldset style="width: 700px; height: 400px;">
+            <fieldset class="fieldset_img" style="width: 700px; height: 400px;">
 
                <legend th:text="${car.carName}"></legend>
                <img class="flipped-image" th:src="@{${car.carImg}}" style="width: 850px; height: 400px;"
                   alt="좌우반전 자동차사진">
+<<<<<<< HEAD
 =======
 				<!-- 오른쪽 박스 : 자동차 사진 -->
 				<fieldset class="fieldset_img" style="width: 700px; height: 400px;">
@@ -71,6 +81,12 @@
 						th:alt="${car.isBookmarked} ? '즐겨찾기 삭제' : '즐겨찾기 추가'"
 						th:onclick="'toggleBookmark(' + ${car.carId} + ',' + ${car.isBookmarked} + ')'" alt="즐겨찾기 버튼">
 >>>>>>> upstream/main
+=======
+               <img id="bookmark_img"
+                  th:src="${car.isBookmarked} ? @{/img/bookmarked.png} : @{/img/unbookmarked.png}"
+                  th:alt="${car.isBookmarked} ? '즐겨찾기 삭제' : '즐겨찾기 추가'"
+                  th:onclick="'toggleBookmark(' + ${car.carId} + ',' + ${car.isBookmarked} + ')'" alt="즐겨찾기 버튼">
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
             </fieldset>
 
@@ -141,11 +157,13 @@
             </fieldset>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
             <!-- 중간 박스 : 뭐넣을지 몰라박스 -->
             <fieldset style="width: 390px; height: 400px; background-color: whitesmoke;">
-               <legend>&nbsp;</legend>
+               <legend> &nbsp;</legend>
             </fieldset>
-
             <!-- 오른쪽 박스 : 대리점 -> 링크:홈페이지 -->
             <fieldset style="width: 390px; height: 400px;">
                <legend> AGENCY</legend>
@@ -154,6 +172,7 @@
                      style="height:60%; width:70%; padding-left:10%;margin-left:45%;">
                </a>
             </fieldset>
+<<<<<<< HEAD
 =======
 				<!-- 중간 박스 : 뭐넣을지 몰라박스 -->
 				<fieldset style="width: 390px; height: 400px; background-color: whitesmoke;">
@@ -168,6 +187,8 @@
 					</a>
 				</fieldset>
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
          </div>
 

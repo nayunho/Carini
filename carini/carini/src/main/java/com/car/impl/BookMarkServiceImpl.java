@@ -89,6 +89,7 @@ public class BookMarkServiceImpl implements BookMarkService{
 
    }
 
+<<<<<<< HEAD
    @Override
    public Car selectCar(int carId) {
       Optional<Car> car=carRepository.findById(carId);
@@ -97,6 +98,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 	@Override
 	public Car selectCar(int carId) {
 		Optional<Car> car=carRepository.findById(carId);
@@ -107,7 +110,10 @@ public class BookMarkServiceImpl implements BookMarkService{
 	public int countBookmarkById(String memberId) {
 		return bookMarkRepository.getBookmarkCount(memberId);
 	}
+<<<<<<< HEAD
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
 
 }

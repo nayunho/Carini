@@ -1,6 +1,7 @@
 package com.car.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
@@ -55,17 +56,24 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import com.car.dto.Board;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import com.car.dto.Bookmark;
 import com.car.dto.Car;
 >>>>>>> upstream/main
+=======
+import com.car.dto.Bookmark;
+import com.car.dto.Car;
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 import com.car.dto.Inquiry;
 import com.car.dto.Member;
 import com.car.dto.Notice;
 import com.car.dto.PagingInfo;
 import com.car.service.BoardService;
+import com.car.service.BookMarkService;
 import com.car.service.InquiryService;
 import com.car.service.MemberService;
+import com.car.service.ModelService;
 import com.car.service.NoticeService;
 import com.car.validation.AdminMemberValidation;
 import com.car.validation.BoardUpdateFormValidation;
@@ -75,6 +83,9 @@ import com.car.validation.NoticeUpdateFormValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 @Slf4j
 @Controller
 @RequestMapping("/admin")
@@ -88,8 +99,12 @@ public class AdminController {
    private NoticeService noticeService;
    @Autowired
    private InquiryService inquiryService;
+   @Autowired
+   private ModelService modelService;
+   @Autowired
+   private BookMarkService bookmarkService;
+   
 
-      
    @Autowired
    private MessageSource messageSource;
    @Autowired
@@ -102,17 +117,13 @@ public class AdminController {
    @Value("${path.upload}")
    public String uploadFolder;
    
-   
    @ModelAttribute("member")
    public Member setMember() {
       return new Member(); // 기본 Member 객체를 세션에 저장
    }
    
-   
    @GetMapping("/adminList")
-   public String adminList(Model model, HttpSession session) {
-      Member user = (Member) session.getAttribute("user");
-      model.addAttribute(user);
+   public String adminList(Model model) {
       
       return "admin/adminList";
    }
@@ -128,11 +139,23 @@ public class AdminController {
        @RequestParam(name = "searchType", defaultValue = "memberNickname") String searchType,
        @RequestParam(name = "searchWord", defaultValue = "") String searchWord) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
       
        curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
        Pageable pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("memberDate").descending());
        Page<Member> pagedResult = memberService.getMemberList(pageable, searchType, searchWord);
-
+       List<Member> memberList = pagedResult.getContent();
+       Map<String, List<Integer>> memberCountMap = new HashMap<>();
+       
+       for (Member member1 : memberList) {
+           int boardCount = boardService.countBoardById(member1.getMemberId());
+           int bookmarkCount = bookmarkService.countBookmarkById(member1.getMemberId());
+           int inquiryCount = inquiryService.countInquiryById(member1.getMemberId());
+           List<Integer> counts = Arrays.asList(boardCount, bookmarkCount, inquiryCount);
+           memberCountMap.put(member1.getMemberId(), counts);
+       }
        
        int totalRowCount  = (int)pagedResult.getNumberOfElements();
        int totalPageCount = pagedResult.getTotalPages();
@@ -162,12 +185,27 @@ public class AdminController {
        model.addAttribute("tp", totalPageCount);
        model.addAttribute("st", searchType);
        model.addAttribute("sw", searchWord);
-       model.addAttribute("memberList", pagedResult.getContent()); // Add this line
+       model.addAttribute("memberList", pagedResult.getContent());
+       model.addAttribute("memberCountMap", memberCountMap);
    
        return "admin/memberList";
    }
    
+   @GetMapping("/bookmarkList")
+   public String myPagebookmarkList(@RequestParam("memberId") String memberId, Model model, HttpServletRequest request, HttpSession session) {
+      Locale locale = localeResolver.resolveLocale(request);
+
+      List<Bookmark> bookmarkCarID = bookmarkService.findAllBookmarkCar(memberId);
+
+      List<Car> bookmarkCarList = bookmarkService.findAllCar(bookmarkCarID);
+      
+      model.addAttribute("memberId", memberId);
+      model.addAttribute("BookmarkCarList", bookmarkCarList);
+      return "admin/bookmarkList";
+   }
+   
    @InitBinder
+<<<<<<< HEAD
 =======
 	   
 	    curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
@@ -233,6 +271,8 @@ public class AdminController {
 	
 	@InitBinder
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setLenient(false);
@@ -331,6 +371,9 @@ public class AdminController {
         return "alert";   
                
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    }
    
    /*
@@ -343,10 +386,22 @@ public class AdminController {
           @RequestParam(name = "curPage", defaultValue = "0") int curPage,
           @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
           @RequestParam(name = "searchType", defaultValue = "boardWriter") String searchType,
-          @RequestParam(name = "searchWord", defaultValue = "") String searchWord) {
+          @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
+          @RequestParam(name = "boardSort", defaultValue = "번호순") String boardSort) {
       
        curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
-       Pageable pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("boardId").descending());
+       Pageable pageable;
+       
+       if(boardSort.equals("번호순")){
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("boardId").ascending());
+      }else if(boardSort.equals("조회순")) {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("boardCnt").descending());
+      }else if(boardSort.equals("오래된순")){
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("boardDate").ascending());
+      }else {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("boardDate").descending());
+      }
+       
        Page<Board> pagedResult = boardService.getBoardList(pageable, searchType, searchWord);
        List<Notice> noticeList = noticeService.noticeList();
        
@@ -388,6 +443,7 @@ public class AdminController {
        model.addAttribute("tp", totalPageCount);
        model.addAttribute("st", searchType);
        model.addAttribute("sw", searchWord);
+       model.addAttribute("bs", boardSort);
        model.addAttribute("boardList", pagedResult.getContent()); // Add this line
        model.addAttribute("noticeList", noticeList);
    
@@ -398,8 +454,7 @@ public class AdminController {
    @GetMapping("/updateBoard")
    public String updateBoardForm(@RequestParam("boardId") Long boardId, Model model,
                                  @ModelAttribute("BoardUpdateFormValidation") BoardUpdateFormValidation boardValidation,
-                                 BindingResult bindingResult, HttpSession session) {
-       Member user = (Member) session.getAttribute("user");
+                                 BindingResult bindingResult) {
        
        Board board = boardService.getBoardById(boardId);
        if (board == null) {
@@ -407,6 +462,7 @@ public class AdminController {
            model.addAttribute("url", "/admin/boardList");
            return "alert";
        }
+<<<<<<< HEAD
 =======
 	}
 	
@@ -497,21 +553,17 @@ public class AdminController {
 	        return "alert";
 	    }
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
-       if ("ROLE_ADMIN".equals(user.getMemberRole().toString())) {
+        boardValidation.setBoardTitle(board.getBoardTitle());
+        boardValidation.setBoardContent(board.getBoardContent());
+        
+        model.addAttribute("BoardUpdateFormValidation", boardValidation);
+        model.addAttribute("board", board);
+        
+        return "admin/updateBoard";  // 게시글 수정 페이지
 
-           boardValidation.setBoardTitle(board.getBoardTitle());
-           boardValidation.setBoardContent(board.getBoardContent());
-           
-           model.addAttribute("BoardUpdateFormValidation", boardValidation);
-           model.addAttribute("board", board);
-           
-           return "admin/updateBoard";  // 게시글 수정 페이지
-       }
-       
-       model.addAttribute("msg", "관리자만 수정이 가능합니다!.");
-       model.addAttribute("url", "/admin/boardList");
-       return "alert";
    }
    
    // 게시판 수정
@@ -545,18 +597,18 @@ public class AdminController {
    
    // 게시판 삭제
    @GetMapping("/deleteBoard")
-   public String deleteBoard(Board board, HttpSession session,Model model)  {
-        Board findboard =  boardService.getBoardById(board.getBoardId());
-        
-        if(findboard ==null) {
-           model.addAttribute("msg", "해당 게시물이 존재하지않습니다.");
-           model.addAttribute("url", "/admin/boardList");
-           return "alert";
-        }
+   public String deleteBoard(Board board, Model model)  {
+      Board findboard =  boardService.getBoardById(board.getBoardId());
+     
+      if(findboard ==null) {
+         model.addAttribute("msg", "해당 게시물이 존재하지않습니다.");
+         model.addAttribute("url", "/admin/boardList");
+         return "alert";
+      }
         
       boardService.deleteBoard(findboard);
       model.addAttribute("msg", "해당 게시물을 삭제하였숩니다.");
-        model.addAttribute("url", "/admin/boardList");
+      model.addAttribute("url", "/admin/boardList");
       return "alert";
    }
    
@@ -614,9 +666,8 @@ public class AdminController {
    @GetMapping("/updateNotice")
    public String updateNoticeForm(@RequestParam("noticeId") Long noticeId, Model model,
          @ModelAttribute("NoticeUpdateFormValidation") NoticeUpdateFormValidation noticeValidation,
-         BindingResult bindingResult, HttpSession session) {
-      
-      Member user = (Member) session.getAttribute("user");
+         BindingResult bindingResult) {
+
       Notice notice = noticeService.getNoticebyId(noticeId);
       
       if(notice == null) {
@@ -625,19 +676,15 @@ public class AdminController {
            return "alert";
       }
       // user의 Role이 ROLE_ADMIN일 때만 업데이트할 수 있도록 처리
-      if("ROLE_ADMIN".equals(user.getMemberRole().toString())) {
-         noticeValidation.setNoticeTitle(notice.getNoticeTitle());
-         noticeValidation.setNoticeContent(notice.getNoticeContent());
-         
-         model.addAttribute("NoticeUpdateFormValidation", noticeValidation);
-         model.addAttribute("notice", notice);
-         
-         return "admin/updateNotice";
-      }
-      System.out.println("user.getMemberRole()====>"+user.getMemberRole().toString());
-      model.addAttribute("msg", "관리자만 공지사항 수정이 가능합니다!.");
-       model.addAttribute("url", "/admin/noticeList");
-      return "alert";
+      noticeValidation.setNoticeTitle(notice.getNoticeTitle());
+      noticeValidation.setNoticeContent(notice.getNoticeContent());
+      
+      model.addAttribute("NoticeUpdateFormValidation", noticeValidation);
+      model.addAttribute("notice", notice);
+      
+      return "admin/updateNotice";
+   
+
    }
    
    // 공지사항 수정
@@ -670,26 +717,21 @@ public class AdminController {
    }
    
    // 공지사항 작성 폼
-   @GetMapping("insertNotice")
-   public String insertNoticeForm(Notice notice, Model model, HttpSession session) {
-      Member user = (Member) session.getAttribute("user");
+   @GetMapping("/insertNotice")
+   public String insertNoticeForm(Notice notice, Model model) {
       LocalDate currentDate = LocalDate.now();
       
-      // 관리자만 작성할 수 있도록 설정
-      if("ROLE_ADMIN".equals(user.getMemberRole().toString())) {
-         
-         model.addAttribute("NoticeUpdateFormValidation", new NoticeUpdateFormValidation());
-         model.addAttribute("date",currentDate);
-         return "admin/insertNotice";
-      }
-      
-      model.addAttribute("msg", "관리자만 공지사항 작성이 가능합니다!");
-       model.addAttribute("url", "/admin/noticeList");
-      return "alert";
+      model.addAttribute("NoticeUpdateFormValidation", new NoticeUpdateFormValidation());
+      model.addAttribute("date",currentDate);
+      return "admin/insertNotice";
+
       
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    // 공지사항 작성
    @PostMapping("/insertNotice")
    public String insertNotice(Notice notice,@Validated @ModelAttribute("NoticeUpdateFormValidation") NoticeUpdateFormValidation noticeValidation,
@@ -766,7 +808,7 @@ public class AdminController {
    
    // 공지사항 삭제
    @GetMapping("deleteNotice")
-   public String deleteNotice(Notice notice, HttpSession session,Model model)  {
+   public String deleteNotice(Notice notice, Model model)  {
      Notice findNotice = noticeService.getNoticebyId(notice.getNoticeId());
      
      if(findNotice ==null) {
@@ -782,6 +824,7 @@ public class AdminController {
    }
    
    /*
+<<<<<<< HEAD
 =======
 		Notice notice = noticeService.getNoticebyId(noticeId);
 		
@@ -936,6 +979,8 @@ public class AdminController {
 	
 	/*
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
     * 문의(inquiry) 관리 =======================================================================
    * */
    
@@ -968,6 +1013,9 @@ public class AdminController {
        pagingInfo.setRowSizePerPage(rowSizePerPage);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
        model.addAttribute("pagingInfo", pagingInfo);
        model.addAttribute("pagedResult", pagedResult);
        model.addAttribute("pageable", pageable);
@@ -981,43 +1029,64 @@ public class AdminController {
       model.addAttribute("sw", searchWord);
        model.addAttribute("inquiryList", pagedResult.getContent()); // Add this line
        
-       
        return "admin/inquiryList";
    }
    
+   // 답변 등록 및 수정 폼
    @GetMapping("/answerInquiry")
-   public String answerInquiry(@RequestParam("reId") Long reId, Model model, HttpSession session) {
+   public String answerInquiryForm(@RequestParam("reId") Long reId, Model model) {
       
       LocalDate currentDate = LocalDate.now();
       Inquiry findInquiry = inquiryService.findbyreIdinquiry(reId);
-      Member user = (Member) session.getAttribute("user");
       
-      if(findInquiry != null && "ROLE_ADMIN".equals(user.getMemberRole().toString())) {
+      if(findInquiry != null) {
          
          model.addAttribute("date",currentDate);
          model.addAttribute("inquiry",findInquiry);
          return "admin/answerInquiry";
          
-      } else if(findInquiry == null) {
-         
+      } else {
          model.addAttribute("msg", "문의 내역이 없습니다!");
           model.addAttribute("url", "/admin/inquiryList");
          return "alert";
          
-      } else {
-         
-         model.addAttribute("msg", "관리자만 답변할 수 있습니다!");
+      }
+   }
+   
+   // 답변 등록 및 수정
+   @PostMapping("/answerInquiry")
+   public String answerInquiry(@ModelAttribute("inquiry") Inquiry inquiry, Model model) {
+
+      
+      inquiry.setReCheckRq(true);
+      inquiryService.answerInquiry(inquiry);
+      model.addAttribute("msg", "문의번호 "+ inquiry.getReId() +"번 답변완료!");
+      model.addAttribute("url", "/admin/inquiryList");
+      return "alert";
+      
+   }
+   
+   // 문의 삭제
+   @GetMapping("/deleteInquiry")
+   public String deleteInquiryForm(@RequestParam("reId") Long reId, Model model) {
+      
+      Inquiry findInquiry = inquiryService.findbyreIdinquiry(reId);
+      
+      if(findInquiry != null) {
+         inquiryService.deleteInquiryById(reId);
+         model.addAttribute("msg", "삭제완료!");
          model.addAttribute("url", "/admin/inquiryList");
          return "alert";
-      }
-      
-      
-      
-      
+      } else {
+         model.addAttribute("msg", "문의 내역이 없습니다!");
+          model.addAttribute("url", "/admin/inquiryList");
+         return "alert";
+      } 
       
    }
    
    
+<<<<<<< HEAD
    
 =======
 	    model.addAttribute("pagingInfo", pagingInfo);
@@ -1091,59 +1160,62 @@ public class AdminController {
 	
 	
 	/*
+=======
+   /*
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
     * 모델(Model) 관리 =======================================================================
-	* */
-	
-	@GetMapping("/modelList")
-	public String getBoardList(Model model, 
-	       @RequestParam(name = "curPage", defaultValue = "0") int curPage,
-	       @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
-	       @RequestParam(name = "filterMinPrice", defaultValue = "0") Long filterMinPrice,
-	       @RequestParam(name = "filterMaxPrice", defaultValue = "1000000000") Long filterMaxPrice,
-	       @RequestParam(name = "filterSize", defaultValue = "선택안함") String filterSize,
-	       @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
-	       @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
-	       @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
-	       HttpSession session) {
+   * */
+   
+   @GetMapping("/modelList")
+   public String getBoardList(Model model, 
+          @RequestParam(name = "curPage", defaultValue = "0") int curPage,
+          @RequestParam(name = "rowSizePerPage", defaultValue = "10") int rowSizePerPage,
+          @RequestParam(name = "filterMinPrice", defaultValue = "0") Long filterMinPrice,
+          @RequestParam(name = "filterMaxPrice", defaultValue = "1000000000") Long filterMaxPrice,
+          @RequestParam(name = "filterSize", defaultValue = "선택안함") String filterSize,
+          @RequestParam(name = "filterFuel", defaultValue = "선택안함") String filterFuel,
+          @RequestParam(name = "carSort", defaultValue = "저가순") String carSort,
+          @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
+          HttpSession session) {
 
-		Member user = (Member) session.getAttribute("user");
-		
-		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
-		
-		Pageable pageable;
+      Member user = (Member) session.getAttribute("user");
+      
+      curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
+      
+      Pageable pageable;
 
-		if(carSort.equals("저가순")){
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
-		}else if(carSort.equals("고가순")) {
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
-		}else {
-			pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
-		}
-	    
-	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
+      if(carSort.equals("저가순")){
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").ascending());
+      }else if(carSort.equals("고가순")) {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carAvgPrice").descending());
+      }else {
+         pageable = PageRequest.of(curPage, rowSizePerPage, Sort.by("carName").ascending());
+      }
+       
+       Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord);
 
-	    int totalRowCount  = (int)pagedResult.getNumberOfElements();
-	    int totalPageCount = pagedResult.getTotalPages();
-	    int pageSize       = pagingInfo.getPageSize();
-	    int startPage      = (curPage / pageSize) * pageSize + 1;
-	    int endPage        = startPage + pageSize - 1;
-	    endPage = endPage > totalPageCount ? (totalPageCount > 0 ? totalPageCount : 1) : endPage;
-	    
-	    pagingInfo.setCurPage(curPage);
-	    pagingInfo.setTotalRowCount(totalRowCount);
-	    pagingInfo.setTotalPageCount(totalPageCount);
-	    pagingInfo.setStartPage(startPage);
-	    pagingInfo.setEndPage(endPage);
-	    pagingInfo.setCarMinPrice(filterMinPrice);
-	    pagingInfo.setCarMaxPrice(filterMaxPrice);
-	    pagingInfo.setCarSize(filterSize);
-	    pagingInfo.setCarFuel(filterFuel);
-	    pagingInfo.setSearchWord(searchWord);
-	    pagingInfo.setRowSizePerPage(rowSizePerPage);
-	    
-	    model.addAttribute("pagingInfo", pagingInfo);
-	    model.addAttribute("pagedResult", pagedResult);
-	    model.addAttribute("pageable", pageable);
+       int totalRowCount  = (int)pagedResult.getNumberOfElements();
+       int totalPageCount = pagedResult.getTotalPages();
+       int pageSize       = pagingInfo.getPageSize();
+       int startPage      = (curPage / pageSize) * pageSize + 1;
+       int endPage        = startPage + pageSize - 1;
+       endPage = endPage > totalPageCount ? (totalPageCount > 0 ? totalPageCount : 1) : endPage;
+       
+       pagingInfo.setCurPage(curPage);
+       pagingInfo.setTotalRowCount(totalRowCount);
+       pagingInfo.setTotalPageCount(totalPageCount);
+       pagingInfo.setStartPage(startPage);
+       pagingInfo.setEndPage(endPage);
+       pagingInfo.setCarMinPrice(filterMinPrice);
+       pagingInfo.setCarMaxPrice(filterMaxPrice);
+       pagingInfo.setCarSize(filterSize);
+       pagingInfo.setCarFuel(filterFuel);
+       pagingInfo.setSearchWord(searchWord);
+       pagingInfo.setRowSizePerPage(rowSizePerPage);
+       
+       model.addAttribute("pagingInfo", pagingInfo);
+       model.addAttribute("pagedResult", pagedResult);
+       model.addAttribute("pageable", pageable);
         model.addAttribute("cp", curPage);
         model.addAttribute("sp", startPage);
         model.addAttribute("ep", endPage);
@@ -1156,39 +1228,48 @@ public class AdminController {
         model.addAttribute("fs", filterSize);
         model.addAttribute("ff", filterFuel);
         model.addAttribute("cs", carSort);
-	    model.addAttribute("carList", pagedResult.getContent());
-	    
-	    return "admin/modelList";
-	}
-	
-	@GetMapping("/updateCar")
-	public String updateCarForm(@RequestParam("carId") int carId, Model model) {
+       model.addAttribute("carList", pagedResult.getContent());
+       
+       return "admin/modelList";
+   }
+   
+   @GetMapping("/updateCar")
+   public String updateCarForm(@RequestParam("carId") int carId, Model model) {
+      Car car = modelService.getCarbyId(carId);
+      if(car != null) {
+         model.addAttribute("car", car);
+         return "admin/updateCar";
+      } else {
+         model.addAttribute("msg", "차 데이터가 없습니다!");
+          model.addAttribute("url", "/admin/modelList");
+         return "alert";
+      } 
+      
 
-		Car car = modelService.getCarbyId(carId);
-		if(car != null) {
-			model.addAttribute("car", car);
-			return "admin/updateCar";
-		} else {
-			model.addAttribute("msg", "차 데이터가 없습니다!");
-		    model.addAttribute("url", "/admin/modelList");
-			return "alert";
-		} 
-		
+   }
+   
+   @PostMapping("/updateCar")
+   public String updateCar(@ModelAttribute("car") Car car, Model model) {
+      System.out.println(car);
+      if(car != null) {
+         modelService.updateCar(car);
+         return "redirect:/admin/modelList";
+      } else {
+         model.addAttribute("msg", "차 데이터가 없습니다!");
+          model.addAttribute("url", "/admin/modelList");
+         return "alert";
+      } 
 
-	}
-	
-	@PostMapping("/updateCar")
-	public String updateCar(@ModelAttribute("car") Car car, Model model) {
-		System.out.println(car);
-		if(car != null) {
-			modelService.updateCar(car);
-			return "redirect:/admin/modelList";
-		} else {
-			model.addAttribute("msg", "차 데이터가 없습니다!");
-		    model.addAttribute("url", "/admin/modelList");
-			return "alert";
-		} 
+   }
+   
+   @GetMapping("insertCar")
+   public String insertCarForm(Car car, Model model) {
+      
+      model.addAttribute("car", car);
+      
+      return "admin/insertCar";
 
+<<<<<<< HEAD
 	}
 	
 	@GetMapping("insertCar")
@@ -1212,6 +1293,21 @@ public class AdminController {
 	
 	
 >>>>>>> upstream/main
+=======
+      
+   }
+   
+   @PostMapping("/insertCar")
+   public String insertCar(@ModelAttribute("car") Car car, Model model) {
+      
+      modelService.insertCar(car);
+      
+      return "redirect:/admin/modelList";
+      
+   }
+   
+   
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 }
 
 

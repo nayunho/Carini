@@ -291,7 +291,7 @@ table {
     border-bottom: 1px solid black; 
    font-size: larger;
    font-weight: 700;
-   border-bottom: 1px solid black;
+   border-bottom: 2px solid black;
 }
 
 th,
@@ -299,7 +299,6 @@ td {
    padding: 1%;
    text-align: center;
    background-color: white;
-   border-bottom: 1px solid black;
 }
 
 th {

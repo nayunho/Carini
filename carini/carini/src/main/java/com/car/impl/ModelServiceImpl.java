@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.car.dto.Board;
 import com.car.dto.Car;
 import com.car.dto.CarBrand;
 import com.car.persistence.CarBrandRepository;
@@ -132,6 +134,9 @@ public class ModelServiceImpl implements ModelService{
     
     @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    public CarBrand getURLbrBrand(String carBrandName) {
        Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
       
@@ -141,6 +146,7 @@ public class ModelServiceImpl implements ModelService{
        
       return carBrand.get();
    }
+<<<<<<< HEAD
 
 =======
 	public CarBrand getURLbrBrand(String carBrandName) {
@@ -152,6 +158,8 @@ public class ModelServiceImpl implements ModelService{
     	
 		return carBrand.get();
 	}
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
     
     @Override
     @Transactional
@@ -184,8 +192,11 @@ public class ModelServiceImpl implements ModelService{
     
     @Override
     public void insertCar(Car car) {
-    	carRepository.save(car);
+       carRepository.save(car);
     }
+<<<<<<< HEAD
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
 }

@@ -2088,7 +2088,6 @@ input, select {
    form input[type="password"],   
    form select,
    form textarea {
-      -webkit-appearance: none;
       display: block;
       border: 0;
       background: #fafafa;
@@ -2381,10 +2380,7 @@ input, select {
         color: black;
     }
 
-    a.Board-hover:hover {
-        /* text-decoration: underline; */
-    }
-
+  
  .checkbox {
         flex: 0 0 50px; /* 고정 크기 */
       }
@@ -2830,9 +2826,6 @@ footer {
 
 }
 
-#login{
-   
-}
 
 
    #main {
@@ -2871,12 +2864,7 @@ footer {
             position: absolute;
             top: 50%;
             margin-top: -3em;
-            -moz-transition: background-color 0.35s ease-in-out;
-            -webkit-transition: background-color 0.35s ease-in-out;
-            -o-transition: background-color 0.35s ease-in-out;
-            -ms-transition: background-color 0.35s ease-in-out;
-            transition: background-color 0.35s ease-in-out;
-            -webkit-backface-visibility: hidden;
+
          }
 
          .carousel .forward:after, .carousel .backward:after {
@@ -3097,7 +3085,7 @@ footer {
          }
 
          h2 {
-            fongt-size: 1.25em;} 
+            font-size: 1.25em;} 
          }
             
       table, tr, td {

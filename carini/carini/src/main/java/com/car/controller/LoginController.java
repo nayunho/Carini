@@ -68,8 +68,11 @@ public class LoginController {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    /* 세션 초기화 */
-   @RequestMapping("/logout2")
+   @RequestMapping("/user_logout")
    public String backhome(HttpServletRequest request,HttpServletResponse response) {
       // 세션을 삭제
       HttpSession session = request.getSession(false);
@@ -85,6 +88,7 @@ public class LoginController {
       response.setHeader("Cache-Control", "no-store");
       response.setHeader("Pragma", "no-cache");
       response.setDateHeader("Expires", 0);
+<<<<<<< HEAD
 =======
 	/* 세션 초기화 */
 	@RequestMapping("/user_logout")
@@ -104,16 +108,20 @@ public class LoginController {
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", 0);
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
       return "redirect:/homepage/first_home";
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    @RequestMapping("/homepage/first_home")
    public String firstHome() {
       return "homepage/first_home";
    }
-
    /*
     * 회원가입 view
     */
@@ -121,6 +129,7 @@ public class LoginController {
    public String joinView(@ModelAttribute("SignupFormValidation") SignupFormValidation member) {
       return "member/signup.html";
    }
+<<<<<<< HEAD
 =======
 	@RequestMapping("/homepage/first_home")
 	public String firstHome() {
@@ -134,6 +143,8 @@ public class LoginController {
 		return "member/signup.html";
 	}
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
    @GetMapping("/test")
    public String getTestPage(Model model) {
@@ -244,6 +255,9 @@ public class LoginController {
       if (findmember != null && findmember.getMemberPw().equals(memberPw)) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
          // 로그인 성공 시 세션에 멤버정보 저장하고 홈페이지로 이동
          session.setAttribute("user", findmember);
          
@@ -255,11 +269,12 @@ public class LoginController {
             return "redirect:/board/getBoardList";
          }
          
-         if (redirectURL.contains("/model/getmodel/")) {
+         if (redirectURL.contains("/model/bookmark/")) {
             int carId = Integer.parseInt(redirectURL.substring(redirectURL.lastIndexOf("/") + 1));
                System.out.println(carId);
             return "redirect:/model/getModel?carId=" + carId;
          }
+<<<<<<< HEAD
 =======
 			// 로그인 성공 시 세션에 멤버정보 저장하고 홈페이지로 이동
 			session.setAttribute("user", findmember);
@@ -278,6 +293,8 @@ public class LoginController {
 				return "redirect:/model/getModel?carId=" + carId;
 			}
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
          return "redirect:" + redirectURL;
       } else {
@@ -287,9 +304,11 @@ public class LoginController {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
    /*
     * 로그아웃
-    */
    @PostMapping("/logout")
    public String logout(HttpServletRequest request) {
       // 세션을 삭제
@@ -301,7 +320,7 @@ public class LoginController {
       }
       return "redirect:/";
    }
-
+*/
    /*
     * 아이디 찾기 폼
     */
@@ -309,6 +328,7 @@ public class LoginController {
    public String find_idForm(@ModelAttribute("Find_idFormValidation") Find_idFormValidation find_idFormValidation) {
       return "member/find_id";
    }
+<<<<<<< HEAD
 =======
 	/*
 	 * 로그아웃
@@ -332,6 +352,8 @@ public class LoginController {
 		return "member/find_id";
 	}
 >>>>>>> upstream/main
+=======
+>>>>>>> c2c34a4ff92ef5883d1d4688cf5e3b0e1a81b0ac
 
    /*
     * 비밀번호 찾기 폼
