@@ -131,6 +131,7 @@ public class ModelServiceImpl implements ModelService{
     }
     
     @Override
+<<<<<<< HEAD
    public CarBrand getURLbrBrand(String carBrandName) {
        Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
       
@@ -141,5 +142,50 @@ public class ModelServiceImpl implements ModelService{
       return carBrand.get();
    }
 
+=======
+	public CarBrand getURLbrBrand(String carBrandName) {
+    	Optional<CarBrand> carBrand =  carBrandRepository.findById(carBrandName);
+		
+    	if(!carBrand.isPresent()) {
+    		return null;
+    	}
+    	
+		return carBrand.get();
+	}
+    
+    @Override
+    @Transactional
+    public void updateCar(Car car) {
+        Optional<Car> optionalCar = carRepository.findById(car.getCarId());
+        
+        if (optionalCar.isPresent()) {
+            Car findCar = optionalCar.get();
+
+            findCar.setCarName(car.getCarName());
+            findCar.setCarMinPrice(car.getCarMinPrice());
+            findCar.setCarMaxPrice(car.getCarMaxPrice());
+            findCar.setCarAvgPrice(car.getCarAvgPrice());
+            findCar.setCarSize(car.getCarSize());
+            findCar.setCarFuel(car.getCarFuel());
+            findCar.setCarImg(car.getCarImg());
+            findCar.setCarScPer(car.getCarScPer());
+            findCar.setCarScPrice(car.getCarScPrice());
+            findCar.setCarScGeoju(car.getCarScGeoju());
+            findCar.setCarScQuality(car.getCarScQuality());
+            findCar.setCarScDesign(car.getCarScDesign());
+            findCar.setCarScEff(car.getCarScEff());
+            findCar.setCarScAvg(car.getCarScAvg());
+            
+            carRepository.save(findCar);
+        } else {
+            throw new IllegalArgumentException("No car found with ID: " + car.getCarId());
+        }
+    }
+    
+    @Override
+    public void insertCar(Car car) {
+    	carRepository.save(car);
+    }
+>>>>>>> upstream/main
 
 }

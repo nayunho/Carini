@@ -358,8 +358,17 @@ select:hover {
 }
 
 #member_quit {
+<<<<<<< HEAD
 	height: 10%;
 	width: 10%;
+=======
+   text-align: center;
+   color: #000;
+   font-size: 10px;
+   white-space: nowrap;
+	float:right;
+	padding:10px 20px;
+>>>>>>> upstream/main
 }
 
 #first_card_box {
