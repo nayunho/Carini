@@ -14,6 +14,8 @@ import com.car.dto.Member;
 import com.car.persistence.InquiryRepository;
 import com.car.service.InquiryService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class InquiryServiceImpl implements InquiryService{
 
@@ -79,5 +81,12 @@ public class InquiryServiceImpl implements InquiryService{
 	@Override
 	public int countInquiryById(String memberId) {
 		return inquiryRepository.getBookmarkCount(memberId);
+	}
+
+	@Override
+	@Transactional
+	public void deleteMember(Member findmember) {
+		inquiryRepository.deleteByMemberId(findmember.getMemberId());
+		
 	}
 }
