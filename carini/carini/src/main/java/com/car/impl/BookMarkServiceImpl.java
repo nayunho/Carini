@@ -106,7 +106,6 @@ public class BookMarkServiceImpl implements BookMarkService{
                 .map(Bookmark::getCarId)
                 .collect(Collectors.toSet());
     }
-
 	@Override
 	@Transactional
 	public void deleteMember(Member findmember) {

@@ -714,9 +714,10 @@ public class AdminController {
    @PostMapping("/answerInquiry")
    public String answerInquiry(@ModelAttribute("inquiry") Inquiry inquiry, Model model) {
 
-      
       inquiry.setReCheckRq(true);
       inquiryService.answerInquiry(inquiry);
+      System.out.println("4444444444");
+      System.out.println(inquiry);
       model.addAttribute("msg", "문의번호 "+ inquiry.getReId() +"번 답변완료!");
       model.addAttribute("url", "/admin/inquiryList");
       return "alert";
@@ -870,3 +871,21 @@ public class AdminController {
 
    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
