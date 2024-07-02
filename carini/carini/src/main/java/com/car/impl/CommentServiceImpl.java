@@ -65,5 +65,4 @@ public class CommentServiceImpl implements CommentService{
 		commentRepository.deleteByUserId(findmember.getMemberId());
 		
 	}
-
 }
