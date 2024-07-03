@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
 import com.car.dto.Bookmark;
@@ -49,7 +50,6 @@ public class ModelController {
 	private final BookMarkService bookMarkService;
 	private final MessageSource messageSource;
 	private final LocaleResolver localeResolver;
-	
 	public PagingInfo pagingInfo = new PagingInfo();
 	
 	@ModelAttribute("member")
@@ -78,7 +78,6 @@ public class ModelController {
 		if(session != null ) {
 			user = (Member) session.getAttribute("user");
 		}
-		
 		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
 		
 		Pageable pageable = PageRequest.of(curPage, rowSizePerPage);
