@@ -26,29 +26,29 @@ import com.car.dto.Car;
 import com.car.dto.CarBrand;
 import com.car.dto.Member;
 import com.car.dto.PagingInfo;
+import com.car.service.BoardService;
 import com.car.service.BookMarkService;
+import com.car.service.CommentService;
 import com.car.service.MemberService;
 import com.car.service.ModelService;
+import com.car.service.NoticeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/model")
+@RequiredArgsConstructor
 public class ModelController {
 	
-	@Autowired
-	private MemberService memberService;
-	@Autowired
-	private ModelService modelService;
-	@Autowired
-	private BookMarkService bookMarkService;
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	private LocaleResolver localeResolver;
+	private final MemberService memberService;
+	private final ModelService modelService;
+	private final BookMarkService bookMarkService;
+	private final MessageSource messageSource;
+	private final LocaleResolver localeResolver;
 	
 	public PagingInfo pagingInfo = new PagingInfo();
 	
@@ -74,7 +74,10 @@ public class ModelController {
 	       @RequestParam(name = "exCar", defaultValue = "false") Boolean exCar,
 	       HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		Member user = null;
+		Member user= null;
+		if(session != null ) {
+			user = (Member) session.getAttribute("user");
+		}
 		
 		curPage = Math.max(curPage, 0);  // Ensure curPage is not negative
 		
@@ -82,12 +85,17 @@ public class ModelController {
 	    
 	    Page<Car> pagedResult = modelService.filterCars(pageable, filterMinPrice, filterMaxPrice, filterSize, filterFuel, searchWord, carSort, exCar);
 	    
-	    // 세션이 null이 아니면 사용자 정보를 가져옴
-	    if (user != null) {
-	    	Set<Integer> bookmarkedCarIds = bookMarkService.getBookmarkedCarIdsByMember(user.getMemberId());
-	    	pagedResult.getContent().forEach(car -> car.setBookmarked(bookmarkedCarIds.contains(car.getCarId())));
+	    // 즐겨찾기 추가
+	    for (Car car1 : pagedResult) {
+	    	boolean isBookmarked = false;
+	    	if (user != null) {
+	    		isBookmarked = bookMarkService.isBookmarkedByMember(user.getMemberId(), car1.getCarId());
+	    	}
+	        car1.setBookmarked(isBookmarked);
 	    }
+	    
 	    log.info("exCar = {}", exCar);
+	    
 	    if(exCar) {
 	    	filterMinPrice = 50000L;
 	    	filterMaxPrice = 10000000L;

@@ -20,6 +20,8 @@
    <link rel="stylesheet" href="/css/base/base.css">
    <link rel="stylesheet" href="/css/base/inquiry.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+     integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 
    <style>
       /* css에서 안 먹어서 따로 기재 */
@@ -50,11 +52,13 @@
    </style>
 
 
+
 </head>
 
 <body>
    <!--Header-->
    <header th:replace="~{base/base :: main_header}"></header>
+
 
    <!--챗봇 아이콘-->
    <div th:replace="~{base/base :: floaticon}"></div>
@@ -231,7 +235,8 @@
       <div style="height: 50px;"></div> <!--간격박스-->
 
       <!--자동차LIST-->
-      <div class="flex-container_row" style="margin-left: 7%; width: 110%;">
+      <div class="flex-container_row" style="margin-left: 7%; width: 110%;      cursor: pointer;">
+
 
          <!-- 카드 박스 반복-->
          <div class="card_box" style="display: flex; flex-wrap: wrap; width: 100%" id="first_card_box">
@@ -332,15 +337,14 @@
                   <tr>
                      <td><span id="car1Name" style="font-weight: bold;"></span>
                         <a onclick="removeCarFromComparison(1)">
-                           <img src="/img/cancel.png" alt="삭제"
-                              style="height: 20px; width: 20px; padding-left: 20px;" />
+                           <img src="/img/cancel.png" alt="삭제" class="cancel" />
                         </a>
                      </td>
-                     <th style="padding: 0%; font-weight: 300;">VS</th>
+                     <th style="padding-top: 2%; font-weight: 300;">VS</th>
                      <td><span id="car2Name" style="font-weight: bold;"></span>
                         <a onclick="removeCarFromComparison(2)">
-                           <img src="/img/cancel.png" alt="삭제"
-                              style="height: 20px; width: 20px; padding-left: 20px;" />
+                           <img src="/img/cancel.png" alt="삭제" class="cancel" />
+
                         </a>
                      </td>
                   </tr>
@@ -375,8 +379,8 @@
                   <tr id="carRadarChart">
                      <td style="text-align: center;"><canvas id="car1RadarChart"></canvas></td>
                      <td><br />
-                        <a th:onclick="combineRadarChart()" id="combine">
-                           COMBINE</a>
+                        <a th:onclick="combineRadarChart()" id="combine" >
+         COMBINE</a>
                      </td>
                      <td><canvas id="car2RadarChart"></canvas></td>
                   </tr>
@@ -396,10 +400,11 @@
       </div>
 
    </main>
-
+   <div id="kakao-talk-channel-chat-button"></div>
    <!-- Footer -->
    <footer th:replace="~{base/base :: main_footer}"></footer>
-
+   <div id="kakao-talk-channel-chat-button"></div>
+   <script th:replace="~{base/base :: inquiry_script}"></script>
    <!-- Inquiry 
    <div th:replace="~{base/base :: inquiry_overlayhtml}"></div>
    <div th:replace="~{base/base :: inquiry_Listhtml}"></div>
