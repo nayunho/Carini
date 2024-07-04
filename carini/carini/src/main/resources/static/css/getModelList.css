@@ -207,13 +207,6 @@ a {
 
 }
 
-
-*,
-::after,
-::before {
-   box-sizing: content-box !important;
-}
-
 ::after,
 ::before {
    box-sizing: none;

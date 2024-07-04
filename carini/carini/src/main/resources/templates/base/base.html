@@ -30,7 +30,9 @@
                      th:text="#{side.menu3}"></a></li>
             </ul>
          </li>
-      </ul>
+		 <li th:if="${session.user == null}" ><a  th:href="@{/member_login}">Login</a></li> 
+		 <li th:if="${session.user != null}"><a  th:href="@{/user_logout}">LogOut</a></li> 
+	 </ul>
    </nav>
 </div>
 <!--여기까지 헤더-->

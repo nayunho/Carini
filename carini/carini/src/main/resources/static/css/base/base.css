@@ -720,3 +720,6 @@ footer img {
 	z-index: 1000;
 	cursor: pointer;
 }
+img {
+	cursor: pointer;
+}
