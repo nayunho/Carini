@@ -331,6 +331,7 @@ function Comment_fold(link) {
 	$("#comment_more" + commentId).removeClass("disabled");
 	$("#comment_more_" + commentId).removeClass("disabled");
 	$(".comment_moreList_" + commentId).remove();
+
 }
 
 
