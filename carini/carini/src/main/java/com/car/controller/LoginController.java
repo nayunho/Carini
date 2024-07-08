@@ -71,7 +71,7 @@ public class LoginController {
 
 	@RequestMapping("/")
 	public String first_home() {
-		return "homepage/home";
+		return "redirect:/home";
 	}
 
 	/* 세션 초기화 */
@@ -103,7 +103,7 @@ public class LoginController {
 		model.addAttribute("top10Cars", top10Cars);
 		System.out.println(top10Cars);
 		
-		return "homepage/home.html";
+		return "homepage/home";
 	}
 	
 	/*
@@ -243,7 +243,6 @@ public class LoginController {
 		Member findmember = memberService.findMember(memberId);
 
 		if (findmember == null) {
-
 			model.addAttribute("memberIdError", "존재하지 않는 아이디입니다.");
 			return "member/login";
 		}
