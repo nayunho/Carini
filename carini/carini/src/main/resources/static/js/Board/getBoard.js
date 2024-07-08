@@ -92,10 +92,11 @@ function updateCommentsTable(comments, userId, boardId,user_Nickname) {
 	댓글 삭제
  */
 function deleteComment(link) {
-
 	let user_ID = document.querySelector("#hidden_userId").value;
 	let commentId = $(link).attr("data-delete-commentid");
 	let boardId = document.querySelector("#delete_boardId").value;
+	console.log("==============");
+	console.log(commentId);
 	if (confirm("정말로 삭제하시겠습니까?")) {
 
 		$.ajax({
