@@ -165,7 +165,6 @@
 }
 
 .qna_button {
-
 	position: absolute;
 	white-space: nowrap;
 	padding: 0;
@@ -340,7 +339,6 @@
 	background-color: white;
 	border: none;
 }
-
 #inquiry_close-popup:hover {
 	opacity: 1;
 	color: #FFCC4C;
