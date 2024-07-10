@@ -10,6 +10,7 @@
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
 		integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
 		crossorigin="anonymous"></script>
@@ -24,6 +25,68 @@
 		min-width: 100%;
 		box-sizing: border-box;
 	}
+
+	.qna_button:hover {
+		position: absolute;
+		white-space: nowrap;
+		padding: 0;
+		width: 100px;
+		bottom: 20px;
+		left: 40%;
+		font-weight: bolder;
+		cursor: pointer;
+	}
+
+	.delete_qna {
+		color: black;
+		transition: none;
+		animation: none;
+	}
+
+	.delete_qna:hover {
+		background-color: white;
+		color: #FFCC4C;
+		cursor: pointer;
+		border: none;
+		width: inherit;
+		transition: none;
+		animation: none;
+	}
+
+	.qna_button {
+		color: black;
+		border: none;
+		text-align: center;
+		transition: none;
+		animation: none;
+	}
+
+	.qna_button:hover {
+		background-color: white;
+		color: #FFCC4C;
+		border: none;
+		text-align: center;
+		transition: none;
+		animation: none;
+	}
+
+	#form_edit {
+		display: block;
+	}
+
+	#inquiry_close-popup {
+		font-weight: 700;
+		color: black;
+		transition: none;
+		animation: none;
+	}
+
+	#inquiry_close-popup:hover {
+		background-color: white;
+		color: #FFCC4C;
+		transition: none;
+		animation: none;
+	}
 </style>
 
 <body class="homepage is-preload">
@@ -36,7 +99,7 @@
 			</div>
 			<div class="alertBox" id="fixed-bar">
 				<nav id="nav">
-					<a th:href="@{/home}"  class="carini">CARINI</a>
+					<a th:href="@{/home}" class="carini">CARINI</a>
 					<ul style="border: none;">
 						<li><a th:href="@{/board/getBoardList}">BOARD</a>
 							<ul style="border: none;">
@@ -59,7 +122,8 @@
 										th:text="#{side.menu3}"></a></li>
 							</ul>
 						</li>
-						<li th:if="${session.user != null && session.user.memberRole == 'ROLE_ADMIN'}"><a style="font-weight: normal;" th:href="@{/admin/adminList}">ADMIN</a></li>
+						<li th:if="${session.user != null && session.user.memberRole == 'ROLE_ADMIN'}"><a
+								style="font-weight: normal;" th:href="@{/admin/adminList}">ADMIN</a></li>
 						<li th:if="${session.user == null}"><a th:href="@{/member_login}">LOGIN</a></li>
 						<li th:if="${session.user != null}"><a th:href="@{/user_logout}">LOGOUT</a></li>
 					</ul>
@@ -152,7 +216,7 @@
 			<div class="duplicate" style="width: 0;"></div>
 		</section>
 	</div>
-	
+
 	<section id="qr_section">
 		<a
 			href="https://accounts.kakao.com/login/?continue=https%3A%2F%2Fpf.kakao.com%2F_YGxcxcG%2Fchat%3Fapi_ver%3D1.1%26kakao_agent%3Dsdk%252F2.7.2%2520os%252Fjavascript%2520sdk_type%252Fjavascript%2520lang%252Fko-KR%2520device%252FWin32%2520origin%252Fhttp%25253A%25252F%25252Flocalhost%25253A8080%26app_key%3Df03e1323f64fa7f0d248d6b64a8bcd1b%26referer%3Dhttp%253A%252F%252Flocalhost%253A8080%252Fboard%252FgetBoardList#login">
@@ -176,6 +240,13 @@
 	<div id="kakao-talk-channel-chat-button" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; cursor: pointer;
 		text-decoration: none;"></div>
 	<script th:replace="~{base/base :: inquiry_script}"></script>
+
+	<!-- Inquiry -->
+	<div th:replace="~{base/base :: inquiry_overlayhtml}"></div>
+	<div th:replace="~{base/base :: inquiry_Listhtml}"></div>
+	<div th:replace="~{base/base :: inquiry_writehtml}"></div>
+	<div th:replace="~{base/base :: inquiry_detailhtml}"></div>
+	<script src="/js/Inquiry/inquiry.js"></script>
 
 	<!-- Scripts -->
 	<script src="/js/jquery.min.js"></script>
