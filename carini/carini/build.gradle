@@ -59,3 +59,9 @@ tasks.named('test') {
         showStandardStreams = true
     }
 }
+
+jar {
+    exclude 'plain/**'
+    // 또는 특정 파일을 제외하려면
+    // exclude 'plain/specificFile.txt'
+}
