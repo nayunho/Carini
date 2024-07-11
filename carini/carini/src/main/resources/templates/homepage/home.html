@@ -126,9 +126,9 @@
 						<li><a th:href="@{/board/getBoardList}">BOARD</a>
 							<ul style="border: none;">
 								<li><a th:href="@{/board/getBoardList}" style="text-align: center;"
-										class="side-hver">커뮤니티</a></li>
+										class="side-hver" th:text="#{side.board}"></a></li>
 								<li><a th:href="@{/notice/getNoticeList}" style="text-align: center;"
-										class="side-hver">공지사항</a></li>
+										class="side-hver" th:text="#{side.notice}"></a></li>
 							</ul>
 						</li>
 						<li><a th:href="@{/model/getModelList}">MODEL</a></li>
