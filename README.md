@@ -29,7 +29,7 @@
 
 
 ## ERD 
-<img src=ERDArchitecture.png width=850 height=450>    
+<img src=ERD.png width=850 height=450>    
 
 ## Architecture 
 <img src=Architecture.png width=850 height=450>    
