@@ -28,7 +28,7 @@
 * #### 아이디,비밀번호 찾기 시 문자 인증 구현 
 
 ## ERD 
-<img src=ERD.png >    
+<img src=ERD.png width=500 height=500>    
 
 ## Architecture 
 <img src=Architecture.png width=850 height=450>    
