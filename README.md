@@ -11,12 +11,12 @@
 * #### 2024.05 ~ 2024.07 (2개월)    
 
 ## 개발 한경   
-* #### 언어 :        Java(JDK 1.8), HTML/CSS, JavaScript  
-* #### 서버 :        Apache 2.x, Apache Tomcat 9.0  
-* #### 프레임워크 :  Spring Boot, Maybastis 3.0.2   
-* #### DB :          MySQL  
-* #### IDE :         Eclipse 2022 09, Postman, MySQL Workbanch 6.3  
-* #### API :         KAKAO/NAVER login, Naver MAP, coolsms(문자) API    
+* #### 언어 :        Java(JDK 1.8), HTML/CSS, JavaScript , Python
+* #### 서버 :        Apache 2.x, Apache Tomcat 9.0, AWS(EC@2)
+* #### 프레임워크 : Spring Boot
+* #### DB :          MySQL, AWS RDS 
+* #### IDE :         Spring Tool Suite, Postman, NAVICAT  
+* #### API :         KAKAO/NAVER/GOOGLE login, KAKAO MAP, coolsms(문자) API, KAKAO CHATBOT    
 
 ## 주요 기능   
 * #### 카카오/네이버 소셜 로그인
@@ -34,10 +34,10 @@
 
 
 ## 시연 영상
-### [재고30][github]  
+### [CARINI][github]  
 ---
 
 
 
 
- [github]: https://youtu.be/ReAkQWKRqVc
+ [github]: https://www.youtube.com/watch?v=cUUzv21YXpY
