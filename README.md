@@ -2,7 +2,7 @@
 
 # CARINI  
 ## 카카오챗봇을 이용한 자동차 견적 사이트
-#### 가게마다 남는 재고를 싸게 올려 판매를 돕기 위한 웹 프로젝트입니다. 이 프로젝트는 가게의 위치 정보와 재고 상품들의 할인 된 가격, 남은 개수 등을 공유하여 소비자와 판매자 간의 상호 혜택을 극대화하기 위한 사이트입니다.   
+#### 자동차에 대해 경험이 없는 사용자 또는 자동차에 대해 지식이없는 사용자들을 위해 자동차 견적을 맞춰주는 웹 프로젝트입니다.이 프로젝트는 이 프로젝트는 kakao ChatBot을 활용해 배포한 웹 사이트와 연동 시켜 사용자들이 편리하게 자동차 견적을 맞춰주는 서비스로 편리함을 극대화 하기 위한 사이트입니다.   
 ---
 ## 개발 인원(4명)
 * FE(2명)-BE(2명)   
@@ -12,7 +12,7 @@
 
 ## 개발 한경   
 * #### 언어 :        Java(JDK 1.8), HTML/CSS, JavaScript , Python
-* #### 서버 :        Apache 2.x, Apache Tomcat 9.0, AWS(EC@2)
+* #### 서버 :        Apache 2.x, Apache Tomcat 9.0, AWS(EC2)
 * #### 프레임워크 : Spring Boot
 * #### DB :          MySQL, AWS RDS 
 * #### IDE :         Spring Tool Suite, Postman, NAVICAT  
@@ -38,8 +38,5 @@
 ## 시연 영상
 ### [CARINI][github]  
 ---
-
-
-
 
  [github]: https://www.youtube.com/watch?v=cUUzv21YXpY
