@@ -28,9 +28,11 @@
 * #### 즐겨찾기한 가게 표시 및 알림/문의/예약/예약내역 확인 기능
 
 
+## ERD 
+<img src=ERDArchitecture.png width=850 height=450>    
 
-## ERD  
-<img src=ERD설계.png width=850 height=450>    
+## Architecture 
+<img src=Architecture.png width=850 height=450>    
 
 
 ## 시연 영상
