@@ -1,4 +1,4 @@
-<img src=carini.png width=850 height=450>    
+<img src=CARINI.png width=850 height=450>    
 
 # CARINI  
 ## 카카오챗봇을 이용한 자동차 견적 사이트
